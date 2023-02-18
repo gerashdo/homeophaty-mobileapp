@@ -1,13 +1,12 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
+import { BottomNavigator } from './src/navigators/BottomNavigator';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <View>
-        <Text>Hola mundo</Text>
-      </View>
+      <BottomNavigator />
     </NavigationContainer>
   )
 }
