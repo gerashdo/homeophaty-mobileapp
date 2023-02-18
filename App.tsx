@@ -1,12 +1,12 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { BottomNavigator } from './src/navigators/BottomNavigator';
+import { InitialNavigator } from './src/navigators/InitialNavigator';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <BottomNavigator />
+      <InitialNavigator />
     </NavigationContainer>
   )
 }
