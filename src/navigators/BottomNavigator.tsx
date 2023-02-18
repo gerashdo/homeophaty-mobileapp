@@ -1,13 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { LoginScreen } from '../screens/LoginScreen';
-import { MedicinesListScreen } from '../screens/MedicinesListScreen';
+import { Platform } from 'react-native';
+import { BottomTabsAndroid } from './BottomTabsAndroid';
+import { BottomTabsIOS } from './BottomTabsIOS';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="MedicinesListScreen" component={ MedicinesListScreen } />
-    </Tab.Navigator>
+    Platform.OS === 'ios'
+        ? <BottomTabsIOS />
+        : <BottomTabsAndroid />
   );
 }
