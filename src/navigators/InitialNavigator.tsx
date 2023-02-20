@@ -5,10 +5,16 @@ import { BottomNavigator } from './BottomNavigator';
 const Stack = createStackNavigator();
 
 export const InitialNavigator = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="LoginScreen" component={ LoginScreen } />
-      <Stack.Screen name="BottomNavigator" component={ BottomNavigator } />
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator>
+        <Stack.Screen 
+            name="LoginScreen" 
+            component={ LoginScreen }
+            options={{
+                headerShown: false,
+            }}
+        />
+        <Stack.Screen name="BottomNavigator" component={ BottomNavigator } />
+        </Stack.Navigator>
+    );
 }

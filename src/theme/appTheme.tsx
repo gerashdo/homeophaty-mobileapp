@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { ThemeState } from "../context/theme/themeReducer";
 
+
 export const appStyles = StyleSheet.create({
     globalMargin: {
         marginHorizontal: 15,
@@ -8,7 +9,15 @@ export const appStyles = StyleSheet.create({
     title: {
         fontSize: 40,
         fontWeight: 'bold',
-    }
+    },
+    subTitle: {
+        fontSize: 32,
+        fontWeight: 'bold',
+    },
+    regularText: {
+        fontSize: 16,
+        fontWeight: '500',
+    },
 })
 
 
@@ -16,11 +25,11 @@ export const lightTheme: ThemeState = {
     dark: false,
     currentTheme: 'light',
     colors: {
-        primary: 'green',
+        primary: '#5C946E',
         background: 'white',
         card: 'white',
-        text: 'black',
-        border: 'black',
+        text: '#04080F',
+        border: '#D9D9D9',
         notification: 'teal',
     },
     secondary: 'purple',
