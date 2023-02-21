@@ -11,9 +11,12 @@ export const Toast = ({ message }:Props) => {
 
     useEffect(() => {
         fadeIn()
-        setTimeout( () => {
+        const timeout = setTimeout( () => {
             fadeOut()
         }, 7500)
+        return () => {
+            clearTimeout( timeout )
+        }
     }, [])
 
     return (
