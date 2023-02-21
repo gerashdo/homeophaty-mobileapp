@@ -6,6 +6,7 @@ import { LoginForm } from '../components/auth/LoginForm';
 import { AuthContext } from '../context/auth/AuthContext';
 import { AuthStatus } from '../context/auth/authReducer';
 import { CustomActivityIndicator } from '../components/ActivityIndicator';
+import { ScreenTemplate } from './ScreenTemplate';
 
 
 export const LoginScreen = () => {
@@ -13,18 +14,20 @@ export const LoginScreen = () => {
     const { state: { status }} = useContext( AuthContext )
 
     return (
-        <View style={{
-            ...appStyles.globalMargin,
-            flex: 1,
-            marginTop: top,
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
-            {
-                status === AuthStatus.CHECKING
+        <ScreenTemplate>
+
+            <View style={{
+                ...appStyles.globalMargin,
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                {
+                    status === AuthStatus.CHECKING
                     ? ( <CustomActivityIndicator /> )
                     : ( <LoginForm /> )
-            }
-        </View>
+                }
+            </View>
+        </ScreenTemplate>
     )
 }

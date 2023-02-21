@@ -61,16 +61,23 @@ export const AuthProvider = ({ children }:Props) => {
             if( axios.isAxiosError( error )){
                 if( error.response?.data.msg ){
                     const data: LoginErrorResponseShort = error.response?.data
-                    dispatch({ type: 'set_error', payload: data.msg })
+                    setError( data.msg )
                 }else{
                     const data: LoginErrorResponseLong = error.response?.data
                     const msg = Object.values( data.errors )[0].msg
-                    dispatch({ type: 'set_error', payload: msg })
+                    setError( msg )
                 }
             }else{
                 dispatch({ type: 'set_error', payload: 'No se pudo iniciar sesión' })
             }
         }
+    }
+
+    const setError = ( error: string ) => {
+        dispatch({ type: 'set_error', payload: error })
+        setTimeout(() => {
+            dispatch({ type: 'remove_error' })
+        }, 8000);
     }
 
     return(

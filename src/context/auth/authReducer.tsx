@@ -17,6 +17,7 @@ type AuthAction =
     | { type: 'login', payload: { user: User, token: string } }
     | { type: 'logout' }
     | { type: 'set_error', payload: string }
+    | { type: 'remove_error' }
 
 export const authReducer = ( state: AuthState, action: AuthAction ): AuthState => {
     switch ( action.type ) {
@@ -28,12 +29,6 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
                 errorMessage: null,
                 status: AuthStatus.AUTHENTICATED
             }
-        case 'set_error':
-            return {
-                ...state,
-                errorMessage: action.payload,
-                status: AuthStatus.NOT_AUTHENTICATED,
-            }
         case 'logout':
             return {
                 ...state,
@@ -41,6 +36,17 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
                 status: AuthStatus.NOT_AUTHENTICATED,
                 user: null,
                 token: null,
+            }
+        case 'set_error':
+            return {
+                ...state,
+                errorMessage: action.payload,
+                status: AuthStatus.NOT_AUTHENTICATED,
+            }
+        case 'remove_error':
+            return {
+                ...state,
+                errorMessage: null,
             }
         default:
             return state;
