@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }:Props) => {
     
     const checkToken = async() => {
         try {
-            console.log( await AsyncStorage.getItem('token'))
             const { data } = await homeophatyAPI.get<LoginResponse>('/auth/renovate')
             dispatch({ type: 'login', payload:{
                 user: data.user,

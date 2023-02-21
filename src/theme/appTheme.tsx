@@ -32,7 +32,7 @@ export const lightTheme: ThemeState = {
         border: '#D9D9D9',
         notification: 'teal',
     },
-    secondary: 'purple',
+    secondary: '#507DBC',
     buttonTextColor: 'white',
 }
 
