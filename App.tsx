@@ -3,6 +3,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { InitialNavigator } from './src/navigators/InitialNavigator';
 import { ThemeProvider } from './src/context/theme/ThemeContext';
+import { AuthProvider } from './src/context/auth/AuthContext';
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -11,7 +12,9 @@ interface Props {
 const AppState = ({ children }: Props) => {
   return(
     <ThemeProvider>
-      { children }
+      <AuthProvider>
+        { children }
+      </AuthProvider>
     </ThemeProvider>
   )
 }
