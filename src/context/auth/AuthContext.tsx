@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { createContext, useReducer } from "react";
 import homeophatyAPI from "../../api/homeophatyAPI";
-import { LoginErrorResponseLong, LoginErrorResponseShort, LoginResponse } from "../../interfaces/auth";
+import { LoginErrorResponseLong, LoginErrorResponseShort, LoginResponse } from '../../interfaces/auth';
 import { authReducer, AuthState, AuthStatus } from "./authReducer";
 
 interface AuthContextProps {
@@ -39,11 +39,12 @@ export const AuthProvider = ({ children }:Props) => {
             }})
         } catch (error: any ) {
             if( axios.isAxiosError( error )){
-                const data = error.response?.data
-                if( data.msg ){
+                if( error.response?.data.msg ){
+                    const data: LoginErrorResponseShort = error.response?.data
                     dispatch({ type: 'set_error', payload: data.msg })
                 }else{
-                    const msg = data.errors[ Object.keys(data.errors)[0] ]
+                    const data: LoginErrorResponseLong = error.response?.data
+                    const msg = Object.values( data.errors )[0].msg
                     dispatch({ type: 'set_error', payload: msg })
                 }
             }else{

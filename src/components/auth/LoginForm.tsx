@@ -12,7 +12,7 @@ import { InputLabel } from '../InputLabel'
 export const LoginForm = () => {
   
     const { theme: { colors } } = useContext( ThemeContext )
-    const { login } = useContext( AuthContext )
+    const { login, state } = useContext( AuthContext )
     const { form, onChange} = useForm({
         username: '',
         password: '',
@@ -23,6 +23,7 @@ export const LoginForm = () => {
     const handleSubmit = () => {
         login( username, password )
     }
+    console.log( state )
     
     return (
         <View
