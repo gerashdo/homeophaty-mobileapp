@@ -21,9 +21,9 @@ export const LoginScreen = () => {
             alignItems: 'center'
         }}>
             {
-                status === AuthStatus.AUTHENTICATED
-                    ? ( <LoginForm /> )
-                    : ( <CustomActivityIndicator /> )
+                status === AuthStatus.CHECKING
+                    ? ( <CustomActivityIndicator /> )
+                    : ( <LoginForm /> )
             }
         </View>
     )

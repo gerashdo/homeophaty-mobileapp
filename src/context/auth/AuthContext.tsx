@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }:Props) => {
             }})
             AsyncStorage.setItem( 'token', data.token )
         } catch (error) {
-            return
+            dispatch({ type: 'logout' })
         }
     }
 
