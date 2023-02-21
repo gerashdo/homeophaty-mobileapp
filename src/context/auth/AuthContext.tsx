@@ -1,9 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios, { AxiosError } from "axios";
 import { createContext, useEffect, useReducer } from "react";
-import homeophatyAPI from "../../api/homeophatyAPI";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+
 import { LoginErrorResponseLong, LoginErrorResponseShort, LoginResponse } from '../../interfaces/auth';
 import { authReducer, AuthState, AuthStatus } from "./authReducer";
+import homeophatyAPI from "../../api/homeophatyAPI";
 
 interface AuthContextProps {
     state: AuthState,

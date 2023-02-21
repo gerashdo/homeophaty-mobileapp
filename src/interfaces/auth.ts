@@ -24,11 +24,20 @@ export interface Username {
     location: string;
 }
 
+export interface UsersResponse {
+    total: number;
+    users: User[];
+}
 
 export interface User {
-    name:     string;
-    email:    string;
-    role:     string;
-    username: string;
-    id:       string;
+    name:      string;
+    email:     string;
+    role:      string;
+    username:  string;
+    id:        string;
+    password?:  string;
+    deleted?:   boolean;
+    google?:    boolean;
+    updatedAt?: string;
 }
+

@@ -1,3 +1,4 @@
+import { User } from "../../interfaces/auth";
 
 export enum AuthStatus {
     CHECKING = 'checking',
@@ -6,14 +7,15 @@ export enum AuthStatus {
 }
 
 export interface AuthState {
-    user: any | null;
+    user: User | null;
     token: string | null ;
     status: AuthStatus,
     errorMessage: string | null,
 }
 
 type AuthAction = 
-    | { type: 'login', payload: { user: any, token: string } }
+    | { type: 'login', payload: { user: User, token: string } }
+    | { type: 'logout' }
     | { type: 'set_error', payload: string }
 
 export const authReducer = ( state: AuthState, action: AuthAction ): AuthState => {
@@ -31,6 +33,14 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
                 ...state,
                 errorMessage: action.payload,
                 status: AuthStatus.NOT_AUTHENTICATED,
+            }
+        case 'logout':
+            return {
+                ...state,
+                errorMessage: null,
+                status: AuthStatus.NOT_AUTHENTICATED,
+                user: null,
+                token: null,
             }
         default:
             return state;
