@@ -14,6 +14,7 @@ export interface AuthState {
 
 type AuthAction = 
     | { type: 'login', payload: { user: any, token: string } }
+    | { type: 'set_error', payload: string }
 
 export const authReducer = ( state: AuthState, action: AuthAction ): AuthState => {
     switch ( action.type ) {
@@ -24,6 +25,12 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
                 token: action.payload.token,
                 errorMessage: null,
                 status: AuthStatus.AUTHENTICATED
+            }
+        case 'set_error':
+            return {
+                ...state,
+                errorMessage: action.payload,
+                status: AuthStatus.NOT_AUTHENTICATED,
             }
         default:
             return state;

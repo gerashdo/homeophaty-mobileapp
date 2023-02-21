@@ -4,9 +4,10 @@ import { ThemeContext } from '../context/theme/ThemeContext'
 
 interface Props {
     text: string,
+    onPress?: () => void;
 }
 
-export const Button = ({ text }:Props) => {
+export const Button = ({ text, onPress }:Props) => {
     const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
     return (
         <View>
@@ -16,6 +17,7 @@ export const Button = ({ text }:Props) => {
                     ...styles.mainButton
                 }}
                 activeOpacity={ 0.8 }
+                onPress={ onPress }
             >
                 <Text
                     style={{

@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext } from 'react'
 import { Text, TextInput, View } from 'react-native'
+import { AuthContext } from '../../context/auth/AuthContext'
 import { ThemeContext } from '../../context/theme/ThemeContext'
 import { useForm } from '../../hooks/useForm'
 import { appStyles } from '../../theme/appTheme'
@@ -11,12 +12,17 @@ import { InputLabel } from '../InputLabel'
 export const LoginForm = () => {
   
     const { theme: { colors } } = useContext( ThemeContext )
+    const { login } = useContext( AuthContext )
     const { form, onChange} = useForm({
-        user: '',
+        username: '',
         password: '',
     })
-    const { user, password } = form
+    const { username, password } = form
     const navigator = useNavigation()
+
+    const handleSubmit = () => {
+        login( username, password )
+    }
     
     return (
         <View
@@ -43,8 +49,8 @@ export const LoginForm = () => {
                         autoCorrect={ false }
                         autoFocus
                         placeholder='Ingresa tu usuario'
-                        value={ user }
-                        onChangeText={ ( text ) => onChange( text, 'user' )}
+                        value={ username }
+                        onChangeText={ ( text ) => onChange( text, 'username' )}
                     />
                 </InputContainer>
             </View>
@@ -70,7 +76,10 @@ export const LoginForm = () => {
             <View style={{
                 marginTop: 10,
             }}>
-                <Button text='Iniciar sesión'/>
+                <Button 
+                    text='Iniciar sesión'
+                    onPress={ handleSubmit }
+                />
             </View>
         </View>
     )
