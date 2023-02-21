@@ -26,7 +26,7 @@ export const lightTheme: ThemeState = {
     currentTheme: 'light',
     colors: {
         primary: '#5C946E',
-        background: 'white',
+        background: '#FBFBFF',
         card: 'white',
         text: '#04080F',
         border: '#D9D9D9',
