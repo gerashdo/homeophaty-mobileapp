@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { InitialNavigator } from './src/navigators/InitialNavigator';
 import { ThemeProvider } from './src/context/theme/ThemeContext';
 import { AuthProvider } from './src/context/auth/AuthContext';
+import { MedicineProvider } from './src/context/medicine/MedicineContext';
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -13,7 +14,9 @@ const AppState = ({ children }: Props) => {
   return(
     <ThemeProvider>
       <AuthProvider>
-        { children }
+        <MedicineProvider>
+          { children }
+        </MedicineProvider>
       </AuthProvider>
     </ThemeProvider>
   )
