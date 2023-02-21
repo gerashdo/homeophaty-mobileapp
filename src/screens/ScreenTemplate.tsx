@@ -5,16 +5,20 @@ import { Toast } from '../components/Toast';
 import { AuthContext } from '../context/auth/AuthContext';
 import { HighOrderComponent } from '../interfaces/common';
 
+interface Props extends HighOrderComponent {
+    safeArea?: boolean,
+}
 
-export const ScreenTemplate = ({ children }: HighOrderComponent) => {
+export const ScreenTemplate = ({ children, safeArea = false }: Props) => {
     const { top } = useSafeAreaInsets()
     const { state } = useContext( AuthContext )
     const { errorMessage: authError } = state
 
     return (
+        
         <View style={{
             flex: 1,
-            marginTop: top
+            marginTop: ( safeArea ) ? top : 0, 
         }}>
             { children }
             {

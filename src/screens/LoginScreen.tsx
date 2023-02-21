@@ -10,11 +10,12 @@ import { ScreenTemplate } from './ScreenTemplate';
 
 
 export const LoginScreen = () => {
-    const { top } = useSafeAreaInsets()
     const { state: { status }} = useContext( AuthContext )
 
     return (
-        <ScreenTemplate>
+        <ScreenTemplate 
+            safeArea
+        >
 
             <View style={{
                 ...appStyles.globalMargin,
