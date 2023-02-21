@@ -21,6 +21,7 @@ export const BottomNavigator = () => {
           backgroundColor: colors.background,
           elevation: 0,
           borderBottomWidth: 0,
+          shadowOpacity: 0,
         },
         tabBarActiveTintColor: colors.primary,
         tabBarStyle: {
