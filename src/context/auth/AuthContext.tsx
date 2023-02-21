@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }:Props) => {
                     setError( msg )
                 }
             }else{
-                dispatch({ type: 'set_error', payload: 'No se pudo iniciar sesión' })
+                setError( 'No se pudo iniciar sesión' )
             }
         }
     }
