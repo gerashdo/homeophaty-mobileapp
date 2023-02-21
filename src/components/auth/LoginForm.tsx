@@ -23,7 +23,6 @@ export const LoginForm = () => {
     const handleSubmit = () => {
         login( username, password )
     }
-    console.log( state )
     
     return (
         <View

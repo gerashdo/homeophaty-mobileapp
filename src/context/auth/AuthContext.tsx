@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios, { AxiosError } from "axios";
 import { createContext, useReducer } from "react";
 import homeophatyAPI from "../../api/homeophatyAPI";
@@ -25,7 +26,13 @@ const initialState: AuthState = {
 export const AuthProvider = ({ children }:Props) => {
 
     const [ state, dispatch ] = useReducer( authReducer, initialState )
-    console.log( state )
+    
+    // const renovateToken = async() => {
+    //     const token = AsyncStorage.getItem('token')
+    //     if( !token ) return
+
+    //     const { data } = await homeophatyAPI.get('/auth/renovate')
+    // }
 
     const login = async( username: string, password: string ) => {
         try {
@@ -37,6 +44,9 @@ export const AuthProvider = ({ children }:Props) => {
                 user: data.user,
                 token: data.token,
             }})
+
+            AsyncStorage.setItem( 'token', data.token )
+
         } catch (error: any ) {
             if( axios.isAxiosError( error )){
                 if( error.response?.data.msg ){
