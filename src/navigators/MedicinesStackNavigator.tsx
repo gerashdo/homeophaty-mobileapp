@@ -1,10 +1,14 @@
 import React, { useContext } from 'react'
+
 import { createStackNavigator } from '@react-navigation/stack';
-import { BottomNavigator } from './BottomNavigator';
 import { NewMedicineScreen } from '../screens/NewMedicineScreen';
 import { MedicinesListScreen } from '../screens/MedicinesListScreen';
 import { ThemeContext } from '../context/theme/ThemeContext';
-import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo';
+
+export enum MedicinesRoutes {
+    MEDICINES_LIST = "MedicinesListScreen",
+    NEW_MEDICINE = "NewMedicineScreen"
+}
 
 export type MedicinesRootStackParamList = {
     MedicinesListScreen: undefined,
@@ -31,10 +35,13 @@ export const MedicinesStackNavigator = () => {
             }}
         >
             <Stack.Screen 
-                name='MedicinesListScreen' 
+                name={ MedicinesRoutes.MEDICINES_LIST } 
                 component={ MedicinesListScreen }
             />
-            <Stack.Screen name='NewMedicineScreen' component={ NewMedicineScreen }/>
+            <Stack.Screen name={ MedicinesRoutes.NEW_MEDICINE } component={ NewMedicineScreen }/>
         </Stack.Navigator>
     )
 }
+
+
+

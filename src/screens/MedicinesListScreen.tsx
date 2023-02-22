@@ -37,7 +37,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     })
   }, [])
   
-
+  // TODO: Implementar la busqueda en el backend
   return (
     <ScreenTemplate
       style={{

@@ -1,11 +1,12 @@
 import { useContext } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Platform } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute, ParamListBase, RouteProp } from '@react-navigation/native';
 
 import { TabBarIcon } from '../components/TabBarIcon';
 import { ThemeContext } from '../context/theme/ThemeContext';
 import { ProfileScreen } from '../screens/ProfileScreen';
-import { MedicinesStackNavigator } from './MedicinesStackNavigator';
+import { MedicinesRoutes, MedicinesStackNavigator } from './MedicinesStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,13 +36,14 @@ export const BottomNavigator = () => {
       <Tab.Screen 
         name="MedicinesStackNavigator" 
         component={ MedicinesStackNavigator }
-        options={{
+        options={ ({ route }) => ({
+          headerShown: false,
           tabBarLabel: "Medicamentos",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon color={ color } focused={ focused } name="medkit"/>
           ),
-          headerShown: false,
-        }}
+          tabBarStyle: { display: getVisibilityOptionTab( route ) as any }
+        })}
       />
       <Tab.Screen 
         name="ProfileScreen" 
@@ -55,4 +57,12 @@ export const BottomNavigator = () => {
       />
     </Tab.Navigator>
   );
+}
+
+const getVisibilityOptionTab = ( route: RouteProp<ParamListBase, string>): string => {
+  const routeName = getFocusedRouteNameFromRoute( route ) ?? MedicinesRoutes.MEDICINES_LIST
+
+  if( routeName !== MedicinesRoutes.MEDICINES_LIST ) return 'none'
+
+  return 'flex'
 }
