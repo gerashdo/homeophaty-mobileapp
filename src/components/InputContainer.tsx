@@ -1,18 +1,21 @@
 import React, { useContext } from "react"
-import { Platform, StyleSheet, View } from "react-native"
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import { ThemeContext } from "../context/theme/ThemeContext"
+import { HighOrderComponent } from "../interfaces/common";
 
-interface Props {
-    children: JSX.Element | JSX.Element[];
+interface Props extends HighOrderComponent {
+    style?: StyleProp<ViewStyle>
 }
 
-export const InputContainer = ({ children }:Props) => {
-    const { theme: { colors } } = useContext( ThemeContext )
+export const InputContainer = ({ children, style = {} }:Props) => {
+    const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
     return (
         <View
             style={{
                 ...styles.container,
                 borderColor: colors.border,
+                backgroundColor: buttonTextColor,
+                ...style as any,
             }}
         >
             { children }

@@ -16,6 +16,7 @@ export const MedicineListItem = ({ medicine }:Props) => {
         <View>
             <View style={{
                 ...styles.container,
+                shadowColor: colors.text,
                 backgroundColor: 'white'
             }}>
                 <View 
@@ -63,30 +64,38 @@ export const MedicineListItem = ({ medicine }:Props) => {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 20,
-        overflow: 'hidden',
         flexDirection: 'row',
+        overflow: 'hidden',
+
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity:  0.18,
+        shadowRadius: 4.59,
+        elevation: 4
     },
     colorStripe: {
         width: 50,
     },
     elementsContainer:{
-        flexDirection: 'row',
         alignItems: 'center',
+        flex: 1,
+        flexDirection: 'row',
         justifyContent: 'space-between',
         marginVertical: 10,
         marginHorizontal: 20,
-        flex: 1
     },
     textContainer: {
-        minHeight: 80,
         justifyContent: 'center',
+        minHeight: 80,
     },
     nameText: {
-        fontWeight: 'bold',
         fontSize: 32,
+        fontWeight: 'bold',
     },
     chText: {
-        fontWeight: '500',
         fontSize: 24,
+        fontWeight: '500',
     },
 })
