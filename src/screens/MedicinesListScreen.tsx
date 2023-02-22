@@ -5,6 +5,7 @@ import { MedicineListItem } from '../components/medicine/MedicineListItem'
 import { SearchInput } from '../components/SearchInput'
 import { MedicineContext } from '../context/medicine/MedicineContext'
 import { ThemeContext } from '../context/theme/ThemeContext'
+import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
 
 export const MedicinesListScreen = () => {
@@ -19,7 +20,11 @@ export const MedicinesListScreen = () => {
   }, [])
 
   return (
-    <ScreenTemplate>
+    <ScreenTemplate
+      style={{
+        ...appStyles.globalMargin,
+      }}
+    >
       {
         isLoading
           ? ( <CustomActivityIndicator /> )
@@ -36,6 +41,7 @@ export const MedicinesListScreen = () => {
                 )}
                 keyExtractor={ item => item.id }
                 ItemSeparatorComponent={ () => <View style={{ marginVertical: 10 }}/> }
+                showsVerticalScrollIndicator={ false }
               />
             </View>
           )

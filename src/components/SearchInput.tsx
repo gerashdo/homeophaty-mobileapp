@@ -20,6 +20,7 @@ export const SearchInput = ({ onSearch, textColor }:Props) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                borderRadius: 30,
             }}
         >
             <TextInput
