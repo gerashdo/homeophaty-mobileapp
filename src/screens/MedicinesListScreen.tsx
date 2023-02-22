@@ -56,9 +56,9 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
               <FlatList 
                 data={ medicines }
                 renderItem={ ({ item }) => (
-                  <MedicineListItem key={ item.id } medicine={ item }/>
+                  <MedicineListItem key={ item._id } medicine={ item }/>
                 )}
-                keyExtractor={ item => item.id }
+                keyExtractor={ item => item._id }
                 ItemSeparatorComponent={ () => <View style={{ marginVertical: 5 }}/> }
                 showsVerticalScrollIndicator={ false }
               />

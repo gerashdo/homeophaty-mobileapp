@@ -11,16 +11,11 @@ export interface MedicinesResponse {
 export interface Medicine {
     name:         string;
     ch:           string;
-    medicines:    InnerMedicine[];
-    type:         MedicineType;
-    id:           string;
+    medicines?:    Medicine[];
+    type?:         MedicineType;
+    _id:           string;
+    prescription?: Prescription[];
     description?: string;
-}
-
-export interface InnerMedicine {
-    _id:  string;
-    name: string;
-    ch:   string;
 }
 
 export interface MedicineResponse {
@@ -28,8 +23,22 @@ export interface MedicineResponse {
     medicine: Medicine;
 }
 
+export interface UpdatePrescriptionResponse {
+    prescription: Prescription;
+}
+
+export interface Prescription {
+    _id:         string;
+    description: string;
+    createdAt?:   string;
+    updatedAt?:   string;
+}
+
+
 export enum MedicineType {
     FORMULA = 'formula',
     MEDICINE = 'medicine'
 }
+
+
 

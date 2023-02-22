@@ -34,7 +34,7 @@ export interface User {
     email:     string;
     role:      string;
     username:  string;
-    id:        string;
+    _id:        string;
     password?:  string;
     deleted?:   boolean;
     google?:    boolean;
