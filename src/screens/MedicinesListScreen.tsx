@@ -29,7 +29,7 @@ export const MedicinesListScreen = () => {
         isLoading
           ? ( <CustomActivityIndicator /> )
           : (
-            <View>
+            <View style={{ flex: 1 }}>
               <SearchInput 
                 onSearch={ () => console.log('hey') }
                 textColor={ colors.text }
@@ -40,9 +40,10 @@ export const MedicinesListScreen = () => {
                   <MedicineListItem key={ item.id } medicine={ item }/>
                 )}
                 keyExtractor={ item => item.id }
-                ItemSeparatorComponent={ () => <View style={{ marginVertical: 10 }}/> }
+                ItemSeparatorComponent={ () => <View style={{ marginVertical: 5 }}/> }
                 showsVerticalScrollIndicator={ false }
               />
+              
             </View>
           )
       }
