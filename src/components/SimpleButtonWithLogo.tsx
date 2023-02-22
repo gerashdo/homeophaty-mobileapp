@@ -8,13 +8,15 @@ interface Props {
     iconName?: string;
     color?: string;
     backgroundColor?: string;
+    onPress?: () => void;
 }
 
 export const SimpleButtonWithLogo = ({ 
     text, 
     iconName, 
     color='gray', 
-    backgroundColor = 'white' 
+    backgroundColor = 'white',
+    onPress = () => {},
 }:Props) => {
 
     return (
@@ -24,6 +26,7 @@ export const SimpleButtonWithLogo = ({
                 ...styles.container,
             }}
             activeOpacity={ 0.9 }
+            onPress={ onPress }
         >
             {
                 text && (

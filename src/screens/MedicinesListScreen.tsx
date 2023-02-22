@@ -31,6 +31,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
         text='Nuevo'
         color={ buttonTextColor }
         backgroundColor={ colors.primary }
+        onPress={ () => navigation.navigate( 'NewMedicineScreen' ) }
       />,
       title: ''
     })
