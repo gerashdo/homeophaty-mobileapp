@@ -12,7 +12,7 @@ export interface Medicine {
     name:         string;
     ch:           string;
     medicines:    InnerMedicine[];
-    type:         string;
+    type:         MedicineType;
     id:           string;
     description?: string;
 }
@@ -26,5 +26,10 @@ export interface InnerMedicine {
 export interface MedicineResponse {
     ok:       boolean;
     medicine: Medicine;
+}
+
+export enum MedicineType {
+    FORMULA = 'formula',
+    MEDICINE = 'medicine'
 }
 
