@@ -13,11 +13,9 @@ import { OptionTabsContainer } from '../OptionTabsContainer';
 import { SelectSquareOptions } from '../SelectSquareOptions';
 import { MedicineContext } from '../../context/medicine/MedicineContext';
 
-const chOptions = [ "6", "30", "200", "100" ]
-
 interface Props {
-    onNavigateAddInnerMedicines?: ( form: MedicinePostRequest ) => void;
-    onSubmit?: ( medicineData: MedicinePostRequest ) => void;
+    onNavigateAddInnerMedicines?: () => void;
+    onSubmit?: ( ) => void;
 }
 
 export const NewMedicineForm = ({ 
@@ -29,24 +27,20 @@ export const NewMedicineForm = ({
         buttonTextColor, 
         secondary 
     }} = useContext( ThemeContext )
-    const { createMedicine } = useContext( MedicineContext )
-    
-    const { onChange, form } = useForm<MedicinePostRequest>({
-        name: '',
-        type: MedicineType.MEDICINE,
-        ch: chOptions[0],
-        medicines:[]
-    })
+    const { createMedicine, newMedicineState, chOptions } = useContext( MedicineContext )
+ 
 
-    const { name, ch, type } = form
+    const { medicineData, onChange } = newMedicineState
+
+    const { name, ch, type } = medicineData
 
     const handleOnAddInnerMedicines = () => {
-        onNavigateAddInnerMedicines( form )
+        onNavigateAddInnerMedicines()
     }
 
     const handleFormSubmit = () => {
-        createMedicine( form )
-        onSubmit( form )
+        createMedicine()
+        onSubmit()
     }
 
     return (

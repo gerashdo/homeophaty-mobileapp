@@ -18,11 +18,16 @@ export const useForm = <T extends Object>( initState: T ) => {
         })
     }
 
+    const resetValues = () => {
+        setState( initState )
+    }
+
     return {
         ...state,
         form: state,
         onChange,
         setFormValues,
+        resetValues,
     }
 
 }

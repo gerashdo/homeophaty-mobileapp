@@ -7,6 +7,7 @@ import { ThemeContext } from '../context/theme/ThemeContext';
 import { MedicineScreen } from '../screens/MedicineScreen';
 import { MedicineInnerMedsScreen } from '../screens/MedicineInnerMedsScreen';
 import  Icon  from 'react-native-vector-icons/Ionicons';
+import { MedicinePostRequest } from '../interfaces/medicine';
 
 export enum MedicinesRoutes {
     MEDICINES_LIST = "MedicinesListScreen",

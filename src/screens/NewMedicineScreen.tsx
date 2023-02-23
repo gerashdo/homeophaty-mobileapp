@@ -9,8 +9,6 @@ export interface NewMedicineScreenProps extends StackScreenProps<MedicinesRootSt
 
 export const NewMedicineScreen = ({ navigation }:NewMedicineScreenProps) => {
 
-
-
   return (
     <ScreenTemplate
       style={{
@@ -18,8 +16,10 @@ export const NewMedicineScreen = ({ navigation }:NewMedicineScreenProps) => {
       }}
     >
       <NewMedicineForm 
-        onNavigateAddInnerMedicines={ ( form ) => navigation.navigate('MedicineInnerMedsScreen') }
-        onSubmit={ ( medicineData ) => navigation.popToTop() }
+        onNavigateAddInnerMedicines={ 
+          () => navigation.navigate('MedicineInnerMedsScreen') 
+        }
+        onSubmit={ () => navigation.popToTop() }
       />
     </ScreenTemplate>
   )

@@ -2,16 +2,23 @@ import axios from "axios";
 import { createContext, useReducer, useState } from "react";
 
 import homeophatyAPI from "../../api/homeophatyAPI";
+import { useForm } from "../../hooks/useForm";
 import { HighOrderComponent } from '../../interfaces/common';
-import { MedicinePostRequest, MedicinePostResponse, MedicinesResponse } from "../../interfaces/medicine";
+import { MedicinePostRequest, MedicinePostResponse, MedicinesResponse, MedicineType } from "../../interfaces/medicine";
 import { ErrorResponseLong, ErrorResponseShort } from "../../interfaces/requestErrors";
 import { medicineReducer, MedicineState } from "./medicineReducer";
 
+interface NewMedicineState {
+    medicineData: MedicinePostRequest,
+    onChange: (value: string, field: keyof MedicinePostRequest) => void;
+}
 interface MedicineContextProps {
     medicineState: MedicineState;
     isLoading: boolean;
+    newMedicineState: NewMedicineState;
+    chOptions: string[];
     loadMedicines: () => void;
-    createMedicine: ( medicineData: MedicinePostRequest ) => void;
+    createMedicine: () => void;
 }
 
 export const MedicineContext = createContext({} as MedicineContextProps )
@@ -25,9 +32,20 @@ const initialState: MedicineState = {
 }
 
 export const MedicineProvider = ({ children }:HighOrderComponent) => {
+    const chOptions = [ "6", "30", "200", "100" ]
 
     const [ isLoading, setIsLoading ] = useState( false )
     const [ medicineState, dispatch ] = useReducer( medicineReducer, initialState )
+    const { onChange, form: medicineData, resetValues } = useForm<MedicinePostRequest>({
+        name: '',
+        type: MedicineType.MEDICINE,
+        ch: chOptions[0],
+        medicines:[]
+    })
+    const newMedicineState = {
+        medicineData,
+        onChange,
+    }
 
     const loadMedicines = async() => {
         try {
@@ -53,10 +71,12 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
         }, 8000);
     }
 
-    const createMedicine = async( medicineData: MedicinePostRequest ) => {
+    const createMedicine = async() => {
         try {
             const { data } = await homeophatyAPI.post<MedicinePostResponse>('/medicine', medicineData )
             dispatch({ type: 'create_medicine', payload: data.medicine })
+            resetValues()
+            
         } catch (error) {
             if( axios.isAxiosError( error )){
                 if( error.response?.data.msg ){
@@ -78,6 +98,8 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
         <MedicineContext.Provider value={{
             isLoading,
             medicineState,
+            newMedicineState,
+            chOptions,
             loadMedicines,
             createMedicine
         }}>

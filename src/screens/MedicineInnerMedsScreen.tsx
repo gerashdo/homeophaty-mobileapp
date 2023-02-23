@@ -9,6 +9,7 @@ export const MedicineInnerMedsScreen = () => {
     //     rowMap[ medicine._id ].closeRow()
     //     onDelete( medicine )
     // }
+    
     return (
         <ScreenTemplate>
 
