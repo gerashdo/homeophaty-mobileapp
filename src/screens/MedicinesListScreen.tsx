@@ -43,6 +43,10 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     if( !item ) return 
     navigation.navigate('MedicineScreen')
   }
+
+  const onItemEdit = ( item: Medicine ) => {
+    navigation.navigate('MedicineScreen')
+  }
   
   // TODO: Implementar la busqueda en el backend
   return (
@@ -60,7 +64,11 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                 onSearch={ () => console.log('hey') }
                 textColor={ colors.text }
               />
-              <MedicinesList data={ medicines } onItemPress={ onItemPress }/>
+              <MedicinesList 
+                data={ medicines } 
+                onItemPress={ onItemPress }
+                onItemEdit={ onItemEdit }
+              />
             </View>
           )
       }

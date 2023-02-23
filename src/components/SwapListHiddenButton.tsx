@@ -7,9 +7,15 @@ interface Props {
     iconName: string;
     backgroundColor: string;
     iconColor?: string;
+    onPress?: () => void; 
 }
 
-export const SwapListHiddenButton = ({ iconName, backgroundColor, iconColor = 'white' }: Props) => {
+export const SwapListHiddenButton = ({ 
+    iconName, 
+    backgroundColor, 
+    iconColor = 'white',
+    onPress = () => {}, 
+}: Props) => {
     return (
         <TouchableOpacity
             style={{
@@ -20,6 +26,7 @@ export const SwapListHiddenButton = ({ iconName, backgroundColor, iconColor = 'w
                 alignItems: 'center',
             }}
             activeOpacity={ 0.9 }
+            onPress={ onPress }
         >
             <Icon 
                 name={ iconName }

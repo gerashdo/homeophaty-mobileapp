@@ -1,12 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { View } from 'react-native'
-import { ThemeContext } from '../context/theme/ThemeContext';
-import { SwapListHiddenButton } from './SwapListHiddenButton';
+import { HighOrderComponent } from '../interfaces/common';
 
-export const SwapListHiddenItems = () => {
-
-    const { theme:{ secondary, danger }} = useContext( ThemeContext )
-
+export const SwapListHiddenItems = ({ children }: HighOrderComponent) => {
     return (
         <View style={{
             flex: 1,
@@ -17,19 +13,7 @@ export const SwapListHiddenItems = () => {
             marginHorizontal: 6,
             overflow: 'hidden',
         }}>
-            <View />
-            <View style={{
-                flexDirection: 'row-reverse'
-            }}>
-                <SwapListHiddenButton 
-                    iconName='trash'
-                    backgroundColor={ danger }
-                />
-                <SwapListHiddenButton 
-                    iconName='create'
-                    backgroundColor={ secondary }
-                />
-            </View>
+            { children }
         </View>
     )
 }
