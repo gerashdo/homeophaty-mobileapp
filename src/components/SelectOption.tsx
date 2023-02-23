@@ -4,17 +4,26 @@ import { StyleSheet, Text, TouchableOpacity, TextStyle, StyleProp } from 'react-
 
 interface Props {
     option: string;
-    textStyle?: StyleProp<TextStyle>
+    backgroundColor?: string;
+    textStyle?: StyleProp<TextStyle>;
+    onPress?: ( optionSelected: string ) => void;
 }
 
-export const SelectOption = ({ option, textStyle = {} }:Props) => {
+export const SelectOption = ({ 
+    option, 
+    backgroundColor = 'white', 
+    textStyle = {},
+    onPress = () => {},
+}:Props) => {
+
     return (
         <TouchableOpacity 
             style={{ 
                 ...styles.container,
-                backgroundColor: 'white'
+                backgroundColor,
             }}
             activeOpacity={ 1 }
+            onPress={ () => onPress( option )}
         >
             <Text
                 style={[ styles.text, textStyle ]}

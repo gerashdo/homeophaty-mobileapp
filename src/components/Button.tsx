@@ -1,21 +1,21 @@
 import React, { useContext } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
 import { ThemeContext } from '../context/theme/ThemeContext'
 
 interface Props {
     text: string,
     onPress?: () => void;
+    style?: StyleProp<ViewStyle>;
 }
 
-export const Button = ({ text, onPress }:Props) => {
+export const Button = ({ text, onPress, style }:Props) => {
     const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
     return (
         <View>
             <TouchableOpacity
-                style={{
+                style={[{
                     backgroundColor: colors.primary,
-                    ...styles.mainButton
-                }}
+                }, styles.mainButton, style ]}
                 activeOpacity={ 0.8 }
                 onPress={ onPress }
             >

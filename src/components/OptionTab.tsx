@@ -2,12 +2,13 @@ import React from 'react'
 import { StyleProp, Text, TextStyle, TouchableOpacity } from 'react-native'
 
 interface Props {
-    text: string,
+    text: string;
     backgroundColor: string;
     textStyle?: StyleProp<TextStyle>;
+    onPress?: () => void;
 }
 
-export const OptionTab = ({ text, backgroundColor, textStyle = {} }:Props) => {
+export const OptionTab = ({ text, backgroundColor, textStyle = {}, onPress }:Props) => {
   return (
     <TouchableOpacity
         style={{
@@ -17,7 +18,8 @@ export const OptionTab = ({ text, backgroundColor, textStyle = {} }:Props) => {
         }}
 
         activeOpacity={ 1 }
-        >
+        onPress={ onPress }
+    >
         <Text
             style={{
                 textAlign: 'center',
