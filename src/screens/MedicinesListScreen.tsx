@@ -3,10 +3,12 @@ import React, { useContext, useEffect } from 'react'
 import { FlatList, View } from 'react-native'
 import { CustomActivityIndicator } from '../components/ActivityIndicator'
 import { MedicineListItem } from '../components/medicine/MedicineListItem'
+import { MedicinesList } from '../components/medicine/MedicinesList'
 import { SearchInput } from '../components/SearchInput'
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
 import { MedicineContext } from '../context/medicine/MedicineContext'
 import { ThemeContext } from '../context/theme/ThemeContext'
+import { Medicine } from '../interfaces/medicine'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
@@ -36,6 +38,11 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
       title: ''
     })
   }, [])
+
+  const onItemPress = ( item?: Medicine ) => {
+    if( !item ) return 
+    navigation.navigate('MedicineScreen')
+  }
   
   // TODO: Implementar la busqueda en el backend
   return (
@@ -48,22 +55,23 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
         isLoading
           ? ( <CustomActivityIndicator /> )
           : (
-            <View style={{ flex: 1 }}>
-              <SearchInput 
-                onSearch={ () => console.log('hey') }
-                textColor={ colors.text }
-              />
-              <FlatList 
-                data={ medicines }
-                renderItem={ ({ item }) => (
-                  <MedicineListItem key={ item._id } medicine={ item }/>
-                )}
-                keyExtractor={ item => item._id }
-                ItemSeparatorComponent={ () => <View style={{ marginVertical: 5 }}/> }
-                showsVerticalScrollIndicator={ false }
-              />
+            // <View style={{ flex: 1 }}>
+            //   <SearchInput 
+            //     onSearch={ () => console.log('hey') }
+            //     textColor={ colors.text }
+            //   />
+            //   <FlatList 
+            //     data={ medicines }
+            //     renderItem={ ({ item }) => (
+            //       <MedicineListItem key={ item._id } medicine={ item }/>
+            //     )}
+            //     keyExtractor={ item => item._id }
+            //     ItemSeparatorComponent={ () => <View style={{ marginVertical: 5 }}/> }
+            //     showsVerticalScrollIndicator={ false }
+            //   />
               
-            </View>
+            // </View>
+            <MedicinesList data={ medicines } onItemPress={ onItemPress }/>
           )
       }
     </ScreenTemplate>

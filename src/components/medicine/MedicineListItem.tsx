@@ -6,14 +6,18 @@ import { Medicine, MedicineType } from '../../interfaces/medicine'
 
 interface Props {
     medicine: Medicine;
+    onPress?: ( item?: Medicine ) => void;
 }
 
-export const MedicineListItem = ({ medicine }:Props) => {
+export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
 
     const { theme: { colors, secondary }} = useContext( ThemeContext )
 
     return (
-        <View>
+        <TouchableOpacity
+            activeOpacity={ 0.9 }
+            onPress={ () => onPress( medicine ) }
+        >
             <View style={{
                 ...styles.container,
                 shadowColor: colors.text,
@@ -57,7 +61,7 @@ export const MedicineListItem = ({ medicine }:Props) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
