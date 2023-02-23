@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { ScrollView, TextInput, View } from 'react-native'
 import { ThemeContext } from '../../context/theme/ThemeContext'
 import { useForm } from '../../hooks/useForm';
-import { Medicine, MedicineType } from '../../interfaces/medicine';
+import { MedicinePostRequest, MedicineType } from '../../interfaces/medicine';
 import { appStyles } from '../../theme/appTheme';
 import { Button } from '../Button';
 import { InputContainer } from '../InputContainer'
@@ -11,28 +11,27 @@ import { InputLabel } from '../InputLabel'
 import { OptionTab } from '../OptionTab'
 import { OptionTabsContainer } from '../OptionTabsContainer';
 import { SelectSquareOptions } from '../SelectSquareOptions';
+import { MedicineContext } from '../../context/medicine/MedicineContext';
 
 const chOptions = [ "6", "30", "200", "100" ]
 
-interface MedicineForm {
-    name: string,
-    type: MedicineType,
-    ch: string,
-    medicines: Medicine[],
-}
-
 interface Props {
-    onNavigateAddInnerMedicines?: ( form: MedicineForm ) => void;
+    onNavigateAddInnerMedicines?: ( form: MedicinePostRequest ) => void;
+    onSubmit?: ( medicineData: MedicinePostRequest ) => void;
 }
 
-export const NewMedicineForm = ({ onNavigateAddInnerMedicines = () => {} }:Props) => {
+export const NewMedicineForm = ({ 
+    onNavigateAddInnerMedicines = () => {},
+    onSubmit = () => {},
+}:Props) => {
     const { theme: { 
         colors,  
         buttonTextColor, 
         secondary 
     }} = useContext( ThemeContext )
+    const { createMedicine } = useContext( MedicineContext )
     
-    const { onChange, form } = useForm<MedicineForm>({
+    const { onChange, form } = useForm<MedicinePostRequest>({
         name: '',
         type: MedicineType.MEDICINE,
         ch: chOptions[0],
@@ -46,7 +45,8 @@ export const NewMedicineForm = ({ onNavigateAddInnerMedicines = () => {} }:Props
     }
 
     const handleFormSubmit = () => {
-        console.log( form )
+        createMedicine( form )
+        onSubmit( form )
     }
 
     return (

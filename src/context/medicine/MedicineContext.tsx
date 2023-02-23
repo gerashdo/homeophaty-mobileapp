@@ -1,14 +1,17 @@
+import axios from "axios";
 import { createContext, useReducer, useState } from "react";
 
 import homeophatyAPI from "../../api/homeophatyAPI";
 import { HighOrderComponent } from '../../interfaces/common';
-import { MedicinesResponse } from "../../interfaces/medicine";
+import { MedicinePostRequest, MedicinePostResponse, MedicinesResponse } from "../../interfaces/medicine";
+import { ErrorResponseLong, ErrorResponseShort } from "../../interfaces/requestErrors";
 import { medicineReducer, MedicineState } from "./medicineReducer";
 
 interface MedicineContextProps {
     medicineState: MedicineState;
-    loadMedicines: () => void;
     isLoading: boolean;
+    loadMedicines: () => void;
+    createMedicine: ( medicineData: MedicinePostRequest ) => void;
 }
 
 export const MedicineContext = createContext({} as MedicineContextProps )
@@ -50,11 +53,33 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
         }, 8000);
     }
 
+    const createMedicine = async( medicineData: MedicinePostRequest ) => {
+        try {
+            const { data } = await homeophatyAPI.post<MedicinePostResponse>('/medicine', medicineData )
+            dispatch({ type: 'create_medicine', payload: data.medicine })
+        } catch (error) {
+            if( axios.isAxiosError( error )){
+                if( error.response?.data.msg ){
+                    const data: ErrorResponseShort = error.response?.data
+                    setError( data.msg )
+                }else{
+                    const data: ErrorResponseLong = error.response?.data
+                    const msg = Object.values( data.errors )[0].msg
+                    setError( msg )
+                }
+                console.log( error.response?.data )
+            }else{
+                setError( 'No se pudo guardar el medicamento' )
+            }
+        }
+    }
+
     return (
         <MedicineContext.Provider value={{
             isLoading,
             medicineState,
             loadMedicines,
+            createMedicine
         }}>
             { children }
         </MedicineContext.Provider>

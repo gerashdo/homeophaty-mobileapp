@@ -9,6 +9,7 @@ type MedicineAction =
     }}
     | { type: 'set_error', payload: string }
     | { type: 'remove_error' }
+    | { type: 'create_medicine', payload: Medicine } 
 
 export interface MedicineState {
     medicines: Medicine[];
@@ -38,6 +39,11 @@ export const medicineReducer = ( state: MedicineState, action: MedicineAction ):
             return {
                 ...state,
                 errorMessage: null,
+            }
+        case 'create_medicine':
+            return {
+                ...state,
+                medicines: [ ...state.medicines, action.payload ]
             }
         default:
             return state
