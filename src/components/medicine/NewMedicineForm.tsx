@@ -159,6 +159,7 @@ const FirstSection = ({ form, onChange = () => {} }:FirstSectionProps) => {
                                 paddingVertical: 12,
                                 marginVertical: 10,
                             }}
+                            onPress={ () => {} }
                         />
                     </InputGroup>
                 )
