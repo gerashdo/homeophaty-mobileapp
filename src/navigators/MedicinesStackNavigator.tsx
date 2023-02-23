@@ -6,6 +6,7 @@ import { MedicinesListScreen } from '../screens/MedicinesListScreen';
 import { ThemeContext } from '../context/theme/ThemeContext';
 import { MedicineScreen } from '../screens/MedicineScreen';
 import { MedicineInnerMedsScreen } from '../screens/MedicineInnerMedsScreen';
+import  Icon  from 'react-native-vector-icons/Ionicons';
 
 export enum MedicinesRoutes {
     MEDICINES_LIST = "MedicinesListScreen",
@@ -37,7 +38,9 @@ export const MedicinesStackNavigator = () => {
                 },
                 cardStyle:{
                     backgroundColor: colors.background,
-                }
+                },
+                headerTitle: '',
+                headerBackImage: () => <Icon size={ 30 } color={ colors.text } name='chevron-back' />,
             }}
         >
             <Stack.Screen 

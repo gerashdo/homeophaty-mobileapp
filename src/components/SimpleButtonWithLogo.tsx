@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { ThemeContext } from '../context/theme/ThemeContext';
 import { appStyles } from '../theme/appTheme';
 
 interface Props {
@@ -19,6 +20,8 @@ export const SimpleButtonWithLogo = ({
     onPress = () => {},
 }:Props) => {
 
+    const { theme:{ colors, buttonTextColor }} = useContext( ThemeContext )
+
     return (
         <TouchableOpacity
             style={{
@@ -32,7 +35,8 @@ export const SimpleButtonWithLogo = ({
                 text && (
                     <Text style={{
                         ...styles.text,
-                        color: backgroundColor,
+                        color: (backgroundColor !== 'white')
+                            ? backgroundColor : colors.primary ,
                     }}>
                         { text }
                     </Text>
@@ -46,9 +50,11 @@ export const SimpleButtonWithLogo = ({
                         backgroundColor,
                     }}>
                         <Icon 
-                        name={ iconName }
-                        size={ 25 }
-                        color={ color }
+                            name={ iconName }
+                            size={ 25 }
+                            color={ (color !== 'gray' )
+                                ? color : buttonTextColor
+                            }
                         />
                     </View>
                 )
