@@ -8,13 +8,13 @@ interface Props extends HighOrderComponent {
 }
 
 export const InputContainer = ({ children, style = {} }:Props) => {
-    const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
+    const { theme: { colors, elementsBackground } } = useContext( ThemeContext )
     return (
         <View
             style={{
                 ...styles.container,
                 borderColor: colors.border,
-                backgroundColor: buttonTextColor,
+                backgroundColor: elementsBackground,
                 ...style as any,
             }}
         >
@@ -25,10 +25,9 @@ export const InputContainer = ({ children, style = {} }:Props) => {
 
 const styles = StyleSheet.create({
     container:{
-        borderWidth: 1,
         borderRadius: 10,
         paddingHorizontal: 15,
-        paddingVertical: Platform.OS === 'ios' ? 15 : 5,
+        paddingVertical: Platform.OS === 'ios' ? 12 : 2,
         marginVertical: 10,
     }
 })

@@ -8,6 +8,7 @@ type ThemeAction =
 export interface ThemeState extends Theme {
     currentTheme: 'light' | 'dark';
     secondary: string;
+    elementsBackground: string;
     buttonTextColor: string;
     danger: string;
 }

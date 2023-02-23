@@ -17,7 +17,7 @@ export const appStyles = StyleSheet.create({
     regularText: {
         fontSize: 16,
         fontWeight: '500',
-    },
+    },  
 })
 
 
@@ -25,30 +25,32 @@ export const lightTheme: ThemeState = {
     dark: false,
     currentTheme: 'light',
     colors: {
-        primary: '#5C946E',
-        background: '#FBFBFF',
+        primary: '#7FB069',
+        background: '#FEFEFE',
         card: 'white',
         text: '#04080F',
         border: '#D9D9D9',
         notification: 'teal',
     },
-    secondary: '#507DBC',
-    buttonTextColor: 'white',
+    elementsBackground: '#F3F5F9',
+    secondary: '#2191FB',
+    buttonTextColor: '#FEFEFE',
     danger: '#EE964B',
 }
 
 export const darkTheme: ThemeState = {
     dark: true,
-    currentTheme: 'light',
+    currentTheme: 'dark',
     colors: {
-        primary: '#77E0A7',
-        background: 'black',
-        card: 'green',
-        text: 'white',
-        border: 'purple',
-        notification: 'red',
+        primary: '#5C946E',
+        background: '#FEFEFE',
+        card: 'white',
+        text: '#04080F',
+        border: '#D9D9D9',
+        notification: 'teal',
     },
-    secondary: 'purple',
-    buttonTextColor: 'black',
+    elementsBackground: '#F3F5F9',
+    secondary: '#507DBC',
+    buttonTextColor: '#FEFEFE',
     danger: '#EE964B',
 }

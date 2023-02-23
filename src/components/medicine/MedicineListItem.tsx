@@ -11,7 +11,7 @@ interface Props {
 
 export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
 
-    const { theme: { colors, secondary }} = useContext( ThemeContext )
+    const { theme: { colors, secondary, elementsBackground }} = useContext( ThemeContext )
 
     return (
         <TouchableOpacity
@@ -21,7 +21,7 @@ export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
             <View style={{
                 ...styles.container,
                 shadowColor: colors.text,
-                backgroundColor: 'white'
+                backgroundColor: elementsBackground,
             }}>
                 <View 
                     style={{
