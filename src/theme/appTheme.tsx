@@ -34,6 +34,7 @@ export const lightTheme: ThemeState = {
     },
     secondary: '#507DBC',
     buttonTextColor: 'white',
+    danger: '#EE964B',
 }
 
 export const darkTheme: ThemeState = {
@@ -49,4 +50,5 @@ export const darkTheme: ThemeState = {
     },
     secondary: 'purple',
     buttonTextColor: 'black',
+    danger: '#EE964B',
 }

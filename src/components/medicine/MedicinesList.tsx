@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { Medicine } from '../../interfaces/medicine'
+import { SwapListHiddenItems } from '../SwapListHiddenItems'
 import { MedicineListItem } from './MedicineListItem'
 
 interface Props {
@@ -12,7 +13,8 @@ interface Props {
 export const MedicinesList = ({ data, onItemPress }:Props) => {
 
     return (
-        <SwipeListView 
+        <SwipeListView
+            useFlatList={ true }
             data={ data }
             renderItem={ ({ item }, rowMap) => (
                 <MedicineListItem 
@@ -22,13 +24,10 @@ export const MedicinesList = ({ data, onItemPress }:Props) => {
                 />
             )}
             renderHiddenItem={ (data, rowMap) => (
-                <View>
-                    <Text>Left</Text>
-                    <Text>Right</Text>
-                </View>
+                <SwapListHiddenItems />
             )}
-            leftOpenValue={75}
-            rightOpenValue={-75}
+            rightOpenValue={-125}
+            disableRightSwipe
         />
     )
 }

@@ -15,7 +15,7 @@ export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
 
     return (
         <TouchableOpacity
-            activeOpacity={ 0.9 }
+            activeOpacity={ 1 }
             onPress={ () => onPress( medicine ) }
         >
             <View style={{
@@ -52,13 +52,12 @@ export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
                             )
                         }
                     </View>
-                    <TouchableOpacity>
-                        <Icon 
-                            name='ellipsis-vertical'
-                            color={ colors.text }
-                            size={ 30 }
-                        />
-                    </TouchableOpacity>
+                    <Icon
+                        name='chevron-forward'
+                        color={ colors.text }
+                        size={ 30 }
+                        style={ styles.icon }
+                    />
                 </View>
             </View>
         </TouchableOpacity>
@@ -67,22 +66,14 @@ export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 20,
+        borderRadius: 10,
         flexDirection: 'row',
         overflow: 'hidden',
         marginEnd: 5,
         marginVertical: 5,
-
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity:  0.18,
-        shadowRadius: 4.59,
-        elevation: 4
     },
     colorStripe: {
-        width: 50,
+        width: 30,
     },
     elementsContainer:{
         alignItems: 'center',
@@ -94,14 +85,17 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         justifyContent: 'center',
-        minHeight: 80,
+        minHeight: 60,
     },
     nameText: {
-        fontSize: 32,
+        fontSize: 24,
         fontWeight: 'bold',
     },
     chText: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: '500',
     },
+    icon: {
+        opacity: 0.5
+    }
 })

@@ -55,23 +55,13 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
         isLoading
           ? ( <CustomActivityIndicator /> )
           : (
-            // <View style={{ flex: 1 }}>
-            //   <SearchInput 
-            //     onSearch={ () => console.log('hey') }
-            //     textColor={ colors.text }
-            //   />
-            //   <FlatList 
-            //     data={ medicines }
-            //     renderItem={ ({ item }) => (
-            //       <MedicineListItem key={ item._id } medicine={ item }/>
-            //     )}
-            //     keyExtractor={ item => item._id }
-            //     ItemSeparatorComponent={ () => <View style={{ marginVertical: 5 }}/> }
-            //     showsVerticalScrollIndicator={ false }
-            //   />
-              
-            // </View>
-            <MedicinesList data={ medicines } onItemPress={ onItemPress }/>
+            <View style={{ flex: 1 }}>
+              <SearchInput 
+                onSearch={ () => console.log('hey') }
+                textColor={ colors.text }
+              />
+              <MedicinesList data={ medicines } onItemPress={ onItemPress }/>
+            </View>
           )
       }
     </ScreenTemplate>

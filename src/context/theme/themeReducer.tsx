@@ -9,6 +9,7 @@ export interface ThemeState extends Theme {
     currentTheme: 'light' | 'dark';
     secondary: string;
     buttonTextColor: string;
+    danger: string;
 }
 
 export const themeReducer = ( state: ThemeState, action: ThemeAction ) => {
