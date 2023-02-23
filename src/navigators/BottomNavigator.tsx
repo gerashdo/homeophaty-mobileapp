@@ -42,7 +42,14 @@ export const BottomNavigator = () => {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon color={ color } focused={ focused } name="medkit"/>
           ),
-          tabBarStyle: { display: getVisibilityOptionTab( route ) as any }
+          tabBarStyle: {
+            elevation: 0,
+            borderTopWidth: 0,
+            height: (Platform.OS === 'android') ? 70 : 80,
+            paddingBottom: (Platform.OS === 'android') ? 10 : 20,
+            paddingTop: 10,
+            display: getVisibilityOptionTab( route ) as any 
+          }
         })}
       />
       <Tab.Screen 
