@@ -1,9 +1,14 @@
 import React from 'react'
+import { StackScreenProps } from '@react-navigation/stack'
 import { NewMedicineForm } from '../components/medicine/NewMedicineForm'
 import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
+import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 
-export const NewMedicineScreen = () => {
+export interface NewMedicineScreenProps extends StackScreenProps<MedicinesRootStackParamList,'NewMedicineScreen'>{}
+
+export const NewMedicineScreen = ({ navigation }:NewMedicineScreenProps) => {
+
 
   return (
     <ScreenTemplate
@@ -11,7 +16,9 @@ export const NewMedicineScreen = () => {
         ...appStyles.globalMargin
       }}
     >
-      <NewMedicineForm />
+      <NewMedicineForm 
+        onNavigateAddInnerMedicines={ ( form ) => navigation.navigate('MedicineInnerMedsScreen') }
+      />
     </ScreenTemplate>
   )
 }

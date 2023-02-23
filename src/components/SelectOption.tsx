@@ -3,10 +3,10 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, TextStyle, StyleProp } from 'react-native';
 
 interface Props {
-    option: string;
+    option: string | number;
     backgroundColor?: string;
     textStyle?: StyleProp<TextStyle>;
-    onPress?: ( optionSelected: string ) => void;
+    onPress?: ( optionSelected: string | number ) => void;
 }
 
 export const SelectOption = ({ 
