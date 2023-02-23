@@ -2,9 +2,10 @@ import { createContext, useEffect, useReducer } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-import { LoginErrorResponseLong, LoginErrorResponseShort, LoginResponse } from '../../interfaces/auth';
+import { LoginResponse } from '../../interfaces/auth';
 import { authReducer, AuthState, AuthStatus } from "./authReducer";
 import homeophatyAPI from "../../api/homeophatyAPI";
+import { ErrorResponseLong, ErrorResponseShort } from "../../interfaces/requestErrors";
 
 interface AuthContextProps {
     state: AuthState,
@@ -60,10 +61,10 @@ export const AuthProvider = ({ children }:Props) => {
         } catch (error: any ) {
             if( axios.isAxiosError( error )){
                 if( error.response?.data.msg ){
-                    const data: LoginErrorResponseShort = error.response?.data
+                    const data: ErrorResponseShort = error.response?.data
                     setError( data.msg )
                 }else{
-                    const data: LoginErrorResponseLong = error.response?.data
+                    const data: ErrorResponseLong = error.response?.data
                     const msg = Object.values( data.errors )[0].msg
                     setError( msg )
                 }

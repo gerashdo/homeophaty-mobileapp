@@ -4,19 +4,6 @@ export interface LoginResponse {
     token: string;
 }
 
-export interface LoginErrorResponseShort {
-    msg: string;
-}
-
-export interface LoginErrorResponseLong {
-    ok:     boolean;
-    errors: Errors;
-}
-
-export interface Errors {
-    username?: Username;
-}
-
 export interface Username {
     value:    string;
     msg:      string;
