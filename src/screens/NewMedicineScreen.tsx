@@ -1,10 +1,17 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { NewMedicineForm } from '../components/medicine/NewMedicineForm'
+import { appStyles } from '../theme/appTheme'
+import { ScreenTemplate } from './ScreenTemplate'
 
 export const NewMedicineScreen = () => {
+
   return (
-    <View>
-        <Text>NewMedicineScreen</Text>
-    </View>
+    <ScreenTemplate
+      style={{
+        ...appStyles.globalMargin
+      }}
+    >
+      <NewMedicineForm />
+    </ScreenTemplate>
   )
 }
