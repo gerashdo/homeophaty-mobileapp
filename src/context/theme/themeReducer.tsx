@@ -11,6 +11,7 @@ export interface ThemeState extends Theme {
     elementsBackground: string;
     buttonTextColor: string;
     danger: string;
+    softTextColor: string;
 }
 
 export const themeReducer = ( state: ThemeState, action: ThemeAction ) => {

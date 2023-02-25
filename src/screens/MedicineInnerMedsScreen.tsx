@@ -12,6 +12,9 @@ import { MedicineContext } from '../context/medicine/MedicineContext'
 import { ThemeContext } from '../context/theme/ThemeContext'
 import { Medicine } from '../interfaces/medicine'
 import { ScreenTemplate } from './ScreenTemplate'
+import { MedicineSearchForm } from '../context/medicine/MedicineSearchForm'
+import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
+import { EmptyScreenMessage } from '../components/EmptyScreenMessage'
 
 
 export const MedicineInnerMedsScreen = () => {
@@ -27,19 +30,14 @@ export const MedicineInnerMedsScreen = () => {
         // onDelete( medicine )
     }
 
-
-
-
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-    // variables
     const snapPoints = useMemo(() => [ '30%', '65%', '90%' ], []);
 
-    // callbacks
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
         setIsModalOpen( true )
     }, []);
+
     const handleSheetChanges = useCallback((index: number) => {
         console.log('handleSheetChanges', index);
     }, []);
@@ -49,82 +47,104 @@ export const MedicineInnerMedsScreen = () => {
         setIsModalOpen( false )
     }, [])
 
-
-
     return (
         <BottomSheetModalProvider>
-        <ScreenTemplate>
-            <>
-            {
-                isModalOpen && (
-                    <TouchableOpacity
+            <ScreenTemplate>
+                <>
+                    {
+                        isModalOpen && (
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: 'rgba(0,0,0,0.1)',
+                                    zIndex: 999,
+                                    position: 'absolute',
+                                    height,
+                                    width,
+                                }}
+                                activeOpacity={ 1 }
+                                onPress={ handleCloseModal }
+                            ></TouchableOpacity>
+                        )
+                    }
+                </>
+                
+                <View style={{ flex: 1 }}>
+                    <FabButton 
+                        iconName='add'
+                        onPress={ handlePresentModalPress }
                         style={{
-                            backgroundColor: 'rgba(0,0,0,0.4)',
-                            zIndex: 999,
-                            position: 'absolute',
-                            height,
-                            width,
+                            zIndex: 400
                         }}
-                        activeOpacity={ 1 }
-                        onPress={ handleCloseModal }
-                    ></TouchableOpacity>
-                    )
-                }
-            </>
-            
-            <View style={{ flex: 1 }}>
-                <Text> This is the start</Text>
-                <FabButton 
-                    iconName='add'
-                    onPress={ handlePresentModalPress }
-                    style={{
-                        zIndex: 400
-                    }}
-                />
-                <SwipeListView
-                    useFlatList={ true }
-                    data={ medicines }
-                    renderItem={ ({ item }, rowMap) => (
-                        <BasicMedicineListItem 
-                            key={ item._id } 
-                            medicine={ item }
-                        />
-                    )}
-                    keyExtractor={ ( item ) => item._id }
-                    renderHiddenItem={ (data, rowMap) => (
-                        <SwapListHiddenItems>
-                            <View />
-                            <View style={{
-                                flexDirection: 'row-reverse'
-                            }}>
-                                <SwapListHiddenButton 
-                                    iconName='trash'
-                                    backgroundColor={ danger }
-                                    onPress={ () => handleDelete( data.item , rowMap )}
+                    />
+                    {
+                        medicines.length > 0
+                            ? (
+                                <>
+                                <SwipeListView
+                                    useFlatList={ true }
+                                    data={ medicines }
+                                    renderItem={ ({ item }, rowMap) => (
+                                        <BasicMedicineListItem 
+                                            key={ item._id } 
+                                            medicine={ item }
+                                        />
+                                    )}
+                                    keyExtractor={ ( item ) => item._id }
+                                    renderHiddenItem={ (data, rowMap) => (
+                                        <SwapListHiddenItems>
+                                            <View />
+                                            <View style={{
+                                                flexDirection: 'row-reverse'
+                                            }}>
+                                                <SwapListHiddenButton 
+                                                    iconName='trash'
+                                                    backgroundColor={ danger }
+                                                    onPress={ () => handleDelete( data.item , rowMap )}
+                                                />
+                                            </View>
+                                        </SwapListHiddenItems>
+                                    )}
+                                    rightOpenValue={-125}
+                                    disableRightSwipe
                                 />
-                            </View>
-                        </SwapListHiddenItems>
-                    )}
-                    rightOpenValue={-125}
-                    disableRightSwipe
-                />
-            </View>
+                                </>
+                            ):(
+                                <EmptyScreenMessage 
+                                    message='Agrega los medicamentos con el boton +'
+                                />
+                            )
+                    }
+                </View>
 
-            <BottomSheetModal
-                ref={bottomSheetModalRef}
-                index={1}
-                snapPoints={snapPoints}
-                onChange={handleSheetChanges}
-            >
-            <View style={{ flex: 1, }}>
-                <Text>Awesome 🎉</Text>
-            </View>
-            </BottomSheetModal>
+                <BottomSheetModal
+                    ref={bottomSheetModalRef}
+                    index={1}
+                    snapPoints={snapPoints}
+                    onChange={handleSheetChanges}
+                    backgroundStyle={{ borderRadius: 30,}}
+                >
+                <View style={{ flex: 1, }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                    }}>
+                        <View />
+                        <SimpleButtonWithLogo 
+                            text='Listo'
+                            onPress={ handleCloseModal }
+                        />
+                    </View>
+                    <View style={{ marginTop: 10, flex: 1 }}>
+                        <MedicineSearchForm />
+                    </View>
+                </View>
+                </BottomSheetModal>
 
-            
+                
 
-        </ScreenTemplate>
+            </ScreenTemplate>
         </BottomSheetModalProvider>
 
     )
 }
+

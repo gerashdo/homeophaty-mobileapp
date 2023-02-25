@@ -10,7 +10,7 @@ import { medicineReducer, MedicineState } from "./medicineReducer";
 
 interface NewMedicineState {
     medicineData: MedicinePostRequest,
-    onChange: (value: string, field: keyof MedicinePostRequest) => void;
+    onChange: <K extends keyof MedicinePostRequest>(value: MedicinePostRequest[K], field: K) => void;
 }
 interface MedicineContextProps {
     medicineState: MedicineState;

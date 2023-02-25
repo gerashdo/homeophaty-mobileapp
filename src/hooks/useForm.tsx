@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 export const useForm = <T extends Object>( initState: T ) => {
-    
+
     const [state, setState] = useState( initState );
 
-    const onChange = ( value: string, field: keyof T ) => {
+    const onChange = <K extends keyof T>( value: T[K], field: K ) => {
         setState({
             ...state,
             [field]: value
@@ -29,5 +29,4 @@ export const useForm = <T extends Object>( initState: T ) => {
         setFormValues,
         resetValues,
     }
-
 }
