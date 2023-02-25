@@ -1,11 +1,10 @@
-import axios from "axios";
 import { createContext, useReducer, useState } from "react";
 
 import homeophatyAPI from "../../api/homeophatyAPI";
+import { getUncertainAxiosErrorMessage } from "../../helpers/getUncertainErrorMessage";
 import { useForm } from "../../hooks/useForm";
 import { HighOrderComponent } from '../../interfaces/common';
 import { MedicinePostRequest, MedicinePostResponse, MedicinesResponse, MedicineType } from "../../interfaces/medicine";
-import { ErrorResponseLong, ErrorResponseShort } from "../../interfaces/requestErrors";
 import { medicineReducer, MedicineState } from "./medicineReducer";
 
 interface NewMedicineState {
@@ -47,6 +46,13 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
         onChange,
     }
 
+    const setError = ( error: string ) => {
+        dispatch({ type: 'set_error', payload: error })
+        setTimeout(() => {
+            dispatch({ type: 'remove_error' })
+        }, 8000);
+    }
+
     const loadMedicines = async() => {
         try {
             setIsLoading( true )
@@ -59,16 +65,10 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
                 currentPage: page,
             }})
         } catch (error) {
+            // TODO: verify this
             setError( 'No fue posible cargar los medicamentos' )
         }
         setIsLoading( false )
-    }
-
-    const setError = ( error: string ) => {
-        dispatch({ type: 'set_error', payload: error })
-        setTimeout(() => {
-            dispatch({ type: 'remove_error' })
-        }, 8000);
     }
 
     const createMedicine = async() => {
@@ -78,19 +78,10 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
             resetValues()
             
         } catch (error) {
-            if( axios.isAxiosError( error )){
-                if( error.response?.data.msg ){
-                    const data: ErrorResponseShort = error.response?.data
-                    setError( data.msg )
-                }else{
-                    const data: ErrorResponseLong = error.response?.data
-                    const msg = Object.values( data.errors )[0].msg
-                    setError( msg )
-                }
-                console.log( error.response?.data )
-            }else{
-                setError( 'No se pudo guardar el medicamento' )
-            }
+            setError( getUncertainAxiosErrorMessage( 
+                error, 
+                'No se pudo guardar el medicamento'
+            ))
         }
     }
 

@@ -6,6 +6,7 @@ import { LoginResponse } from '../../interfaces/auth';
 import { authReducer, AuthState, AuthStatus } from "./authReducer";
 import homeophatyAPI from "../../api/homeophatyAPI";
 import { ErrorResponseLong, ErrorResponseShort } from "../../interfaces/requestErrors";
+import { getUncertainAxiosErrorMessage } from "../../helpers/getUncertainErrorMessage";
 
 interface AuthContextProps {
     state: AuthState,
@@ -31,6 +32,13 @@ export const AuthProvider = ({ children }:Props) => {
     useEffect(() => {
       checkToken()
     }, [])
+
+    const setError = ( error: string ) => {
+        dispatch({ type: 'set_error', payload: error })
+        setTimeout(() => {
+            dispatch({ type: 'remove_error' })
+        }, 8000);
+    }
     
     const checkToken = async() => {
         try {
@@ -59,30 +67,8 @@ export const AuthProvider = ({ children }:Props) => {
             AsyncStorage.setItem( 'token', data.token )
 
         } catch (error: any ) {
-            if( axios.isAxiosError( error ) ){
-                if( !error.response ) return setError( 'Hay problemas con la conexión a internet' )
-
-                if( error.response?.data.msg ){
-                    const data: ErrorResponseShort = error.response?.data
-                    setError( data.msg )
-                }else{
-                    console.log('aqui!!!!!')
-                    console.log(error.response)
-                    const data: ErrorResponseLong = error.response?.data
-                    const msg = Object.values( data.errors )[0].msg
-                    setError( msg )
-                }
-            }else{
-                setError( 'No se pudo iniciar sesión' )
-            }
+            setError( getUncertainAxiosErrorMessage( error, 'No se pudo iniciar sesión' ) )
         }
-    }
-
-    const setError = ( error: string ) => {
-        dispatch({ type: 'set_error', payload: error })
-        setTimeout(() => {
-            dispatch({ type: 'remove_error' })
-        }, 8000);
     }
 
     return(
