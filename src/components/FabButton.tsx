@@ -1,34 +1,51 @@
 import React, { useContext } from 'react'
-import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ThemeContext } from '../context/theme/ThemeContext'
 
 interface Props {
     iconName: string;
     textColor?: string; 
-    style?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>;
+    onPress?: () => void;
 }
 
-export const FabButton = ({ iconName, textColor, style }:Props) => {
+export const FabButton = ({ iconName, textColor, style, onPress }:Props) => {
     const { theme: { buttonTextColor, colors }} = useContext( ThemeContext )
 
     return (
         <TouchableOpacity
-            style={[{
+            style={[ styles.button ,{
                 backgroundColor: colors.primary,
-                borderRadius: 100,
-                position: 'absolute',
-                width: 60,
-                height: 60,
-                justifyContent: 'center',
-                alignItems: 'center',
-                bottom: 50,
-                right: 40,
-                zIndex: 999,
             }, style ]}
-            activeOpacity={ 0.8 }
+            activeOpacity={ 0.9 }
+            onPress={ onPress }
         >
-            <Icon name={ iconName } color={ textColor || buttonTextColor } size={ 40 }/>
+            <Icon name={ iconName } color={ textColor || buttonTextColor } size={ 35 }/>
         </TouchableOpacity>
     )
 }
+
+const styles = StyleSheet.create({
+    button: {
+        borderRadius: 100,
+        position: 'absolute',
+        width: 70,
+        height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        bottom: 50,
+        right: 40,
+        zIndex: 999,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+
+        elevation: 6,
+    }
+})
