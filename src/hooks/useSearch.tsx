@@ -1,17 +1,23 @@
 import { useState } from "react"
+
 import homeophatyAPI from "../api/homeophatyAPI"
 import { getUncertainAxiosErrorMessage } from "../helpers/getUncertainErrorMessage"
-import { AllowedCollections, ResultSearchTypes, SearchResponse } from "../interfaces/common"
+import { ResultSearchAllowedTypes, SearchResponse } from "../interfaces/common";
 
-export const useSearch = ( initialArray: ResultSearchTypes, collection: AllowedCollections ) => {
+
+export const useSearch = <T extends keyof ResultSearchAllowedTypes,>( 
+    collection: T, 
+    initialArray: ResultSearchAllowedTypes[T], 
+) => {
     const [ isLoading, setIsLoading ] = useState( false )
-    const [ valuesFound, setValuesFound ] = useState( initialArray )
+    const [ valuesFound, setValuesFound ] = useState<ResultSearchAllowedTypes[T]>( initialArray )
     const [error, setError] = useState('')
 
     const search = async( termn: string ) => {
+        if ( termn.length === 0 ) return
         setIsLoading( true )
         try {
-            const { data } = await homeophatyAPI.get<SearchResponse>( `/search/${ collection }/${ termn }` )
+            const { data } = await homeophatyAPI.get<SearchResponse<T>>( `/search/${ String(collection) }/${ termn }` )
             setValuesFound( data.result )
         } catch (error) {
             setError( getUncertainAxiosErrorMessage( error, 'No se pudo realizar la búsqueda' ) )
@@ -28,5 +34,4 @@ export const useSearch = ( initialArray: ResultSearchTypes, collection: AllowedC
         error,
         search,
     }
-
 }

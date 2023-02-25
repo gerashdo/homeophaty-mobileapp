@@ -1,18 +1,17 @@
+import { User } from "./auth";
 import { Medicine } from "./medicine";
 
 export interface HighOrderComponent {
     children: JSX.Element | JSX.Element[];
 }
 
-export interface SearchResponse {
+export interface ResultSearchAllowedTypes {
+    medicines: Medicine[],
+    // users: User[],
+}
+export interface SearchResponse<T extends keyof ResultSearchAllowedTypes> {
     ok:     boolean;
     total:  number;
-    result: Medicine[];
+    result: ResultSearchAllowedTypes[T];
 }
 
-export type ResultSearchTypes = 
-    | Medicine[]
-
-export enum AllowedCollections {
-    MEDICINES = 'medicines',
-}
