@@ -59,11 +59,15 @@ export const AuthProvider = ({ children }:Props) => {
             AsyncStorage.setItem( 'token', data.token )
 
         } catch (error: any ) {
-            if( axios.isAxiosError( error )){
+            if( axios.isAxiosError( error ) ){
+                if( !error.response ) return setError( 'Hay problemas con la conexión a internet' )
+
                 if( error.response?.data.msg ){
                     const data: ErrorResponseShort = error.response?.data
                     setError( data.msg )
                 }else{
+                    console.log('aqui!!!!!')
+                    console.log(error.response)
                     const data: ErrorResponseLong = error.response?.data
                     const msg = Object.values( data.errors )[0].msg
                     setError( msg )
