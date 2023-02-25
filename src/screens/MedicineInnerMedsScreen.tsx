@@ -1,14 +1,8 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import { TouchableOpacity, View, Text } from 'react-native'
+import React, { useCallback, useContext, useMemo, useRef, useState } from 'react'
+import { BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
+import { TouchableOpacity, View, Text, useWindowDimensions } from 'react-native'
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view'
 import { FabButton } from '../components/FabButton'
-
-// import {
-//     BottomSheetModal,
-//     BottomSheetModalProvider,
-//   } from '@gorhom/bottom-sheet';
-
-import { BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
 
 
 import { BasicMedicineListItem } from '../components/medicine/BasicMedicineListItem'
@@ -19,11 +13,14 @@ import { ThemeContext } from '../context/theme/ThemeContext'
 import { Medicine } from '../interfaces/medicine'
 import { ScreenTemplate } from './ScreenTemplate'
 
+
 export const MedicineInnerMedsScreen = () => {
+    const { height, width } = useWindowDimensions()
 
     const { theme: { danger, buttonTextColor, colors }} = useContext( ThemeContext )
     const { newMedicineState } = useContext( MedicineContext )
     const { medicineData: { medicines} } = newMedicineState
+    const [ isModalOpen, setIsModalOpen ] = useState( false )
 
     const handleDelete = ( medicine: Medicine, rowMap: RowMap<Medicine>) => {
         rowMap[ medicine._id ].closeRow()
@@ -36,28 +33,53 @@ export const MedicineInnerMedsScreen = () => {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
     // variables
-    const snapPoints = useMemo(() => ['25%', '50%'], []);
+    const snapPoints = useMemo(() => [ '30%', '65%', '90%' ], []);
 
     // callbacks
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
+        setIsModalOpen( true )
     }, []);
     const handleSheetChanges = useCallback((index: number) => {
         console.log('handleSheetChanges', index);
     }, []);
 
-
+    const handleCloseModal = useCallback( () => {
+        bottomSheetModalRef.current?.close()
+        setIsModalOpen( false )
+    }, [])
 
 
 
     return (
         <BottomSheetModalProvider>
-
         <ScreenTemplate>
+            <>
+            {
+                isModalOpen && (
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: 'rgba(0,0,0,0.4)',
+                            zIndex: 999,
+                            position: 'absolute',
+                            height,
+                            width,
+                        }}
+                        activeOpacity={ 1 }
+                        onPress={ handleCloseModal }
+                    ></TouchableOpacity>
+                    )
+                }
+            </>
+            
             <View style={{ flex: 1 }}>
+                <Text> This is the start</Text>
                 <FabButton 
                     iconName='add'
                     onPress={ handlePresentModalPress }
+                    style={{
+                        zIndex: 400
+                    }}
                 />
                 <SwipeListView
                     useFlatList={ true }
@@ -98,6 +120,8 @@ export const MedicineInnerMedsScreen = () => {
                 <Text>Awesome 🎉</Text>
             </View>
             </BottomSheetModal>
+
+            
 
         </ScreenTemplate>
         </BottomSheetModalProvider>
