@@ -13,14 +13,14 @@ export const BasicMedicineListItem = ({ medicine, onPress = () => {} }:Props) =>
     const { theme: { colors, elementsBackground }} = useContext( ThemeContext )
 
     return (
-        <TouchableOpacity
-            activeOpacity={ 1 }
-            onPress={ () => onPress( medicine ) }
-        >
-            <View style={{
-                ...styles.container,
-                backgroundColor: elementsBackground,
-            }}>
+        <View style={{
+            ...styles.container,
+            backgroundColor: elementsBackground,
+        }}>
+            <TouchableOpacity
+                activeOpacity={ 1 }
+                onPress={ () => onPress( medicine ) }
+            >
                 <View style={ styles.textContainer }>
                     <Text
                         style={{
@@ -39,8 +39,8 @@ export const BasicMedicineListItem = ({ medicine, onPress = () => {} }:Props) =>
                         )
                     }
                 </View>
-            </View>
         </TouchableOpacity>
+        </View>
     )
 }
 
@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         marginEnd: 5,
         marginVertical: 5,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
     },
     colorStripe: {
         width: 30,

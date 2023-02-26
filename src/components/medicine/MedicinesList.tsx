@@ -60,7 +60,7 @@ export const MedicinesList = ({
                     </View>
                 </SwapListHiddenItems>
             )}
-            rightOpenValue={-125}
+            rightOpenValue={-115}
             disableRightSwipe
         />
     )

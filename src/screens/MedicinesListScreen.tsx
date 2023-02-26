@@ -52,18 +52,20 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
   return (
     <ScreenTemplate
       style={{
-        ...appStyles.globalMargin,
+        // ...appStyles.globalMargin,
       }}
     >
       {
         isLoading
           ? ( <CustomActivityIndicator /> )
           : (
-            <View style={{ flex: 1 }}>
-              <SearchInput 
-                onSearch={ () => console.log('hey') }
-                textColor={ colors.text }
-              />
+            <View style={{ flex: 1, }}>
+              <View style={ appStyles.globalMargin }>
+                <SearchInput 
+                  onSearch={ () => console.log('hey') }
+                  textColor={ colors.text }
+                />
+              </View>
               <MedicinesList 
                 data={ medicines } 
                 onItemPress={ onItemPress }

@@ -11,7 +11,7 @@ import { Medicine } from '../../interfaces/medicine';
 
 
 export const MedicineSearchForm = () => {
-    const { newMedicineState } = useContext( MedicineContext )
+    const { newMedicineState, medicineState:{ medicines } } = useContext( MedicineContext )
     const { theme:{ colors }} = useContext( ThemeContext )
 
     const {
@@ -19,7 +19,7 @@ export const MedicineSearchForm = () => {
         valuesFound: medicinesToSelect, 
         search, 
         isLoading
-    } = useSearch('medicines', [])
+    } = useSearch( 'medicines', medicines )
 
     const { onChange, medicineData } = newMedicineState
     const { medicines:innerMedicines } = medicineData

@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ThemeContext } from '../../context/theme/ThemeContext';
 import { Medicine, MedicineType } from '../../interfaces/medicine'
+import { appStyles } from '../../theme/appTheme';
 
 interface Props {
     medicine: Medicine;
@@ -14,6 +15,7 @@ export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
     const { theme: { colors, secondary, elementsBackground }} = useContext( ThemeContext )
 
     return (
+        <View style={[ appStyles.globalMargin ]}>
         <TouchableOpacity
             activeOpacity={ 1 }
             onPress={ () => onPress( medicine ) }
@@ -61,6 +63,7 @@ export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
                 </View>
             </View>
         </TouchableOpacity>
+        </View>
     )
 }
 

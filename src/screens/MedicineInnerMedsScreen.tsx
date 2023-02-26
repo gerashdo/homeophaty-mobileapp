@@ -4,7 +4,6 @@ import { TouchableOpacity, View, Text, useWindowDimensions } from 'react-native'
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view'
 import { FabButton } from '../components/FabButton'
 
-
 import { BasicMedicineListItem } from '../components/medicine/BasicMedicineListItem'
 import { SwapListHiddenButton } from '../components/SwapListHiddenButton'
 import { SwapListHiddenItems } from '../components/SwapListHiddenItems'
@@ -15,6 +14,7 @@ import { ScreenTemplate } from './ScreenTemplate'
 import { MedicineSearchForm } from '../context/medicine/MedicineSearchForm'
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
 import { EmptyScreenMessage } from '../components/EmptyScreenMessage'
+import { appStyles } from '../theme/appTheme';
 
 
 export const MedicineInnerMedsScreen = () => {
@@ -68,7 +68,7 @@ export const MedicineInnerMedsScreen = () => {
                     }
                 </>
                 
-                <View style={{ flex: 1 }}>
+                <View style={[{ flex: 1, marginVertical: 10, }]}>
                     <FabButton 
                         iconName='add'
                         onPress={ handlePresentModalPress }
@@ -84,17 +84,21 @@ export const MedicineInnerMedsScreen = () => {
                                     useFlatList={ true }
                                     data={ medicines }
                                     renderItem={ ({ item }, rowMap) => (
-                                        <BasicMedicineListItem 
-                                            key={ item._id } 
-                                            medicine={ item }
-                                        />
+                                        <View
+                                            style={ appStyles.globalMargin }
+                                        >
+                                            <BasicMedicineListItem 
+                                                key={ item._id } 
+                                                medicine={ item }
+                                            />
+                                        </View>
                                     )}
                                     keyExtractor={ ( item ) => item._id }
                                     renderHiddenItem={ (data, rowMap) => (
                                         <SwapListHiddenItems>
                                             <View />
                                             <View style={{
-                                                flexDirection: 'row-reverse'
+                                                flexDirection: 'row-reverse',
                                             }}>
                                                 <SwapListHiddenButton 
                                                     iconName='trash'
@@ -104,7 +108,7 @@ export const MedicineInnerMedsScreen = () => {
                                             </View>
                                         </SwapListHiddenItems>
                                     )}
-                                    rightOpenValue={-125}
+                                    rightOpenValue={-55}
                                     disableRightSwipe
                                 />
                                 </>
@@ -122,6 +126,7 @@ export const MedicineInnerMedsScreen = () => {
                     snapPoints={snapPoints}
                     onChange={handleSheetChanges}
                     backgroundStyle={{ borderRadius: 30,}}
+                    onDismiss={ handleCloseModal }
                 >
                 <View style={{ flex: 1, }}>
                     <View style={{
