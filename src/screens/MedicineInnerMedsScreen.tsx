@@ -51,7 +51,7 @@ export const MedicineInnerMedsScreen = ({ navigation }:Props) => {
 
     const handleSubmitForm = async() => {
         await createMedicine()
-        // if( !errorMessage ) navigation.popToTop()
+        if( !errorMessage ) navigation.popToTop()
     }
 
     return (

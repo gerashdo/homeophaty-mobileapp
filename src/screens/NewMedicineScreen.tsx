@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
+
 import { NewMedicineForm } from '../components/medicine/NewMedicineForm'
 import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
+import { MedicineContext } from '../context/medicine/MedicineContext';
 
 export interface NewMedicineScreenProps extends StackScreenProps<MedicinesRootStackParamList,'NewMedicineScreen'>{}
 
 export const NewMedicineScreen = ({ navigation }:NewMedicineScreenProps) => {
-
+  const { medicineState: { errorMessage }} = useContext( MedicineContext )
   return (
     <ScreenTemplate
       style={{
@@ -19,7 +21,9 @@ export const NewMedicineScreen = ({ navigation }:NewMedicineScreenProps) => {
         onNavigateAddInnerMedicines={ 
           () => navigation.navigate('MedicineInnerMedsScreen') 
         }
-        onSubmit={ () => navigation.popToTop() }
+        onSubmit={ () => {
+          if( !errorMessage ) navigation.popToTop()
+        }}
       />
     </ScreenTemplate>
   )

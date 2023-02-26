@@ -40,8 +40,8 @@ export const NewMedicineForm = ({
         onNavigateAddInnerMedicines()
     }
 
-    const handleFormSubmit = () => {
-        createMedicine()
+    const handleFormSubmit = async() => {
+        await createMedicine()
         onSubmit()
     }
 
