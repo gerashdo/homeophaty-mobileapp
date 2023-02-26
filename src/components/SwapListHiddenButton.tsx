@@ -21,7 +21,7 @@ export const SwapListHiddenButton = ({
             style={{
                 backgroundColor,
                 height: '100%',
-                width: 60,
+                width: 80,
                 justifyContent: 'center',
                 alignItems: 'center',
             }}

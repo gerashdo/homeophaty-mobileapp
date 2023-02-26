@@ -11,22 +11,20 @@ interface Props {
 export const Button = ({ text, onPress, style }:Props) => {
     const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
     return (
-        <View>
-            <TouchableOpacity
-                style={[{
-                    backgroundColor: colors.primary,
-                }, styles.mainButton, style ]}
-                activeOpacity={ 0.8 }
-                onPress={ onPress }
-            >
-                <Text
-                    style={{
-                        color: buttonTextColor,
-                        ...styles.buttonText
-                    }}
-                >{ text }</Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+            style={[{
+                backgroundColor: colors.primary,
+            }, styles.mainButton, style ]}
+            activeOpacity={ 0.8 }
+            onPress={ onPress }
+        >
+            <Text
+                style={{
+                    color: buttonTextColor,
+                    ...styles.buttonText
+                }}
+            >{ text }</Text>
+        </TouchableOpacity>
     )
 }
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
-import { TouchableOpacity, View, Text, useWindowDimensions } from 'react-native'
+import { TouchableOpacity, View, useWindowDimensions } from 'react-native'
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view'
 import { FabButton } from '../components/FabButton'
 
@@ -15,19 +15,25 @@ import { MedicineSearchForm } from '../context/medicine/MedicineSearchForm'
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
 import { EmptyScreenMessage } from '../components/EmptyScreenMessage'
 import { appStyles } from '../theme/appTheme';
+import { BottomPrincipalButton } from '../components/BottomPrincipalButton'
+import { StackScreenProps } from '@react-navigation/stack'
+import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 
+interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineInnerMedsScreen'>{}
 
-export const MedicineInnerMedsScreen = () => {
+export const MedicineInnerMedsScreen = ({ navigation }:Props) => {
     const { height, width } = useWindowDimensions()
 
-    const { theme: { danger, buttonTextColor, colors }} = useContext( ThemeContext )
-    const { newMedicineState } = useContext( MedicineContext )
-    const { medicineData: { medicines} } = newMedicineState
+    const { theme: { danger }} = useContext( ThemeContext )
+    const { newMedicineState, createMedicine, medicineState } = useContext( MedicineContext )
+    const { errorMessage } = medicineState
+    const { medicineData: { medicines }, onChange } = newMedicineState
     const [ isModalOpen, setIsModalOpen ] = useState( false )
 
     const handleDelete = ( medicine: Medicine, rowMap: RowMap<Medicine>) => {
-        rowMap[ medicine._id ].closeRow()
-        // onDelete( medicine )
+        onChange( medicines.filter( med => (
+            medicine._id !== med._id
+        )), 'medicines' )
     }
 
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -38,14 +44,15 @@ export const MedicineInnerMedsScreen = () => {
         setIsModalOpen( true )
     }, []);
 
-    const handleSheetChanges = useCallback((index: number) => {
-        console.log('handleSheetChanges', index);
-    }, []);
-
     const handleCloseModal = useCallback( () => {
         bottomSheetModalRef.current?.close()
         setIsModalOpen( false )
     }, [])
+
+    const handleSubmitForm = async() => {
+        await createMedicine()
+        // if( !errorMessage ) navigation.popToTop()
+    }
 
     return (
         <BottomSheetModalProvider>
@@ -68,14 +75,26 @@ export const MedicineInnerMedsScreen = () => {
                     }
                 </>
                 
-                <View style={[{ flex: 1, marginVertical: 10, }]}>
+                <View style={[{ flex: 1, marginVertical: 10 }]}>
                     <FabButton 
                         iconName='add'
                         onPress={ handlePresentModalPress }
                         style={{
-                            zIndex: 400
+                            zIndex: 400,
+                            bottom: 90,
                         }}
                     />
+                    
+                    <BottomPrincipalButton 
+                        text='Guardar'
+                        style={[ {
+                            width: width - 30,
+                            bottom: 20,
+                            zIndex: 300,
+                        }]}
+                        onPress={ handleSubmitForm }
+                    />
+                    
                     {
                         medicines.length > 0
                             ? (
@@ -108,7 +127,7 @@ export const MedicineInnerMedsScreen = () => {
                                             </View>
                                         </SwapListHiddenItems>
                                     )}
-                                    rightOpenValue={-55}
+                                    rightOpenValue={-75}
                                     disableRightSwipe
                                 />
                                 </>
@@ -124,7 +143,6 @@ export const MedicineInnerMedsScreen = () => {
                     ref={bottomSheetModalRef}
                     index={1}
                     snapPoints={snapPoints}
-                    onChange={handleSheetChanges}
                     backgroundStyle={{ borderRadius: 30,}}
                     onDismiss={ handleCloseModal }
                 >
@@ -144,8 +162,6 @@ export const MedicineInnerMedsScreen = () => {
                     </View>
                 </View>
                 </BottomSheetModal>
-
-                
 
             </ScreenTemplate>
         </BottomSheetModalProvider>

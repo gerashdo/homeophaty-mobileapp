@@ -76,7 +76,6 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
             const { data } = await homeophatyAPI.post<MedicinePostResponse>('/medicine', medicineData )
             dispatch({ type: 'create_medicine', payload: data.medicine })
             resetValues()
-            
         } catch (error) {
             setError( getUncertainAxiosErrorMessage( 
                 error, 

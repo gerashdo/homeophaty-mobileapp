@@ -12,6 +12,7 @@ import { OptionTab } from '../OptionTab'
 import { OptionTabsContainer } from '../OptionTabsContainer';
 import { SelectSquareOptions } from '../SelectSquareOptions';
 import { MedicineContext } from '../../context/medicine/MedicineContext';
+import { BottomPrincipalButton } from '../BottomPrincipalButton';
 
 interface Props {
     onNavigateAddInnerMedicines?: () => void;
@@ -22,6 +23,7 @@ export const NewMedicineForm = ({
     onNavigateAddInnerMedicines = () => {},
     onSubmit = () => {},
 }:Props) => {
+
     const { theme: { 
         colors,  
         buttonTextColor, 
@@ -118,21 +120,11 @@ export const NewMedicineForm = ({
                 )
             }
         </ScrollView>
-        <View
-            style={{
-                position: 'absolute',
-                width: '100%',
-                bottom: 30,
-            }}
-        >
-            <Button 
-                text='Guardar'
-                style={{
-                    backgroundColor: secondary,
-                }}
-                onPress={ handleFormSubmit }
-            />
-        </View>
+
+        <BottomPrincipalButton 
+            text='Guardar'
+            onPress={ handleFormSubmit }
+        />
         </>
     )
 }
