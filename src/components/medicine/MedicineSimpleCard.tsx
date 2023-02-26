@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native'
 import { TouchableOpacity, View } from 'react-native'
-import { Medicine } from '../../interfaces/medicine'
+import { Medicine, MedicineType } from '../../interfaces/medicine'
 import { appStyles } from '../../theme/appTheme';
 import { ThemeContext } from '../../context/theme/ThemeContext';
 
@@ -34,7 +34,11 @@ export const MedicineSimpleCard = ({ medicine, onPress = () => {} }:Props) => {
                     style={[ appStyles.regularText, {
                         color: colors.text,
                     }]}
-                >{ medicine.name }{ medicine.ch ? ` ${medicine.ch}` : '' }</Text>
+                >{ medicine.name }{ 
+                    medicine.type === MedicineType.MEDICINE 
+                    ? ` ${medicine.ch}` 
+                    : '' 
+                }</Text>
             </TouchableOpacity>
         </View>
     )

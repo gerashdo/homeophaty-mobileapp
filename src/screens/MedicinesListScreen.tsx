@@ -8,6 +8,7 @@ import { SearchInput } from '../components/SearchInput'
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
 import { MedicineContext } from '../context/medicine/MedicineContext'
 import { ThemeContext } from '../context/theme/ThemeContext'
+import { useSearch } from '../hooks/useSearch'
 import { Medicine } from '../interfaces/medicine'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 import { appStyles } from '../theme/appTheme'
@@ -16,11 +17,16 @@ import { ScreenTemplate } from './ScreenTemplate'
 interface Props extends StackScreenProps<MedicinesRootStackParamList, 'MedicinesListScreen'>{}
 
 export const MedicinesListScreen = ({ navigation }:Props) => {
-
   const { loadMedicines, isLoading, medicineState } = useContext( MedicineContext )
   const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
-
+  
   const { medicines } = medicineState
+  
+  const { 
+    isLoading: isLoadingSearch, 
+    valuesFound, 
+    search 
+  } = useSearch('medicines', medicines )
 
   useEffect(() => {
     loadMedicines()
@@ -47,6 +53,10 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
   const onItemEdit = ( item: Medicine ) => {
     navigation.navigate('MedicineScreen')
   }
+
+  const handleSearch = ( searchValue: string ) => {
+    search( searchValue )
+  }
   
   // TODO: Implementar la busqueda en el backend
   return (
@@ -62,15 +72,21 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
             <View style={{ flex: 1, }}>
               <View style={ appStyles.globalMargin }>
                 <SearchInput 
-                  onSearch={ () => console.log('hey') }
+                  onSearch={ handleSearch }
                   textColor={ colors.text }
                 />
               </View>
-              <MedicinesList 
-                data={ medicines } 
-                onItemPress={ onItemPress }
-                onItemEdit={ onItemEdit }
-              />
+              {
+                isLoadingSearch
+                  ? ( <CustomActivityIndicator />  )
+                  : ( 
+                    <MedicinesList 
+                      data={ valuesFound.length > 0 ? valuesFound : medicines } 
+                      onItemPress={ onItemPress }
+                      onItemEdit={ onItemEdit }
+                    />
+                  )
+              }
             </View>
           )
       }

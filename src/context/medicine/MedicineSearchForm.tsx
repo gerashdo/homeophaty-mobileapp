@@ -8,6 +8,7 @@ import { appStyles } from '../../theme/appTheme';
 import { useSearch } from '../../hooks/useSearch';
 import { MedicineContext } from './MedicineContext';
 import { Medicine } from '../../interfaces/medicine';
+import { CustomActivityIndicator } from '../../components/ActivityIndicator';
 
 
 export const MedicineSearchForm = () => {
@@ -40,27 +41,34 @@ export const MedicineSearchForm = () => {
                 onSearch={( value )=> search( value )} 
                 textColor='black' 
             />
-            <BottomSheetScrollView
-                contentContainerStyle={{
-                    flex: 1
-                }}
-            >
-                <View style={{ 
-                    borderTopWidth: 1,
-                    borderColor: colors.border,
-                    marginVertical: 20, 
-                }}>
-                {
-                    medicinesToSelect.map( medicine => (
-                        <MedicineSimpleCard 
-                            key={ medicine._id } 
-                            medicine={ medicine }
-                            onPress={ handleAddMedicine }
-                        />
-                    ))
-                }
-                </View>
-            </BottomSheetScrollView>
+            {
+                isLoading 
+                    ? ( <CustomActivityIndicator /> )
+                    : (
+                        <BottomSheetScrollView
+                            contentContainerStyle={{
+                                flex: 1
+                            }}
+                        >
+                            <View style={{ 
+                                borderTopWidth: 1,
+                                borderColor: colors.border,
+                                marginVertical: 20, 
+                            }}>
+                            {
+                                medicinesToSelect.map( medicine => (
+                                    <MedicineSimpleCard 
+                                        key={ medicine._id } 
+                                        medicine={ medicine }
+                                        onPress={ handleAddMedicine }
+                                    />
+                                ))
+                            }
+                            </View>
+                        </BottomSheetScrollView>
+                    )
+            }
+            
         </View>
     )
 }

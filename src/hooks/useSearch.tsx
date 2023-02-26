@@ -14,7 +14,7 @@ export const useSearch = <T extends keyof ResultSearchAllowedTypes,>(
     const [error, setError] = useState('')
 
     const search = async( termn: string ) => {
-        if ( termn.length === 0 ) return
+        if ( termn.length === 0 ) return setValuesFound( initialArray )
         setIsLoading( true )
         try {
             const { data } = await homeophatyAPI.get<SearchResponse<T>>( `/search/${ String(collection) }/${ termn }` )

@@ -44,7 +44,7 @@ export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {
                             }}
                         >{ medicine.name }</Text>
                         {
-                            medicine.ch && (
+                            medicine.type === MedicineType.MEDICINE && (
                                 <Text
                                     style={{
                                         ...styles.chText,
