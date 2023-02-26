@@ -2,11 +2,12 @@ import React, { useContext } from 'react'
 import { Text, View } from 'react-native';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { SearchInput } from '../../components/SearchInput';
-import { MedicineSimpleCard } from './MedicineSimpleCard';
+import { MedicineSimpleCard } from '../../components/medicine/MedicineSimpleCard';
 import { ThemeContext } from '../theme/ThemeContext';
 import { appStyles } from '../../theme/appTheme';
 import { useSearch } from '../../hooks/useSearch';
 import { MedicineContext } from './MedicineContext';
+import { Medicine } from '../../interfaces/medicine';
 
 
 export const MedicineSearchForm = () => {
@@ -23,9 +24,13 @@ export const MedicineSearchForm = () => {
     const { onChange, medicineData } = newMedicineState
     const { medicines:innerMedicines } = medicineData
 
-    // TODO: Do not repeat inner med
+    const handleAddMedicine = ( medicine: Medicine ) => {
+        if( innerMedicines.includes( medicine )) return
+
+        onChange([ medicine, ...innerMedicines ], 'medicines')
+    }
+    
     // TODO: Cofigure reusability of SwipeList
-    // TODO: Search medicine
 
     return (
         <View style={[ appStyles.globalMargin ,{ 
@@ -50,7 +55,7 @@ export const MedicineSearchForm = () => {
                         <MedicineSimpleCard 
                             key={ medicine._id } 
                             medicine={ medicine }
-                            onPress={ ( medicine ) => onChange([ medicine, ...innerMedicines ], 'medicines') }
+                            onPress={ handleAddMedicine }
                         />
                     ))
                 }

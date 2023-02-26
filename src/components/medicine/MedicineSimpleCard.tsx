@@ -5,7 +5,7 @@ import { Text } from 'react-native'
 import { TouchableOpacity, View } from 'react-native'
 import { Medicine } from '../../interfaces/medicine'
 import { appStyles } from '../../theme/appTheme';
-import { ThemeContext } from '../theme/ThemeContext';
+import { ThemeContext } from '../../context/theme/ThemeContext';
 
 interface Props {
     medicine: Medicine;
