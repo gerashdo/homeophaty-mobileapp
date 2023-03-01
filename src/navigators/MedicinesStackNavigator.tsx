@@ -42,6 +42,7 @@ export const MedicinesStackNavigator = () => {
                 },
                 headerTitle: '',
                 headerBackImage: () => <Icon size={ 30 } color={ colors.text } name='chevron-back' />,
+                headerBackTitleVisible: false,
             }}
         >
             <Stack.Screen 

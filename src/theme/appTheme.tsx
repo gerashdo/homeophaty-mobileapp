@@ -7,11 +7,11 @@ export const appStyles = StyleSheet.create({
         marginHorizontal: 15,
     },
     title: {
-        fontSize: 40,
+        fontSize: 32,
         fontWeight: 'bold',
     },
     subTitle: {
-        fontSize: 32,
+        fontSize: 24,
         fontWeight: 'bold',
     },
     regularText: {
