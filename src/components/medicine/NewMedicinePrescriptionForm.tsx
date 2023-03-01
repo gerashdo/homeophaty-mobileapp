@@ -1,22 +1,33 @@
-import React from 'react'
-import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
-import { TextInput  } from 'react-native'
+import React, { useState } from 'react'
+import { ScrollView, TextInput  } from 'react-native'
+
 import { InputContainer } from '../InputContainer'
 import { InputLabel } from '../InputLabel'
 
-export const NewMedicinePrescriptionForm = () => {
+interface Props {
+    value: string;
+    onValueChange: ( value: string ) => void;
+}
+
+export const NewMedicinePrescriptionForm = ({ value, onValueChange }:Props) => {
+
     return (
-        <BottomSheetScrollView>
+        <ScrollView style={{ flex: 1 }}>
             <InputLabel text='Prescripción'/>
             <InputContainer>
                 <TextInput 
                     multiline
-                    numberOfLines={ 18 }
+                    numberOfLines={ 30 }
                     style={{
                         textAlignVertical: 'top',
                     }}
+                    value={ value }
+                    onChangeText={ onValueChange }
+                    autoFocus
+                    autoCapitalize='sentences'
+                    autoCorrect
                 />
             </InputContainer>
-        </BottomSheetScrollView>
+        </ScrollView>
     )
 }
