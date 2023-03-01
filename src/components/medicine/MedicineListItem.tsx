@@ -7,7 +7,7 @@ import { appStyles } from '../../theme/appTheme';
 
 interface Props {
     medicine: Medicine;
-    onPress?: ( item?: Medicine ) => void;
+    onPress?: ( item: Medicine ) => void;
 }
 
 export const MedicineListItem = ({ medicine, onPress = () => {} }:Props) => {

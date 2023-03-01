@@ -45,13 +45,12 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     })
   }, [])
 
-  const onItemPress = ( item?: Medicine ) => {
-    if( !item ) return 
-    navigation.navigate('MedicineScreen')
+  const onItemPress = ( item: Medicine ) => {
+    navigation.navigate('MedicineScreen', { medicine: item })
   }
 
   const onItemEdit = ( item: Medicine ) => {
-    navigation.navigate('MedicineScreen')
+    navigation.navigate('NewMedicineScreen')
   }
 
   const handleSearch = ( searchValue: string ) => {

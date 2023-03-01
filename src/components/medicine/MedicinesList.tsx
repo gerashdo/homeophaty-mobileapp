@@ -10,14 +10,14 @@ import { MedicineListItem } from './MedicineListItem'
 
 interface Props {
     data: Medicine[];
-    onItemPress: ( item?: Medicine ) => void;
+    onItemPress?: ( item: Medicine ) => void;
     onItemEdit?: ( item: Medicine ) => void;
     onItemDelete?: ( item: Medicine ) => void;
 }
 
 export const MedicinesList = ({ 
     data, 
-    onItemPress, 
+    onItemPress = () => {}, 
     onItemEdit = () => {},
     onItemDelete = () => {},
 }:Props) => {
