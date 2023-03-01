@@ -4,47 +4,32 @@ import { StyleSheet, Text, View } from 'react-native'
 import  Icon  from 'react-native-vector-icons/Ionicons';
 
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
-import { MedicineType } from '../interfaces/medicine'
+import { MedicineType, Medicine } from '../interfaces/medicine';
 import { InnerMedicinesDetailsList } from '../components/medicine/InnerMedicinesDetailsList'
 import { appStyles } from '../theme/appTheme'
 import { ThemeContext } from '../context/theme/ThemeContext'
+import { SectionContainer } from '../components/SectionContainer';
+import { FabButton } from '../components/FabButton';
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineScreen'>{}
 
-export const MedicineScreen = ({ route, navigation }:Props) => {
+export const MedicineScreen = ({ route }:Props) => {
   const { medicine } = route.params
 
-  const { theme: { colors, secondary, buttonTextColor }} = useContext( ThemeContext )
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerStyle:{
-        backgroundColor: ( medicine.type === MedicineType.MEDICINE )
-        ? colors.primary : secondary,
-        borderBottomWidth: 0,
-        elevation: 0,
-        shadowOpacity: 0,
-      },
-      headerBackImage: () => <Icon size={ 30 } color={ buttonTextColor } name='chevron-back' />
-    })
-  }, [])
-  
+  const { theme: { colors }} = useContext( ThemeContext )
 
   return (
-    <View >
-        
-        <View style={[ styles.titleContainer, {
-          backgroundColor: ( medicine.type === MedicineType.MEDICINE )
-            ? colors.primary : secondary,
-        }]}>
+    <View style={{ flex: 1 }}>
+
+        <View style={[ styles.titleContainer ]}>
           <Text style={[ appStyles.title, {
-            color: buttonTextColor,
+            color: colors.text,
           }]}>{medicine.name}</Text>
           {
             medicine.type === MedicineType.MEDICINE && (
               <Text style={[ appStyles.subTitle, {
-                color: buttonTextColor,
-              }]}>{ medicine.ch }</Text>
+                color: colors.text,
+              }]}>{ medicine.ch } ch</Text>
             )
           }
         </View>
@@ -58,6 +43,22 @@ export const MedicineScreen = ({ route, navigation }:Props) => {
             )
           }
         </View>
+
+        <View style={[ appStyles.globalMargin ]}>
+          {
+            medicine.prescription?.map( (pres, index) => (
+              <SectionContainer key={ index }>
+                <Text style={[ appStyles.regularText, {
+                  color: colors.text
+                }]}>{ pres.description }</Text>
+              </SectionContainer>
+            ))
+          }
+        </View>
+
+      <FabButton 
+        iconName='add'
+      />
         
     </View>
   )
@@ -65,7 +66,7 @@ export const MedicineScreen = ({ route, navigation }:Props) => {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    height: 150,
+    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
