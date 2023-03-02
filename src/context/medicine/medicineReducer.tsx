@@ -9,7 +9,8 @@ type MedicineAction =
     }}
     | { type: 'set_error', payload: string }
     | { type: 'remove_error' }
-    | { type: 'create_medicine', payload: Medicine } 
+    | { type: 'create_medicine', payload: Medicine }
+    | { type: 'create_prescription', payload: Medicine }
 
 export interface MedicineState {
     medicines: Medicine[];
@@ -44,6 +45,13 @@ export const medicineReducer = ( state: MedicineState, action: MedicineAction ):
             return {
                 ...state,
                 medicines: [ ...state.medicines, action.payload ]
+            }
+        case 'create_prescription':
+            return {
+                ...state,
+                medicines: state.medicines.map( med => (
+                    action.payload._id === med._id ? action.payload : med
+                ))
             }
         default:
             return state

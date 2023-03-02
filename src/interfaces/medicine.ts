@@ -50,6 +50,18 @@ export interface Prescription {
     updatedAt?:   string;
 }
 
+export interface NewPrescriptionRequest {
+    description: string;
+}
+
+export interface NewPrescriptionResponse {
+    medicine: Medicine;
+}
+
+export interface Prescription {
+    _id:         string;
+    description: string;
+}
 
 export enum MedicineType {
     FORMULA = 'formula',

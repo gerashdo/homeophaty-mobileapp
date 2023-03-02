@@ -4,7 +4,7 @@ import homeophatyAPI from "../../api/homeophatyAPI";
 import { getUncertainAxiosErrorMessage } from "../../helpers/getUncertainErrorMessage";
 import { useForm } from "../../hooks/useForm";
 import { HighOrderComponent } from '../../interfaces/common';
-import { MedicinePostRequest, MedicinePostResponse, MedicinesResponse, MedicineType } from "../../interfaces/medicine";
+import { MedicinePostRequest, MedicinePostResponse, MedicinesResponse, MedicineType, NewPrescriptionRequest, NewPrescriptionResponse } from "../../interfaces/medicine";
 import { medicineReducer, MedicineState } from "./medicineReducer";
 
 interface NewMedicineState {
@@ -18,6 +18,7 @@ interface MedicineContextProps {
     chOptions: string[];
     loadMedicines: () => void;
     createMedicine: () => void;
+    createPrescription: ( medicineId: string, prescription: NewPrescriptionRequest ) => void;
 }
 
 export const MedicineContext = createContext({} as MedicineContextProps )
@@ -84,6 +85,21 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
         }
     }
 
+    const createPrescription = async( medicineId: string, prescription: NewPrescriptionRequest ) => {
+        try {
+            const { data } = await homeophatyAPI.post<NewPrescriptionResponse>(
+                `/medicine/${ medicineId }/prescriptions`, 
+                prescription 
+            )
+            dispatch({ type: 'create_prescription', payload: data.medicine })
+        } catch (error) {
+            setError( getUncertainAxiosErrorMessage( 
+                error, 
+                'No se pudo guardar la prescripción'
+            ))
+        }
+    }
+
     return (
         <MedicineContext.Provider value={{
             isLoading,
@@ -91,7 +107,8 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
             newMedicineState,
             chOptions,
             loadMedicines,
-            createMedicine
+            createMedicine,
+            createPrescription
         }}>
             { children }
         </MedicineContext.Provider>
