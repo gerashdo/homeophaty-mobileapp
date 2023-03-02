@@ -13,6 +13,7 @@ export const SectionContainer = ({ children }:HighOrderComponent) => {
                 styles.container,
                 {
                     backgroundColor: elementsBackground,
+                    marginVertical: 20,
                 }
             ]}
         >

@@ -1,21 +1,23 @@
 import React, { useContext } from 'react'
-import { Text, View } from 'react-native'
+import { StyleProp, Text, View, ViewStyle } from 'react-native'
 import { ThemeContext } from '../context/theme/ThemeContext';
 import { appStyles } from '../theme/appTheme';
 
 interface Props {
     message: string;
+    style?: StyleProp<ViewStyle>;
 }
 
-export const EmptyScreenMessage = ({ message }:Props) => {
+export const EmptyScreenMessage = ({ message, style }:Props) => {
 
     const { theme:{ softTextColor }} = useContext( ThemeContext )
 
     return (
-        <View style={{ 
+        <View style={[{ 
             flex: 1, 
-            justifyContent: 'center' 
-        }}>
+            justifyContent: 'center',
+            minHeight: 100,
+        }, style ]}>
             <Text style={[ appStyles.regularText ,{
                 textAlign: 'center',
                 color: softTextColor,

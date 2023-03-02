@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 import { MedicineType } from '../interfaces/medicine';
@@ -9,6 +9,7 @@ import { appStyles } from '../theme/appTheme'
 import { ThemeContext } from '../context/theme/ThemeContext'
 import { SectionContainer } from '../components/SectionContainer';
 import { FabButton } from '../components/FabButton';
+import { EmptyScreenMessage } from '../components/EmptyScreenMessage';
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineScreen'>{}
 
@@ -19,20 +20,22 @@ export const MedicineScreen = ({ route, navigation }:Props) => {
 
   return (
     <View 
-      style={{ flex: 1 }}>
+      style={{ flex: 1 }}
+    >
+      <View style={[ styles.titleContainer ]}>
+        <Text style={[ appStyles.title, {
+          color: colors.text,
+        }]}>{medicine.name}</Text>
+        {
+          medicine.type === MedicineType.MEDICINE && (
+            <Text style={[ appStyles.subTitle, {
+              color: colors.text,
+            }]}>{ medicine.ch } ch</Text>
+          )
+        }
+      </View>
 
-        <View style={[ styles.titleContainer ]}>
-          <Text style={[ appStyles.title, {
-            color: colors.text,
-          }]}>{medicine.name}</Text>
-          {
-            medicine.type === MedicineType.MEDICINE && (
-              <Text style={[ appStyles.subTitle, {
-                color: colors.text,
-              }]}>{ medicine.ch } ch</Text>
-            )
-          }
-        </View>
+      <ScrollView style={{ flex: 1 }}>
 
         <View style={[ appStyles.globalMargin ]}>
           {
@@ -55,6 +58,18 @@ export const MedicineScreen = ({ route, navigation }:Props) => {
             ))
           }
         </View>
+
+        {
+          medicine.prescription?.length === 0 && (
+              <EmptyScreenMessage 
+                message='Agrega prescripciones para este medicamento con el boton +'
+                style={[ appStyles.globalMargin, {
+                  flexGrow: 1,
+                }]}
+              />
+          )
+        }
+      </ScrollView>
 
       <FabButton 
         iconName='add'
