@@ -1,8 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useContext, useEffect } from 'react'
-import { FlatList, View } from 'react-native'
+import { View } from 'react-native'
 import { CustomActivityIndicator } from '../components/ActivityIndicator'
-import { MedicineListItem } from '../components/medicine/MedicineListItem'
 import { MedicinesList } from '../components/medicine/MedicinesList'
 import { SearchInput } from '../components/SearchInput'
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
@@ -21,6 +20,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
   const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
   
   const { medicines } = medicineState
+  console.log( JSON.stringify( medicines, null, 4 ))
   
   const { 
     isLoading: isLoadingSearch, 

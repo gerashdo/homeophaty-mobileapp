@@ -1,33 +1,58 @@
-import React, { useState } from 'react'
-import { ScrollView, TextInput  } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { Platform, ScrollView, TextInput  } from 'react-native'
 
 import { InputContainer } from '../InputContainer'
 import { InputLabel } from '../InputLabel'
+import { BottomPrincipalButton } from '../BottomPrincipalButton';
+import { MedicineContext } from '../../context/medicine/MedicineContext';
+import { Medicine } from '../../interfaces/medicine';
 
 interface Props {
-    value: string;
-    onValueChange: ( value: string ) => void;
+    medicine: Medicine;
+    onSubmit: () => void;
 }
 
-export const NewMedicinePrescriptionForm = ({ value, onValueChange }:Props) => {
+export const NewMedicinePrescriptionForm = ({ onSubmit, medicine }:Props) => {
+    const { createPrescription } = useContext( MedicineContext )
+    const [ inputText, setInputText ] = useState('')
+
+    const handleSubmit = async() => {
+        await createPrescription( medicine._id, {
+            description: inputText
+        })
+        onSubmit()
+    }
 
     return (
-        <ScrollView style={{ flex: 1 }}>
-            <InputLabel text='Prescripción'/>
-            <InputContainer>
-                <TextInput 
-                    multiline
-                    numberOfLines={ 30 }
+        <>
+            <ScrollView>
+                <InputLabel text='Prescripción'/>
+                <InputContainer
                     style={{
-                        textAlignVertical: 'top',
+                        marginBottom: ( Platform.OS === 'ios' ) ? 60 : 50,
                     }}
-                    value={ value }
-                    onChangeText={ onValueChange }
-                    autoFocus
-                    autoCapitalize='sentences'
-                    autoCorrect
+                >
+                    <TextInput 
+                        multiline
+                        numberOfLines={ 15 }
+                        style={{
+                            textAlignVertical: 'top',
+                        }}
+                        value={ inputText }
+                        onChangeText={ setInputText }
+                        autoFocus
+                        autoCapitalize='sentences'
+                        autoCorrect
+                        />
+                </InputContainer>
+            </ScrollView>
+                <BottomPrincipalButton 
+                    text='Guardar'
+                    style={{
+                        position: 'relative'
+                    }}
+                    onPress={ handleSubmit }
                 />
-            </InputContainer>
-        </ScrollView>
+        </>
     )
 }

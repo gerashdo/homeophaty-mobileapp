@@ -1,35 +1,22 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import { NewMedicinePrescriptionForm } from '../components/medicine/NewMedicinePrescriptionForm'
-import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
-import { ThemeContext } from '../context/theme/ThemeContext'
+import { MedicineContext } from '../context/medicine/MedicineContext'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 import { appStyles } from '../theme/appTheme'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'NewPrescriptionScreen'>{}
 
-export const NewPrescriptionScreen = ({ navigation }:Props) => {
-    const { theme:{ buttonTextColor, colors }} = useContext( ThemeContext )
-    const [ value, setValue ] = useState('')
+export const NewPrescriptionScreen = ({ navigation, route }:Props) => {
 
-    
+    const { medicine } = route.params
 
-    useEffect(() => {
-      navigation.setOptions({
-        headerRight: () => <SimpleButtonWithLogo 
-            text='Guardar'
-            color={ buttonTextColor }
-            backgroundColor={ colors.primary }
-            onPress={ () => handleSubmit }
-        />,
-      })
-    }, [])
+    const { medicineState: { errorMessage } } = useContext( MedicineContext )
 
-    const handleSubmit = () => {
-        console.log( value )
+    const handleSubmit = async() => {
+        if( !errorMessage ) navigation.goBack()
     }
-    
 
     return (
         <KeyboardAvoidingView 
@@ -40,8 +27,8 @@ export const NewPrescriptionScreen = ({ navigation }:Props) => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
             <NewMedicinePrescriptionForm 
-                value={ value }
-                onValueChange={ ( value ) => setValue( value ) }
+                medicine={ medicine }
+                onSubmit={ handleSubmit }
             />
         </KeyboardAvoidingView>
     )

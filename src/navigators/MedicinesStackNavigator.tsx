@@ -23,7 +23,7 @@ export type MedicinesRootStackParamList = {
     NewMedicineScreen: undefined,
     MedicineScreen: { medicine: Medicine },
     MedicineInnerMedsScreen: undefined,
-    NewPrescriptionScreen: undefined,
+    NewPrescriptionScreen: { medicine: Medicine },
 }
 
 const Stack = createStackNavigator<MedicinesRootStackParamList>();

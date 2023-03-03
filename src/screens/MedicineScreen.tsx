@@ -73,7 +73,9 @@ export const MedicineScreen = ({ route, navigation }:Props) => {
 
       <FabButton 
         iconName='add'
-        onPress={ () => navigation.navigate('NewPrescriptionScreen') }
+        onPress={ () => navigation.navigate( 'NewPrescriptionScreen', {
+          medicine
+        })}
       />
     </View>
     
