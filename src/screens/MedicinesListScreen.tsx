@@ -1,5 +1,6 @@
+import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { View } from 'react-native'
 import { CustomActivityIndicator } from '../components/ActivityIndicator'
 import { MedicinesList } from '../components/medicine/MedicinesList'
@@ -16,21 +17,31 @@ import { ScreenTemplate } from './ScreenTemplate'
 interface Props extends StackScreenProps<MedicinesRootStackParamList, 'MedicinesListScreen'>{}
 
 export const MedicinesListScreen = ({ navigation }:Props) => {
-  const { loadMedicines, isLoading, medicineState } = useContext( MedicineContext )
+  const { loadMedicines, setActiveMedicine , isLoading, medicineState } = useContext( MedicineContext )
   const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
-  
+
+  useEffect(() => {
+    loadMedicines()
+  }, [])
+
   const { medicines } = medicineState
-  console.log( JSON.stringify( medicines, null, 4 ))
-  
+  console.log( JSON.stringify( medicines, null, 4 ) )
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //       medicines = medicineState.medicines
+  //       console.log( JSON.stringify( medicines, null, 4 ))
+  //       console.log('rerendered')
+  //     },
+  //     [],
+  //   )
+  // )
+
   const { 
     isLoading: isLoadingSearch, 
     valuesFound, 
     search 
   } = useSearch('medicines', medicines )
-
-  useEffect(() => {
-    loadMedicines()
-  }, [])
 
   useEffect(() => {
     navigation.setOptions({
@@ -46,7 +57,8 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
   }, [])
 
   const onItemPress = ( item: Medicine ) => {
-    navigation.navigate('MedicineScreen', { medicine: item })
+    setActiveMedicine( item._id )
+    navigation.navigate('MedicineScreen')
   }
 
   const onItemEdit = ( item: Medicine ) => {

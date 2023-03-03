@@ -8,9 +8,10 @@ import { appStyles } from '../theme/appTheme'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'NewPrescriptionScreen'>{}
 
-export const NewPrescriptionScreen = ({ navigation, route }:Props) => {
+export const NewPrescriptionScreen = ({ navigation }:Props) => {
+    const { medicineState:{ activeMedicine: medicine } } = useContext( MedicineContext )
 
-    const { medicine } = route.params
+    if( !medicine ) return navigation.pop()
 
     const { medicineState: { errorMessage } } = useContext( MedicineContext )
 

@@ -18,6 +18,7 @@ interface MedicineContextProps {
     chOptions: string[];
     loadMedicines: () => void;
     createMedicine: () => void;
+    setActiveMedicine: ( medicineId: string ) => void;
     createPrescription: ( medicineId: string, prescription: NewPrescriptionRequest ) => void;
 }
 
@@ -29,6 +30,7 @@ const initialState: MedicineState = {
     totalPages: 1,
     currentPage: '1',
     errorMessage: null,
+    activeMedicine: null,
 }
 
 export const MedicineProvider = ({ children }:HighOrderComponent) => {
@@ -85,6 +87,10 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
         }
     }
 
+    const setActiveMedicine = ( medicineId: string ) => {
+        dispatch({ type: 'set_active_medicine', payload: medicineId })
+    }
+
     const createPrescription = async( medicineId: string, prescription: NewPrescriptionRequest ) => {
         try {
             const { data } = await homeophatyAPI.post<NewPrescriptionResponse>(
@@ -108,6 +114,7 @@ export const MedicineProvider = ({ children }:HighOrderComponent) => {
             chOptions,
             loadMedicines,
             createMedicine,
+            setActiveMedicine,
             createPrescription
         }}>
             { children }

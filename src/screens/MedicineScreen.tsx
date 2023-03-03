@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
@@ -10,11 +10,22 @@ import { ThemeContext } from '../context/theme/ThemeContext'
 import { SectionContainer } from '../components/SectionContainer';
 import { FabButton } from '../components/FabButton';
 import { EmptyScreenMessage } from '../components/EmptyScreenMessage';
+import { MedicineContext } from '../context/medicine/MedicineContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineScreen'>{}
 
-export const MedicineScreen = ({ route, navigation }:Props) => {
-  const { medicine } = route.params
+export const MedicineScreen = ({ navigation }:Props) => {
+  const { medicineState } = useContext( MedicineContext )
+  let medicine = medicineState.activeMedicine
+
+  useFocusEffect(
+    useCallback( () => {
+      medicine = medicineState.activeMedicine
+    }, [])
+  )
+
+  if( !medicine ) return navigation.pop()
 
   const { theme: { colors }} = useContext( ThemeContext )
 
@@ -73,9 +84,7 @@ export const MedicineScreen = ({ route, navigation }:Props) => {
 
       <FabButton 
         iconName='add'
-        onPress={ () => navigation.navigate( 'NewPrescriptionScreen', {
-          medicine
-        })}
+        onPress={ () => navigation.navigate( 'NewPrescriptionScreen' )}
       />
     </View>
     
