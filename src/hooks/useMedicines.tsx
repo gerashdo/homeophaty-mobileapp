@@ -1,12 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createMedicine, createPrescription, getMedicine, getMedicines, updateMedicine } from '../api/medicineRequests'
+import { getUncertainAxiosErrorMessage } from '../helpers/getUncertainErrorMessage'
+import { useBoundStore } from '../store/useBoundStore'
 
 
 export const useMedicines = (  ) => {
+    const { setError } = useBoundStore()
 
     const medicinesQuery = useQuery({
         queryKey: [ 'medicines' ],
-        queryFn: getMedicines
+        queryFn: getMedicines,
+        onError: ( error ) => {
+            setError( getUncertainAxiosErrorMessage( 
+                error, 
+                'No fue posible cargar los medicamentos'
+            ))
+        },
     })
 
     return {
@@ -15,10 +24,17 @@ export const useMedicines = (  ) => {
 }
 
 export const useMedicine = ( medicineId: string ) => {
+    const { setError } = useBoundStore()
 
     const medicineQuery = useQuery({
         queryKey: [ 'medicines', medicineId ],
         queryFn: () => getMedicine( medicineId ),
+        onError: ( error ) => {
+            setError( getUncertainAxiosErrorMessage( 
+                error, 
+                'No fue posible cargar el medicamento'
+            ))
+        },
     })
 
     return {
@@ -29,12 +45,19 @@ export const useMedicine = ( medicineId: string ) => {
 export const useCreateMedicine = () => {
 
     const queryClient = useQueryClient()
+    const { setError } = useBoundStore()
 
     const createMedicineMutation = useMutation({
         mutationFn: createMedicine,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [ 'medicines' ]})
-        }
+        },
+        onError: ( error ) => {
+            setError( getUncertainAxiosErrorMessage( 
+                error, 
+                'No se pudo guardar el medicamento'
+            ))
+        },
     })
 
     return {
@@ -45,6 +68,7 @@ export const useCreateMedicine = () => {
 export const useUpdateMedicine = () => {
 
     const queryClient = useQueryClient()
+    const { setError } = useBoundStore()
 
     const updateMedicineMutation = useMutation({
         mutationFn: updateMedicine,
@@ -52,7 +76,13 @@ export const useUpdateMedicine = () => {
             console.log('newData')
             console.log( JSON.stringify( data, null, 3))
             queryClient.invalidateQueries({ queryKey: [ 'medicines' ]})
-        }
+        },
+        onError: ( error ) => {
+            setError( getUncertainAxiosErrorMessage( 
+                error, 
+                'No se pudo actualizar el medicamento'
+            ))
+        },
     })
 
     return {
@@ -63,11 +93,18 @@ export const useUpdateMedicine = () => {
 export const useCreatePrescription = () => {
 
     const queryClient = useQueryClient()
+    const { setError } = useBoundStore()
 
     const createPrescriptionMutation = useMutation({
         mutationFn: createPrescription,
         onSuccess: ( data ) => {
             queryClient.invalidateQueries({ queryKey: [ 'medicines', data._id ] })
+        },
+        onError: ( error ) => {
+            setError( getUncertainAxiosErrorMessage( 
+                error, 
+                'No se pudo guardar la prescripción'
+            ))
         },
     })
 

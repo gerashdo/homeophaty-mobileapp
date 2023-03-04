@@ -38,16 +38,16 @@ export const NewMedicineScreen = ({ navigation, route }:NewMedicineScreenProps) 
     }
   }, [])
   
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     if( medicine ){
-      updateMedicineMutation.mutate({
+      await updateMedicineMutation.mutateAsync({
         medicineId: medicine._id,
         medicineData
       })
       if( !updateMedicineMutation.isError ) navigation.popToTop()
     }else{
-      createMedicineMutation.mutate( medicineData )
-      
+      await createMedicineMutation.mutateAsync( medicineData )
+      if( !createMedicineMutation.isError ) return navigation.popToTop()
     }
   }
 

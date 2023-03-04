@@ -3,8 +3,8 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Toast } from '../components/Toast';
 import { AuthContext } from '../context/auth/AuthContext';
-import { MedicineContext } from '../context/medicine/MedicineContext';
 import { HighOrderComponent } from '../interfaces/common';
+import { useBoundStore } from '../store/useBoundStore';
 
 interface Props extends HighOrderComponent {
     safeArea?: boolean,
@@ -14,10 +14,9 @@ interface Props extends HighOrderComponent {
 export const ScreenTemplate = ({ children, safeArea = false, style = {} }: Props) => {
     const { top } = useSafeAreaInsets()
     const { state } = useContext( AuthContext )
-    const { medicineState } = useContext( MedicineContext )
+    const { errorMessage: medsError } = useBoundStore()
 
     const { errorMessage: authError } = state
-    const { errorMessage: medsError } = medicineState
 
     return (
         <View style={[{
