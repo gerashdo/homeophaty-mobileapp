@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
-import { ScrollView, TextInput, View } from 'react-native'
+import { ScrollView, TextInput } from 'react-native'
 import { ThemeContext } from '../../context/theme/ThemeContext'
-import { useForm } from '../../hooks/useForm';
-import { MedicinePostRequest, MedicineType } from '../../interfaces/medicine';
+import { MedicineType } from '../../interfaces/medicine';
 import { appStyles } from '../../theme/appTheme';
 import { Button } from '../Button';
 import { InputContainer } from '../InputContainer'
@@ -16,33 +15,29 @@ import { BottomPrincipalButton } from '../BottomPrincipalButton';
 
 interface Props {
     onNavigateAddInnerMedicines?: () => void;
-    onSubmit?: ( ) => void;
+    onSubmit?: () => void;
 }
 
-export const NewMedicineForm = ({ 
+export const MedicineForm = ({
     onNavigateAddInnerMedicines = () => {},
     onSubmit = () => {},
 }:Props) => {
 
     const { theme: { 
         colors,  
-        buttonTextColor, 
-        secondary 
+        buttonTextColor,  
     }} = useContext( ThemeContext )
-    const { createMedicine, newMedicineState, chOptions } = useContext( MedicineContext )
- 
+    const { newMedicineState, chOptions } = useContext( MedicineContext )
 
     const { medicineData, onChange } = newMedicineState
-
     const { name, ch, type } = medicineData
 
     const handleOnAddInnerMedicines = () => {
-        onNavigateAddInnerMedicines()
+        onNavigateAddInnerMedicines( )
     }
 
     const handleFormSubmit = async() => {
-        await createMedicine()
-        onSubmit()
+        onSubmit( )
     }
 
     return (
@@ -102,7 +97,7 @@ export const NewMedicineForm = ({
                         <SelectSquareOptions 
                             value={ ch }
                             options={ chOptions }
-                            onValueSelected={ ( selected ) => onChange( selected as any, 'ch')}
+                            onValueSelected={ ( selected ) => onChange( selected.toString() , 'ch')}
                         />
                     </InputGroup>
                 ):(

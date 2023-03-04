@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { createMedicine, createPrescription, getMedicine, getMedicines } from '../api/medicineRequests'
-import { MedicinePostRequest } from '../interfaces/medicine'
+import { createMedicine, createPrescription, getMedicine, getMedicines, updateMedicine } from '../api/medicineRequests'
 
 
 export const useMedicines = (  ) => {
@@ -19,7 +18,7 @@ export const useMedicine = ( medicineId: string ) => {
 
     const medicineQuery = useQuery({
         queryKey: [ 'medicines', medicineId ],
-        queryFn: () => getMedicine( medicineId )
+        queryFn: () => getMedicine( medicineId ),
     })
 
     return {
@@ -40,6 +39,24 @@ export const useCreateMedicine = () => {
 
     return {
         createMedicineMutation
+    }
+}
+
+export const useUpdateMedicine = () => {
+
+    const queryClient = useQueryClient()
+
+    const updateMedicineMutation = useMutation({
+        mutationFn: updateMedicine,
+        onSuccess: ( data ) => {
+            console.log('newData')
+            console.log( JSON.stringify( data, null, 3))
+            queryClient.invalidateQueries({ queryKey: [ 'medicines' ]})
+        }
+    })
+
+    return {
+        updateMedicineMutation
     }
 }
 

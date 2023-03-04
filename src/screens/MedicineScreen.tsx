@@ -30,7 +30,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
   const { data, isLoading } = medicineQuery
   const medicine = data?.medicine
 
-  if( !medicine ) return navigation.pop()
+  if( !medicine && !isLoading ) return navigation.pop()
 
   return (
     <View 
@@ -44,12 +44,12 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
               <View style={[ styles.titleContainer ]}>
                 <Text style={[ appStyles.title, {
                   color: colors.text,
-                }]}>{medicine.name}</Text>
+                }]}>{medicine!.name}</Text>
                 {
-                  medicine.type === MedicineType.MEDICINE && (
+                  medicine!.type === MedicineType.MEDICINE && (
                     <Text style={[ appStyles.subTitle, {
                       color: colors.text,
-                    }]}>{ medicine.ch } ch</Text>
+                    }]}>{ medicine!.ch } ch</Text>
                   )
                 }
               </View>
@@ -58,9 +58,9 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
         
                 <View style={[ appStyles.globalMargin ]}>
                   {
-                    medicine.type === MedicineType.FORMULA && (
+                    medicine!.type === MedicineType.FORMULA && (
                       <>
-                        <InnerMedicinesDetailsList medicine={ medicine }/>
+                        <InnerMedicinesDetailsList medicine={ medicine || medicineParam }/>
                       </>
                     )
                   }
@@ -68,7 +68,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
         
                 <View style={[ appStyles.globalMargin ]}>
                   {
-                    medicine.prescription?.map( (pres, index) => (
+                    medicine!.prescription?.map( (pres, index) => (
                       <SectionContainer key={ index }>
                         <Text style={[ appStyles.regularText, {
                           color: colors.text
@@ -79,7 +79,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
                 </View>
         
                 {
-                  medicine.prescription?.length === 0 && (
+                  medicine!.prescription?.length === 0 && (
                       <EmptyScreenMessage 
                         message='Agrega prescripciones para este medicamento con el boton +'
                         style={[ appStyles.globalMargin, {
@@ -92,7 +92,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
         
               <FabButton 
                 iconName='add'
-                onPress={ () => navigation.navigate( 'NewPrescriptionScreen', { medicine } )}
+                onPress={ () => navigation.navigate( 'NewPrescriptionScreen', { medicine: medicine || medicineParam } )}
               />
             </>
           )
