@@ -47,11 +47,12 @@ export const SimpleButtonWithLogo = ({
                 iconName && (
                     <View style={{
                         ...styles.iconContainer,
-                        backgroundColor,
+                        backgroundColor: (backgroundColor !== 'white')
+                            ? backgroundColor : colors.primary ,
                     }}>
                         <Icon 
                             name={ iconName }
-                            size={ 25 }
+                            size={ 20 }
                             color={ (color !== 'gray' )
                                 ? color : buttonTextColor
                             }
