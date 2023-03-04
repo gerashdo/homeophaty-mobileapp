@@ -5,10 +5,13 @@ import { InitialNavigator } from './src/navigators/InitialNavigator';
 import { ThemeProvider } from './src/context/theme/ThemeContext';
 import { AuthProvider } from './src/context/auth/AuthContext';
 import { MedicineProvider } from './src/context/medicine/MedicineContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
+
+const queryClient = new QueryClient()
 
 const AppState = ({ children }: Props) => {
   return(
@@ -24,11 +27,13 @@ const AppState = ({ children }: Props) => {
 
 const App = () => {
   return (
-    <AppState>
-      <NavigationContainer>
-        <InitialNavigator />
-      </NavigationContainer>
-    </AppState>
+    <QueryClientProvider client={ queryClient }>
+      <AppState>
+        <NavigationContainer>
+          <InitialNavigator />
+        </NavigationContainer>
+      </AppState>
+    </QueryClientProvider>
   )
 }
 

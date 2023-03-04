@@ -8,6 +8,7 @@ import { MedicineScreen } from '../screens/MedicineScreen';
 import { MedicineInnerMedsScreen } from '../screens/MedicineInnerMedsScreen';
 import  Icon  from 'react-native-vector-icons/Ionicons';
 import { NewPrescriptionScreen } from '../screens/NewPrescriptionScreen';
+import { Medicine } from '../interfaces/medicine';
 
 export enum MedicinesRoutes {
     MEDICINES_LIST = "MedicinesListScreen",
@@ -19,10 +20,10 @@ export enum MedicinesRoutes {
 
 export type MedicinesRootStackParamList = {
     MedicinesListScreen: undefined,
-    NewMedicineScreen: undefined,
-    MedicineScreen: undefined,
-    MedicineInnerMedsScreen: undefined,
-    NewPrescriptionScreen: undefined,
+    NewMedicineScreen: { medicine: Medicine | null },
+    MedicineScreen: { medicine: Medicine },
+    MedicineInnerMedsScreen: { medicine: Medicine | null },
+    NewPrescriptionScreen: { medicine: Medicine },
 }
 
 const Stack = createStackNavigator<MedicinesRootStackParamList>();

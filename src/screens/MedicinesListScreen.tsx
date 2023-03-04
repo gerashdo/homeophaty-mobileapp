@@ -1,47 +1,25 @@
-import { useFocusEffect } from '@react-navigation/native'
+import React, { useContext, useEffect } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useCallback, useContext, useEffect } from 'react'
 import { View } from 'react-native'
+
 import { CustomActivityIndicator } from '../components/ActivityIndicator'
 import { MedicinesList } from '../components/medicine/MedicinesList'
 import { SearchInput } from '../components/SearchInput'
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
-import { MedicineContext } from '../context/medicine/MedicineContext'
 import { ThemeContext } from '../context/theme/ThemeContext'
 import { useSearch } from '../hooks/useSearch'
 import { Medicine } from '../interfaces/medicine'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
+import { useMedicines } from '../hooks/useMedicines'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList, 'MedicinesListScreen'>{}
 
 export const MedicinesListScreen = ({ navigation }:Props) => {
-  const { loadMedicines, setActiveMedicine , isLoading, medicineState } = useContext( MedicineContext )
+
   const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
-
-  useEffect(() => {
-    loadMedicines()
-  }, [])
-
-  const { medicines } = medicineState
-  console.log( JSON.stringify( medicines, null, 4 ) )
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //       medicines = medicineState.medicines
-  //       console.log( JSON.stringify( medicines, null, 4 ))
-  //       console.log('rerendered')
-  //     },
-  //     [],
-  //   )
-  // )
-
-  const { 
-    isLoading: isLoadingSearch, 
-    valuesFound, 
-    search 
-  } = useSearch('medicines', medicines )
+  const { medicinesQuery } = useMedicines()
 
   useEffect(() => {
     navigation.setOptions({
@@ -50,19 +28,27 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
         text='Nuevo'
         color={ buttonTextColor }
         backgroundColor={ colors.primary }
-        onPress={ () => navigation.navigate( 'NewMedicineScreen' ) }
+        onPress={ () => navigation.navigate( 'NewMedicineScreen', { medicine: null } ) }
       />,
       title: ''
     })
   }, [])
 
+  const { isLoading, data } = medicinesQuery
+  const medicines = data?.medicines || []
+
+  const { 
+    isLoading: isLoadingSearch, 
+    valuesFound, 
+    search 
+  } = useSearch('medicines', medicines )
+
   const onItemPress = ( item: Medicine ) => {
-    setActiveMedicine( item._id )
-    navigation.navigate('MedicineScreen')
+    navigation.navigate('MedicineScreen', { medicine: item })
   }
 
   const onItemEdit = ( item: Medicine ) => {
-    navigation.navigate('NewMedicineScreen')
+    navigation.navigate('NewMedicineScreen', { medicine: item } )
   }
 
   const handleSearch = ( searchValue: string ) => {
