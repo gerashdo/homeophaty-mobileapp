@@ -8,6 +8,7 @@ import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigat
 import { MedicineContext } from '../context/medicine/MedicineContext';
 import { MedicineType } from '../interfaces/medicine'
 import { useCreateMedicine, useUpdateMedicine } from '../hooks/useMedicines'
+import { useMedicineNewEdit } from '../hooks/useMedicineNewEdit'
 
 export interface NewMedicineScreenProps extends StackScreenProps<MedicinesRootStackParamList,'NewMedicineScreen'>{}
 
@@ -16,14 +17,12 @@ export const NewMedicineScreen = ({ navigation, route }:NewMedicineScreenProps) 
   const { medicine } = route.params
 
   const { 
-    medicineState: { errorMessage }, 
-    newMedicineState,
+    setNewMedicineFormValues, 
     resetNewMedicineFormValues,
-    setNewMedicineFormValues,
-  } = useContext( MedicineContext )
-  const { medicineData } = newMedicineState
-  const { createMedicineMutation } = useCreateMedicine()
-  const { updateMedicineMutation } = useUpdateMedicine()
+    submit,
+    isErrorCreate,
+    isErrorUpdate
+  } = useMedicineNewEdit({ medicine })
 
   useEffect(() => {
     if( medicine ){
@@ -37,20 +36,12 @@ export const NewMedicineScreen = ({ navigation, route }:NewMedicineScreenProps) 
       resetNewMedicineFormValues()
     }
   }, [])
-  
-  const handleSubmit = async() => {
-    if( medicine ){
-      await updateMedicineMutation.mutateAsync({
-        medicineId: medicine._id,
-        medicineData
-      })
-      if( !updateMedicineMutation.isError ) navigation.pop()
-    }else{
-      await createMedicineMutation.mutateAsync( medicineData )
-      if( !createMedicineMutation.isError ) navigation.pop()
-    }
-  }
 
+  const handleSubmit = async() => {
+    await submit()
+    if( !isErrorCreate && !isErrorUpdate ) navigation.pop()
+  }
+  
   return (
     <ScreenTemplate
       style={{

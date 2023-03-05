@@ -7,7 +7,6 @@ import { FabButton } from '../components/FabButton'
 import { BasicMedicineListItem } from '../components/medicine/BasicMedicineListItem'
 import { SwapListHiddenButton } from '../components/SwapListHiddenButton'
 import { SwapListHiddenItems } from '../components/SwapListHiddenItems'
-import { MedicineContext } from '../context/medicine/MedicineContext'
 import { ThemeContext } from '../context/theme/ThemeContext'
 import { Medicine } from '../interfaces/medicine'
 import { ScreenTemplate } from './ScreenTemplate'
@@ -18,23 +17,19 @@ import { appStyles } from '../theme/appTheme';
 import { BottomPrincipalButton } from '../components/BottomPrincipalButton'
 import { StackScreenProps } from '@react-navigation/stack'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
+import { useMedicineNewEdit } from '../hooks/useMedicineNewEdit'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineInnerMedsScreen'>{}
 
-export const MedicineInnerMedsScreen = ({ navigation }:Props) => {
+export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
     const { height, width } = useWindowDimensions()
+    const { medicine } = route.params
 
     const { theme: { danger }} = useContext( ThemeContext )
-    const { newMedicineState, createMedicine, medicineState } = useContext( MedicineContext )
-    const { errorMessage } = medicineState
-    const { medicineData: { medicines }, onChange } = newMedicineState
-    const [ isModalOpen, setIsModalOpen ] = useState( false )
+    const { onChange, medicines, submit, isErrorCreate, isErrorUpdate } = useMedicineNewEdit({ medicine })
 
-    const handleDelete = ( medicine: Medicine, rowMap: RowMap<Medicine>) => {
-        onChange( medicines.filter( med => (
-            medicine._id !== med._id
-        )), 'medicines' )
-    }
+    // Bottom sheet
+    const [ isModalOpen, setIsModalOpen ] = useState( false )
 
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     const snapPoints = useMemo(() => [ '30%', '65%', '90%' ], []);
@@ -49,9 +44,19 @@ export const MedicineInnerMedsScreen = ({ navigation }:Props) => {
         setIsModalOpen( false )
     }, [])
 
+    // Form
+    const handleDelete = ( medicine: Medicine, rowMap: RowMap<Medicine>) => {
+        onChange( medicines.filter( med => (
+            medicine._id !== med._id
+        )), 'medicines' )
+    }
+
     const handleSubmitForm = async() => {
-        await createMedicine()
-        if( !errorMessage ) navigation.popToTop()
+        await submit()
+        if( !isErrorCreate && !isErrorUpdate ){
+            if( medicine ) return navigation.navigate('MedicineScreen', { medicine })
+            navigation.popToTop()
+        }
     }
 
     return (
