@@ -15,6 +15,7 @@ interface MedicineState {
 interface MedicineActions {
     setError: ( error: string ) => void;
     setActiveMedicine: ( medicineId: string ) => void;
+    setMedicines: ( medicines: Medicine[] ) => void;
 }
 
 export const useBoundStore = create<MedicineState & MedicineActions >(( set, get ) => ({
@@ -34,6 +35,12 @@ export const useBoundStore = create<MedicineState & MedicineActions >(( set, get
     setActiveMedicine: ( medicineId: string ) => {
         set(( state ) => ({ 
             activeMedicine: state.medicines.filter( med => med._id === medicineId )[0] || null
+        }))
+    },
+    setMedicines: ( medicines: Medicine[] ) => {
+        set(( state ) => ({
+            ...state,
+            medicines
         }))
     }
 }))

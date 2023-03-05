@@ -5,11 +5,14 @@ import { useBoundStore } from '../store/useBoundStore'
 
 
 export const useMedicines = (  ) => {
-    const { setError } = useBoundStore()
+    const { setError, setMedicines } = useBoundStore()
 
     const medicinesQuery = useQuery({
         queryKey: [ 'medicines' ],
         queryFn: getMedicines,
+        onSuccess: ( data ) => {
+            setMedicines( data.medicines )
+        },
         onError: ( error ) => {
             setError( getUncertainAxiosErrorMessage( 
                 error, 
@@ -50,7 +53,9 @@ export const useCreateMedicine = () => {
     const createMedicineMutation = useMutation({
         mutationFn: createMedicine,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ 'medicines' ]})
+            queryClient.invalidateQueries({ 
+                queryKey: [ 'medicines' ],
+            })
         },
         onError: ( error ) => {
             setError( getUncertainAxiosErrorMessage( 

@@ -23,7 +23,10 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
   const { theme: { colors }} = useContext( ThemeContext )
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <SimpleButtonWithLogo iconName='pencil' text='Editar' />
+      headerRight: () => <SimpleButtonWithLogo 
+        iconName='pencil' text='Editar' 
+        onPress={ () => navigation.navigate( 'NewMedicineScreen', { medicine: medicineParam }) }
+      />
     })
   }, [])
 

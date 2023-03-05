@@ -44,10 +44,10 @@ export const NewMedicineScreen = ({ navigation, route }:NewMedicineScreenProps) 
         medicineId: medicine._id,
         medicineData
       })
-      if( !updateMedicineMutation.isError ) navigation.popToTop()
+      if( !updateMedicineMutation.isError ) navigation.pop()
     }else{
       await createMedicineMutation.mutateAsync( medicineData )
-      if( !createMedicineMutation.isError ) return navigation.popToTop()
+      if( !createMedicineMutation.isError ) navigation.pop()
     }
   }
 

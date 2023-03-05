@@ -13,6 +13,7 @@ import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigat
 import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
 import { useMedicines } from '../hooks/useMedicines'
+import { useBoundStore } from '../store/useBoundStore';
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList, 'MedicinesListScreen'>{}
 
@@ -20,6 +21,10 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
 
   const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
   const { medicinesQuery } = useMedicines()
+
+  if( medicinesQuery.isLoading ) return <CustomActivityIndicator />
+  
+  const { medicines } = useBoundStore()
 
   useEffect(() => {
     navigation.setOptions({
@@ -33,10 +38,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
       title: ''
     })
   }, [])
-
-  const { isLoading, data } = medicinesQuery
-  const medicines = data?.medicines || []
-
+  
   const { 
     isLoading: isLoadingSearch, 
     valuesFound, 
@@ -63,7 +65,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
       }}
     >
       {
-        isLoading
+        medicinesQuery.isLoading
           ? ( <CustomActivityIndicator /> )
           : (
             <View style={{ flex: 1, }}>
@@ -78,7 +80,8 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                   ? ( <CustomActivityIndicator />  )
                   : ( 
                     <MedicinesList 
-                      data={ valuesFound.length > 0 ? valuesFound : medicines } 
+                      // data={ valuesFound.length > 0 ? valuesFound : medicines } 
+                      data={ medicines } 
                       onItemPress={ onItemPress }
                       onItemEdit={ onItemEdit }
                     />
