@@ -21,10 +21,12 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
 
   const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
   const { medicinesQuery } = useMedicines()
-
-  if( medicinesQuery.isLoading ) return <CustomActivityIndicator />
-  
   const { medicines } = useBoundStore()
+  const { 
+    isLoading: isLoadingSearch, 
+    valuesFound, 
+    search 
+  } = useSearch('medicines', medicines )
 
   useEffect(() => {
     navigation.setOptions({
@@ -39,12 +41,9 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     })
   }, [])
   
-  const { 
-    isLoading: isLoadingSearch, 
-    valuesFound, 
-    search 
-  } = useSearch('medicines', medicines )
 
+  if( medicinesQuery.isLoading ) return <CustomActivityIndicator />
+  
   const onItemPress = ( item: Medicine ) => {
     navigation.navigate('MedicineScreen', { medicine: item })
   }
