@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { getUncertainAxiosErrorMessage } from '../helpers/getUncertainErrorMessage';
-import { Medicine  } from '../interfaces/medicine';
+import { Medicine, MedicinesResponse  } from '../interfaces/medicine';
 
 interface MedicineState {
     medicines: Medicine[];
@@ -15,7 +15,8 @@ interface MedicineState {
 interface MedicineActions {
     setError: ( error: string ) => void;
     setActiveMedicine: ( medicineId: string ) => void;
-    setMedicines: ( medicines: Medicine[] ) => void;
+    setMedicines: ( medicines: Medicine[] ) => void; // not being used
+    setInitialMedicinesInformation: ( info: MedicinesResponse ) => void;
 }
 
 export const useBoundStore = create<MedicineState & MedicineActions >(( set, get ) => ({
@@ -42,5 +43,16 @@ export const useBoundStore = create<MedicineState & MedicineActions >(( set, get
             ...state,
             medicines
         }))
+    },
+    setInitialMedicinesInformation: ({ medicines, totalMedicines, page, totalPages }) => {
+        set(( state ) => ({
+            ...state,
+            medicines,
+            totalMedicines,
+            totalPages,
+            currentPage: page,
+            errorMessage: null,
+        }))
     }
+
 }))

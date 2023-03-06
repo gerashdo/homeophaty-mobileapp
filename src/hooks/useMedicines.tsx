@@ -5,13 +5,13 @@ import { useBoundStore } from '../store/useBoundStore'
 
 
 export const useMedicines = (  ) => {
-    const { setError, setMedicines } = useBoundStore()
+    const { setError, setInitialMedicinesInformation } = useBoundStore()
 
     const medicinesQuery = useQuery({
         queryKey: [ 'medicines' ],
         queryFn: getMedicines,
         onSuccess: ( data ) => {
-            setMedicines( data.medicines )
+            setInitialMedicinesInformation( data )
         },
         onError: ( error ) => {
             setError( getUncertainAxiosErrorMessage( 
