@@ -34,7 +34,7 @@ export const SearchInput = ({ onSearch, textColor }:Props) => {
             <TextInput
                 style={{
                     ...appStyles.regularText,
-                    width: '100%',
+                    flexGrow: 1,
                 }} 
                 placeholder='Abrotanum 30'
                 autoCapitalize='words'

@@ -44,7 +44,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     }else{
       setMedicines( medicinesStore )
     }
-  }, [ searchQuery.isLoading ])
+  }, [ medicinesStore, searchTermn, searchQuery.data ])
   
   if( medicinesQuery.isLoading ) return <CustomActivityIndicator />
   
