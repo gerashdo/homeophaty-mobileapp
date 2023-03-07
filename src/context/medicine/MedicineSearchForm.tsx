@@ -26,7 +26,7 @@ export const MedicineSearchForm = () => {
       }else{
         setMedicinesToSelect( medicines )
       }
-    }, [ searchQuery.isLoading ])
+    }, [ medicines, searchTermn, searchQuery.data ])
 
     
     const { onChange, medicineData } = newMedicineState

@@ -5,13 +5,15 @@ import { getUncertainAxiosErrorMessage } from "../helpers/getUncertainErrorMessa
 import { ResultSearchAllowedTypes, SearchResponse } from "../interfaces/common";
 
 
-export const useSearch = <T extends keyof ResultSearchAllowedTypes,>( 
+export const useSearch2 = <T extends keyof ResultSearchAllowedTypes,>( 
     collection: T, 
     initialArray: ResultSearchAllowedTypes[T], 
 ) => {
     const [ isLoading, setIsLoading ] = useState( false )
     const [ valuesFound, setValuesFound ] = useState<ResultSearchAllowedTypes[T]>( initialArray )
     const [error, setError] = useState('')
+
+    
 
     const search = async( termn: string ) => {
         if ( termn.length === 0 ) return setValuesFound( initialArray )
