@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { getUncertainAxiosErrorMessage } from '../helpers/getUncertainErrorMessage';
 import { Medicine, MedicinesResponse  } from '../interfaces/medicine';
 
 interface MedicineState {
@@ -9,7 +8,6 @@ interface MedicineState {
     currentPage: string;
     totalMedicines: number;
     activeMedicine: Medicine | null;
-    isLoading: boolean;
 }
 
 interface MedicineActions {
@@ -26,7 +24,6 @@ export const useBoundStore = create<MedicineState & MedicineActions >(( set, get
     currentPage: '1',
     errorMessage: null,
     activeMedicine: null,
-    isLoading: false,
     setError: ( error: string ) => {
         set({ errorMessage: error })
         setTimeout(() => {
