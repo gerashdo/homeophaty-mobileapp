@@ -1,27 +1,34 @@
-import React, { useContext } from 'react'
-import { Text, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react'
+import { View } from 'react-native';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { SearchInput } from '../../components/SearchInput';
 import { MedicineSimpleCard } from '../../components/medicine/MedicineSimpleCard';
 import { ThemeContext } from '../theme/ThemeContext';
 import { appStyles } from '../../theme/appTheme';
-import { useSearch } from '../../hooks/useSearch';
 import { MedicineContext } from './MedicineContext';
 import { Medicine } from '../../interfaces/medicine';
 import { CustomActivityIndicator } from '../../components/ActivityIndicator';
+import { useSearch } from '../../hooks/useMedicines';
+import { useBoundStore } from '../../store/useBoundStore';
 
 
 export const MedicineSearchForm = () => {
-    const { newMedicineState, medicineState:{ medicines } } = useContext( MedicineContext )
     const { theme:{ colors }} = useContext( ThemeContext )
+    const { newMedicineState } = useContext( MedicineContext )
+    const { medicines } = useBoundStore()
+    const [ medicinesToSelect, setMedicinesToSelect ] = useState( medicines )
+    const [ searchTermn, setSearchTermn ] = useState<string>('')
+    const { searchQuery } = useSearch( searchTermn, 'medicines' )
 
-    const {
-        error, 
-        valuesFound: medicinesToSelect, 
-        search, 
-        isLoading
-    } = useSearch( 'medicines', medicines )
+    useEffect(() => {
+      if( searchTermn ){
+        setMedicinesToSelect( searchQuery.data?.result || [] )
+      }else{
+        setMedicinesToSelect( medicines )
+      }
+    }, [ searchQuery.isLoading ])
 
+    
     const { onChange, medicineData } = newMedicineState
     const { medicines:innerMedicines } = medicineData
 
@@ -38,11 +45,11 @@ export const MedicineSearchForm = () => {
             flex: 1,
         }]}>
             <SearchInput 
-                onSearch={( value )=> search( value )} 
+                onSearch={( value ) => setSearchTermn( value ) } 
                 textColor='black' 
             />
             {
-                isLoading 
+                searchQuery.isLoading && searchTermn
                     ? ( <CustomActivityIndicator /> )
                     : (
                         <BottomSheetScrollView

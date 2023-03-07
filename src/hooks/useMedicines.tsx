@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { search } from '../api/generalRequests'
 import { createMedicine, createPrescription, getMedicine, getMedicines, updateMedicine } from '../api/medicineRequests'
 import { getUncertainAxiosErrorMessage } from '../helpers/getUncertainErrorMessage'
+import { ResultSearchAllowedTypes } from '../interfaces/common'
 import { useBoundStore } from '../store/useBoundStore'
 
 
@@ -92,6 +94,27 @@ export const useUpdateMedicine = () => {
 
     return {
         updateMedicineMutation
+    }
+}
+
+export const useSearch = <T extends keyof ResultSearchAllowedTypes,>( termn: string, collection: T ) => {
+    
+    const { setError } = useBoundStore()
+
+    const searchQuery = useQuery({
+        queryKey: [ 'search', termn ],
+        queryFn: () => search( termn, collection ),
+        onError: ( error ) => {
+            setError( getUncertainAxiosErrorMessage( 
+                error, 
+                'No se pudo realizar la búsqueda'
+            ))
+        }, 
+        enabled: !!termn
+    })
+
+    return {
+        searchQuery
     }
 }
 
