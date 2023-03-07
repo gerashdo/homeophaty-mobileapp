@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
 import { View } from 'react-native'
 
@@ -11,19 +11,16 @@ import { Medicine } from '../interfaces/medicine'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
-import { useMedicines, useSearch } from '../hooks/useMedicines'
-import { useBoundStore } from '../store/useBoundStore';
+import { useMedicinesSearch } from '../hooks/useMedicinesSearch'
+import { useMedicines } from '../hooks/useMedicines'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList, 'MedicinesListScreen'>{}
 
 export const MedicinesListScreen = ({ navigation }:Props) => {
 
   const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
-  const [ searchTermn, setSearchTermn ] = useState('')
-  const { searchQuery } = useSearch( searchTermn, 'medicines' )
+  // First load the medicines list to be setted in the store
   const { medicinesQuery } = useMedicines()
-  const { medicines: medicinesStore } = useBoundStore()
-  const [ medicines, setMedicines ] = useState<Medicine[]>( medicinesStore )
 
   useEffect(() => {
     navigation.setOptions({
@@ -38,14 +35,8 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     })
   }, [])
 
-  useEffect(() => {
-    if( searchTermn ){
-      setMedicines( searchQuery.data?.result || [] )
-    }else{
-      setMedicines( medicinesStore )
-    }
-  }, [ medicinesStore, searchTermn, searchQuery.data ])
-  
+  const { setSearchTermn, isLoading, searchTermn, medicines } = useMedicinesSearch()
+
   if( medicinesQuery.isLoading ) return <CustomActivityIndicator />
   
   const onItemPress = ( item: Medicine ) => {
@@ -56,7 +47,6 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     navigation.navigate('NewMedicineScreen', { medicine: item } )
   }
   
-
   return (
     <ScreenTemplate>
       {
@@ -71,7 +61,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                 />
               </View>
               {
-                searchQuery.isLoading && searchTermn
+                isLoading && searchTermn
                   ? ( <CustomActivityIndicator />  )
                   : ( 
                     <MedicinesList

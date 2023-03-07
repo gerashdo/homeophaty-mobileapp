@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { View } from 'react-native';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { SearchInput } from '../../components/SearchInput';
@@ -8,26 +8,14 @@ import { appStyles } from '../../theme/appTheme';
 import { MedicineContext } from './MedicineContext';
 import { Medicine } from '../../interfaces/medicine';
 import { CustomActivityIndicator } from '../../components/ActivityIndicator';
-import { useSearch } from '../../hooks/useMedicines';
-import { useBoundStore } from '../../store/useBoundStore';
+import { useMedicinesSearch } from '../../hooks/useMedicinesSearch';
 
 
 export const MedicineSearchForm = () => {
+
     const { theme:{ colors }} = useContext( ThemeContext )
     const { newMedicineState } = useContext( MedicineContext )
-    const { medicines } = useBoundStore()
-    const [ medicinesToSelect, setMedicinesToSelect ] = useState( medicines )
-    const [ searchTermn, setSearchTermn ] = useState<string>('')
-    const { searchQuery } = useSearch( searchTermn, 'medicines' )
-
-    useEffect(() => {
-      if( searchTermn ){
-        setMedicinesToSelect( searchQuery.data?.result || [] )
-      }else{
-        setMedicinesToSelect( medicines )
-      }
-    }, [ medicines, searchTermn, searchQuery.data ])
-
+    const { medicines, isLoading, searchTermn, setSearchTermn } = useMedicinesSearch()
     
     const { onChange, medicineData } = newMedicineState
     const { medicines:innerMedicines } = medicineData
@@ -49,7 +37,7 @@ export const MedicineSearchForm = () => {
                 textColor='black' 
             />
             {
-                searchQuery.isLoading && searchTermn
+                isLoading && searchTermn
                     ? ( <CustomActivityIndicator /> )
                     : (
                         <BottomSheetScrollView
@@ -63,7 +51,7 @@ export const MedicineSearchForm = () => {
                                 marginVertical: 20, 
                             }}>
                             {
-                                medicinesToSelect.map( medicine => (
+                                medicines.map( medicine => (
                                     <MedicineSimpleCard 
                                         key={ medicine._id } 
                                         medicine={ medicine }
