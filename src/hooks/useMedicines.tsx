@@ -80,8 +80,6 @@ export const useUpdateMedicine = () => {
     const updateMedicineMutation = useMutation({
         mutationFn: updateMedicine,
         onSuccess: ( data ) => {
-            console.log('newData')
-            console.log( JSON.stringify( data, null, 3))
             queryClient.invalidateQueries({ queryKey: [ 'medicines' ]})
         },
         onError: ( error ) => {
