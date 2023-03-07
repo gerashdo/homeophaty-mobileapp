@@ -13,18 +13,19 @@ type CreatePrescription = {
 
 export const getMedicines = async() => {
     const { data } = await homeophatyAPI.get<MedicinesResponse>('/medicine')
-    console.log('loadedMedicines')
+    
     return data
 }
 
 export const getMedicine = async( medicineId: string ) => {
     const { data } = await homeophatyAPI.get<MedicineResponse>(`/medicine/${ medicineId }`)
-    console.log( 'gotMedicine' )
+    
     return data
 }
 
 export const createMedicine = async( medicineData: MedicinePostRequest ): Promise<MedicinePostResponse> => {
     const { data } = await homeophatyAPI.post<MedicinePostResponse>('/medicine', medicineData )
+
     return data
 }
 
@@ -33,6 +34,7 @@ export const updateMedicine = async({ medicineId, medicineData }:UpdateMedicine)
         `/medicine/${ medicineId }`, 
         medicineData 
     )
+    
     return data
 }
 
