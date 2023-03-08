@@ -24,7 +24,7 @@ const initialState: MedicineState = {
 }
 
 export const MedicineProvider = ({ children }:HighOrderComponent) => {
-    const chOptions = [ "6", "30", "200", "100" ]
+    const chOptions = [ "6", "30", "200", "1000" ]
 
     const [ medicineState, dispatch ] = useReducer( medicineReducer, initialState )
     const { onChange, form: medicineData, resetValues, setFormValues } = useForm<MedicinePostRequest>({
