@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
-import {  MedicineType } from '../interfaces/medicine';
+import { MedicineType } from '../interfaces/medicine';
 import { InnerMedicinesDetailsList } from '../components/medicine/InnerMedicinesDetailsList'
 import { appStyles } from '../theme/appTheme'
 import { ThemeContext } from '../context/theme/ThemeContext'
@@ -13,6 +13,7 @@ import { EmptyScreenMessage } from '../components/EmptyScreenMessage';
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo';
 import { useMedicine } from '../hooks/useMedicines';
 import { CustomActivityIndicator } from '../components/ActivityIndicator';
+import { SimpleIconButton } from '../components/buttons/SimpleIconButton';
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineScreen'>{}
 
@@ -75,7 +76,16 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
                 <View style={[ appStyles.globalMargin ]}>
                   {
                     medicine!.prescription?.map( (pres, index) => (
-                      <SectionContainer key={ index }>
+                      <SectionContainer 
+                        key={ index }
+                        style={{ paddingTop: 10 }}
+                      >
+                        <View  style={{ flexDirection: 'row-reverse' }} >
+                          <SimpleIconButton 
+                            iconName='ellipsis-horizontal'
+                            iconColor={ colors.text }
+                          />
+                        </View>
                         <Text style={[ appStyles.regularText, {
                           color: colors.text
                         }]}>{ pres.description }</Text>

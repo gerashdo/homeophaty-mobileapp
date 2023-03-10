@@ -1,9 +1,13 @@
 import React, { useContext } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { ThemeContext } from '../context/theme/ThemeContext'
 import { HighOrderComponent } from '../interfaces/common'
 
-export const SectionContainer = ({ children }:HighOrderComponent) => {
+interface Props extends HighOrderComponent {
+    style?: StyleProp<ViewStyle>;
+}
+
+export const SectionContainer = ({ children, style }:Props) => {
 
     const { theme:{ elementsBackground }} = useContext( ThemeContext )
 
@@ -14,7 +18,8 @@ export const SectionContainer = ({ children }:HighOrderComponent) => {
                 {
                     backgroundColor: elementsBackground,
                     marginVertical: 10,
-                }
+                },
+                style
             ]}
         >
             { children }
