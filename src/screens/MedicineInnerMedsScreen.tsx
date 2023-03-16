@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useRef, useState } from 'react'
+import React, { useContext } from 'react'
 import { BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
 import { TouchableOpacity, View, useWindowDimensions } from 'react-native'
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view'
@@ -10,14 +10,14 @@ import { SwapListHiddenItems } from '../components/SwapListHiddenItems'
 import { ThemeContext } from '../context/theme/ThemeContext'
 import { Medicine } from '../interfaces/medicine'
 import { ScreenTemplate } from './ScreenTemplate'
-import { MedicineSearchForm } from '../context/medicine/MedicineSearchForm'
-import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
 import { EmptyScreenMessage } from '../components/EmptyScreenMessage'
 import { appStyles } from '../theme/appTheme';
 import { BottomPrincipalButton } from '../components/BottomPrincipalButton'
 import { StackScreenProps } from '@react-navigation/stack'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 import { useMedicineNewEdit } from '../hooks/useMedicineNewEdit'
+import { useCustomBottomSheetModal } from '../hooks/useCustomBottomSheetModal'
+import { AddInnerMedsModalContent } from '../components/medicine/AddInnerMedsModalContent'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineInnerMedsScreen'>{}
 
@@ -26,23 +26,22 @@ export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
     const { medicine } = route.params
 
     const { theme: { danger }} = useContext( ThemeContext )
-    const { onChange, medicines, submit, isErrorCreate, isErrorUpdate } = useMedicineNewEdit({ medicine })
+    const { 
+        medicines, 
+        isErrorCreate, 
+        isErrorUpdate,
+        onChange, 
+        submit, 
+    } = useMedicineNewEdit({ medicine })
 
     // Bottom sheet
-    const [ isModalOpen, setIsModalOpen ] = useState( false )
-
-    const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const snapPoints = useMemo(() => [ '30%', '65%', '90%' ], []);
-
-    const handlePresentModalPress = useCallback(() => {
-        bottomSheetModalRef.current?.present();
-        setIsModalOpen( true )
-    }, []);
-
-    const handleCloseModal = useCallback( () => {
-        bottomSheetModalRef.current?.close()
-        setIsModalOpen( false )
-    }, [])
+    const { 
+        isModalOpen,
+        snapPoints,
+        bottomSheetModalRef,
+        handleCloseModal, 
+        handlePresentModalPress,
+    } = useCustomBottomSheetModal([ '30%', '65%', '90%' ])
 
     // Form
     const handleDelete = ( medicine: Medicine, rowMap: RowMap<Medicine>) => {
@@ -151,21 +150,9 @@ export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
                     backgroundStyle={{ borderRadius: 30,}}
                     onDismiss={ handleCloseModal }
                 >
-                <View style={{ flex: 1, }}>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}>
-                        <View />
-                        <SimpleButtonWithLogo 
-                            text='Listo'
-                            onPress={ handleCloseModal }
-                        />
-                    </View>
-                    <View style={{ marginTop: 10, flex: 1 }}>
-                        <MedicineSearchForm />
-                    </View>
-                </View>
+                    <AddInnerMedsModalContent 
+                        onCloseModal={ handleCloseModal }
+                    />
                 </BottomSheetModal>
 
             </ScreenTemplate>

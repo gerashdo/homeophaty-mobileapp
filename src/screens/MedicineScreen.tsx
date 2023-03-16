@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
 import { View } from 'react-native'
 
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
-import { ThemeContext } from '../context/theme/ThemeContext'
 import { FabButton } from '../components/FabButton';
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo';
 import { useMedicine } from '../hooks/useMedicines';
@@ -17,7 +16,6 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
   const { medicine: medicineParam } = route.params
 
   const { medicineQuery } = useMedicine( medicineParam._id )
-  // const { theme: { colors }} = useContext( ThemeContext )
 
   useEffect(() => {
     navigation.setOptions({
