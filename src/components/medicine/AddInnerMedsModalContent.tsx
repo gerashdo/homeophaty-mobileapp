@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { MedicineSearchForm } from '../../context/medicine/MedicineSearchForm'
+import { MedicineSearchForm } from './MedicineSearchForm'
 import { SimpleButtonWithLogo } from '../SimpleButtonWithLogo'
 
 interface Props {

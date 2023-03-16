@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { View } from 'react-native';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
-import { SearchInput } from '../../components/SearchInput';
-import { MedicineSimpleCard } from '../../components/medicine/MedicineSimpleCard';
-import { ThemeContext } from '../theme/ThemeContext';
+import { SearchInput } from '../SearchInput';
+import { MedicineSimpleCard } from './MedicineSimpleCard';
+import { ThemeContext } from '../../context/theme/ThemeContext';
 import { appStyles } from '../../theme/appTheme';
-import { MedicineContext } from './MedicineContext';
+import { MedicineContext } from '../../context/medicine/MedicineContext';
 import { Medicine } from '../../interfaces/medicine';
-import { CustomActivityIndicator } from '../../components/ActivityIndicator';
+import { CustomActivityIndicator } from '../ActivityIndicator';
 import { useMedicinesSearch } from '../../hooks/useMedicinesSearch';
 
 
