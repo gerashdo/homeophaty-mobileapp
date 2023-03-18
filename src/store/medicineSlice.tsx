@@ -1,5 +1,6 @@
 import { StateCreator } from "zustand";
 import { Medicine, MedicinesResponse } from "../interfaces/medicine";
+import { UiSlice } from "./uiSlice";
 
 export interface MedicineSlice {
     medicines: Medicine[];
@@ -15,7 +16,7 @@ export interface MedicineSlice {
 }
 
 export const createMedicineSlice: StateCreator<
-    MedicineSlice,
+    MedicineSlice & UiSlice,
     [],
     [],
     MedicineSlice
