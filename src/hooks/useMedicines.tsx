@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+
 import { search } from '../api/generalRequests'
 import { createMedicine, createPrescription, getMedicine, getMedicines, updateMedicine } from '../api/medicineRequests'
 import { getUncertainAxiosErrorMessage } from '../helpers/getUncertainErrorMessage'
@@ -7,7 +8,8 @@ import { useBoundStore } from '../store/useBoundStore'
 
 
 export const useMedicines = (  ) => {
-    const { setError, setInitialMedicinesInformation } = useBoundStore()
+    const setError = useBoundStore(( state ) => state.setError )
+    const setInitialMedicinesInformation = useBoundStore(( state ) => state.setInitialMedicinesInformation )
 
     const medicinesQuery = useQuery({
         queryKey: [ 'medicines' ],
@@ -29,7 +31,7 @@ export const useMedicines = (  ) => {
 }
 
 export const useMedicine = ( medicineId: string ) => {
-    const { setError } = useBoundStore()
+    const setError = useBoundStore(( state ) => state.setError )
 
     const medicineQuery = useQuery({
         queryKey: [ 'medicines', medicineId ],
@@ -50,7 +52,7 @@ export const useMedicine = ( medicineId: string ) => {
 export const useCreateMedicine = () => {
 
     const queryClient = useQueryClient()
-    const { setError } = useBoundStore()
+    const setError = useBoundStore(( state ) => state.setError )
 
     const createMedicineMutation = useMutation({
         mutationFn: createMedicine,
@@ -75,7 +77,7 @@ export const useCreateMedicine = () => {
 export const useUpdateMedicine = () => {
 
     const queryClient = useQueryClient()
-    const { setError } = useBoundStore()
+    const setError = useBoundStore(( state ) => state.setError )
 
     const updateMedicineMutation = useMutation({
         mutationFn: updateMedicine,
@@ -97,7 +99,7 @@ export const useUpdateMedicine = () => {
 
 export const useSearch = <T extends keyof ResultSearchAllowedTypes,>( termn: string, collection: T ) => {
     
-    const { setError } = useBoundStore()
+    const setError = useBoundStore(( state ) => state.setError )
 
     const searchQuery = useQuery({
         queryKey: [ 'search', termn ],
@@ -119,7 +121,7 @@ export const useSearch = <T extends keyof ResultSearchAllowedTypes,>( termn: str
 export const useCreatePrescription = () => {
 
     const queryClient = useQueryClient()
-    const { setError } = useBoundStore()
+    const setError = useBoundStore(( state ) => state.setError )
 
     const createPrescriptionMutation = useMutation({
         mutationFn: createPrescription,
