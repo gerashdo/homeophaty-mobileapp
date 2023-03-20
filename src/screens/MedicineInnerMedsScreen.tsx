@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
 import { TouchableOpacity, View, useWindowDimensions } from 'react-native'
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view'
@@ -19,11 +19,12 @@ import { useMedicineNewEdit } from '../hooks/useMedicineNewEdit'
 import { useCustomBottomSheetModal } from '../hooks/useCustomBottomSheetModal'
 import { AddInnerMedsModalContent } from '../components/medicine/AddInnerMedsModalContent'
 import { OverLayerScreenButton } from '../components/OverLayerScreenButton'
+import { useIsFocused } from '@react-navigation/native'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineInnerMedsScreen'>{}
 
 export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
-    const { height, width } = useWindowDimensions()
+    const { width } = useWindowDimensions()
     const { medicine } = route.params
 
     const { theme: { danger }} = useContext( ThemeContext )
@@ -43,6 +44,12 @@ export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
         handleCloseModal, 
         handlePresentModalPress,
     } = useCustomBottomSheetModal([ '30%', '65%', '90%' ])
+
+    const isScreenFocused = useIsFocused()
+    useEffect(() => {
+      if( isScreenFocused ) return 
+      handleCloseModal()
+    }, [ isScreenFocused ])
 
     // Form
     const handleDelete = ( medicine: Medicine, rowMap: RowMap<Medicine>) => {
