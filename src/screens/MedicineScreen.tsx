@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View, Modal, Text } from 'react-native'
+import { View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
@@ -15,18 +15,15 @@ import { Button } from '../components/Button'
 import { ThemeContext } from '../context/theme/ThemeContext'
 import { useIsFocused } from '@react-navigation/native'
 import { OverLayerScreenButton } from '../components/OverLayerScreenButton'
-import { useWindowDimensions } from 'react-native'
-import { appStyles } from '../theme/appTheme';
+import { AlertModal } from '../components/AlertModal'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineScreen'>{}
 
 export const MedicineScreen = ({ navigation, route }:Props) => {
   const { medicine: medicineParam } = route.params
 
-  const { width, height } = useWindowDimensions()
-
   const isScreenFocused = useIsFocused()
-  const { theme: { danger, colors }} = useContext( ThemeContext )
+  const { theme: { danger }} = useContext( ThemeContext )
   const { medicineQuery } = useMedicine( medicineParam._id )
   const { 
     snapPoints, 
@@ -90,46 +87,14 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
           onPress={ () => navigation.navigate( 'NewPrescriptionScreen', { medicine: medicine || medicineParam } )}
         />  
 
-        <Modal
+        <AlertModal 
+          message='Deseas eliminar la prescripción?'
+          acceptMessage='Si, eliminar la prescripción'
           visible={ modalVisible }
-          animationType='fade'
-          transparent={ true }
-        >
-          <View style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            <View style={[{
-              backgroundColor: colors.background,
-              borderRadius: 20,
-              gap: 25,
-              paddingVertical: 20,
-              paddingHorizontal: 25,
-              width: width - 30,
-            }]}>
-              <>
-                <Text style={[ appStyles.subTitle, {
-                  color: colors.text,
-                  textAlign: 'center',
-                }]}>Deseas eliminar la prescripción?</Text>
-              </>
-              <View style={{ gap: 15 }}>
-                <Button 
-                  text='Si, eliminar prescripción' 
-                  onPress={ () => setModalVisible( false )}
-                  style={{
-                    backgroundColor: danger,
-                  }}
-                />
-                <Button 
-                  text='No, cancelar' 
-                  onPress={ () => setModalVisible( false )}
-                />
-              </View>
-            </View>
-          </View>
-        </Modal>
+          acceptColor={ danger }
+          onCancel={ () => setModalVisible( false ) }
+          onAccept={ () => console.log( 'eliminado' )}
+        />
       </View>
 
       <BottomSheetModal
