@@ -23,7 +23,6 @@ export const usePrescription = () => {
         },
         onError: ( error ) => {
             setError( getUncertainAxiosErrorMessage( error, 'No fue posible eliminar la prescripción' ))
-            console.log(errorMessage)
         }
     })
 
