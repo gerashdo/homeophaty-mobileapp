@@ -85,7 +85,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
       medicineId: medicine._id 
     })
 
-    if( deletePresctiptionMutation.isSuccess ) {
+    if( !deletePresctiptionMutation.isError ) {
       unsetActivePrescription()
       setModalVisible( false )
     }
