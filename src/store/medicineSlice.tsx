@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { Medicine, MedicinesResponse } from "../interfaces/medicine";
+import { Medicine, MedicinesResponse, Prescription } from "../interfaces/medicine";
 import { UiSlice } from "./uiSlice";
 
 export interface MedicineSlice {
@@ -9,10 +9,13 @@ export interface MedicineSlice {
     currentPage: string;
     totalMedicines: number;
     activeMedicine: Medicine | null;
+    activePrescription: Prescription | null;
     setError: ( error: string ) => void;
     setActiveMedicine: ( medicineId: string ) => void;
     setMedicines: ( medicines: Medicine[] ) => void; // not being used
     setInitialMedicinesInformation: ( info: MedicinesResponse ) => void;
+    setActivePrescription: ( prescription: Prescription ) => void;
+    unsetActivePrescription: () => void;
 }
 
 export const createMedicineSlice: StateCreator<
@@ -27,13 +30,14 @@ export const createMedicineSlice: StateCreator<
     currentPage: '1',
     errorMessage: null,
     activeMedicine: null,
+    activePrescription: null,
     setError: ( error: string ) => {
         set({ errorMessage: error })
         setTimeout(() => {
             set({ errorMessage: null })
         }, 8000);
     },
-    setActiveMedicine: ( medicineId: string ) => {
+    setActiveMedicine: ( medicineId: string ) => { // is it being used?
         set(( state ) => ({ 
             activeMedicine: state.medicines.filter( med => med._id === medicineId )[0] || null
         }))
@@ -58,5 +62,11 @@ export const createMedicineSlice: StateCreator<
             currentPage: page,
             errorMessage: null,
         }))
-    }
+    },
+    setActivePrescription: ( prescription: Prescription ) => {
+        set({ activePrescription: prescription })
+    },
+    unsetActivePrescription: () => {
+        set({ activePrescription: null })
+    },
 })

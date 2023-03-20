@@ -9,12 +9,16 @@ import { SimpleIconButton } from '../buttons/SimpleIconButton'
 
 interface Props {
     prescription: Prescription;
+    onOptionsPress: ( prescription: Prescription ) => void;
 }
 
-export const MedicinePrescription = ({ prescription }:Props) => {
+export const MedicinePrescription = ({ prescription, onOptionsPress }:Props) => {
 
     const { theme: { colors }} = useContext( ThemeContext )
-    const openModal = useBoundStore(( state ) => state.openModal )
+
+    const handlePress = () => {
+        onOptionsPress( prescription )
+    }
 
     return (
         <>
@@ -22,7 +26,7 @@ export const MedicinePrescription = ({ prescription }:Props) => {
                 <SimpleIconButton 
                     iconName='ellipsis-horizontal'
                     iconColor={ colors.text }
-                    onPress={ openModal }
+                    onPress={ handlePress }
                 />
             </View>
 

@@ -16,6 +16,8 @@ import { ThemeContext } from '../context/theme/ThemeContext'
 import { useIsFocused } from '@react-navigation/native'
 import { OverLayerScreenButton } from '../components/OverLayerScreenButton'
 import { AlertModal } from '../components/AlertModal'
+import { usePrescription } from '../hooks/usePrescriptions'
+import { useBoundStore } from '../store/useBoundStore'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineScreen'>{}
 
@@ -33,6 +35,9 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
     handleCloseModal,
   } = useCustomBottomSheetModal([ '35%' ])
   const [ modalVisible, setModalVisible ] = useState( false )
+  const { deletePresctiptionMutation } = usePrescription()
+  const activePrescription = useBoundStore(( state ) => state.activePrescription )
+  const unsetActivePrescription = useBoundStore(( state ) => state.unsetActivePrescription )
 
   useEffect(() => {
     navigation.setOptions({
@@ -67,6 +72,25 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
 
   const medicine = medicineQuery.data.medicine
 
+  const handleCancelDelete = () => {
+    setModalVisible( false )
+    unsetActivePrescription()
+  }
+
+  const handleDeletePrescription = async() => {
+    if( !activePrescription ) return 
+
+    await deletePresctiptionMutation.mutateAsync({ 
+      prescriptionId: activePrescription._id, 
+      medicineId: medicine._id 
+    })
+
+    if( deletePresctiptionMutation.isSuccess ) {
+      unsetActivePrescription()
+      setModalVisible( false )
+    }
+  }
+
   return (
     <BottomSheetModalProvider>
       <View style={{ flex: 1 }} >
@@ -84,7 +108,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
           style={{ 
             zIndex: ( isModalOpen ) ? 400 : 999,
           }}
-          onPress={ () => navigation.navigate( 'NewPrescriptionScreen', { medicine: medicine || medicineParam } )}
+          onPress={ () => navigation.navigate( 'NewPrescriptionScreen', { medicine } )}
         />  
 
         <AlertModal 
@@ -92,8 +116,8 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
           acceptMessage='Si, eliminar la prescripción'
           visible={ modalVisible }
           acceptColor={ danger }
-          onCancel={ () => setModalVisible( false ) }
-          onAccept={ () => console.log( 'eliminado' )}
+          onCancel={ handleCancelDelete }
+          onAccept={ handleDeletePrescription }
         />
       </View>
 
