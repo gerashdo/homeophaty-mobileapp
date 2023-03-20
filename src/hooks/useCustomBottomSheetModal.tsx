@@ -1,22 +1,25 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import { useBoundStore } from "../store/useBoundStore";
 
 
 export const useCustomBottomSheetModal = ( snapPointsList: string[] ) => {
 
-    const [ isModalOpen, setIsModalOpen ] = useState( false )
+    const isModalOpen = useBoundStore(( state ) => state.isModalOpen )
+    const openModal = useBoundStore(( state ) => state.openModal )
+    const closeModal = useBoundStore(( state ) => state.closeModal )
 
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     const snapPoints = useMemo(() => snapPointsList, []);
 
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
-        setIsModalOpen( true )
+        openModal()
     }, []);
 
     const handleCloseModal = useCallback( () => {
         bottomSheetModalRef.current?.close()
-        setIsModalOpen( false )
+        closeModal()
     }, [])
 
     return {
