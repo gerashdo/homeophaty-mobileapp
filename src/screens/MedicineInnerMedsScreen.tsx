@@ -18,6 +18,7 @@ import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigat
 import { useMedicineNewEdit } from '../hooks/useMedicineNewEdit'
 import { useCustomBottomSheetModal } from '../hooks/useCustomBottomSheetModal'
 import { AddInnerMedsModalContent } from '../components/medicine/AddInnerMedsModalContent'
+import { OverLayerScreenButton } from '../components/OverLayerScreenButton'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineInnerMedsScreen'>{}
 
@@ -64,17 +65,7 @@ export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
                 <>
                     {
                         isModalOpen && (
-                            <TouchableOpacity
-                                style={{
-                                    backgroundColor: 'rgba(0,0,0,0.1)',
-                                    zIndex: 999,
-                                    position: 'absolute',
-                                    height,
-                                    width,
-                                }}
-                                activeOpacity={ 1 }
-                                onPress={ handleCloseModal }
-                            ></TouchableOpacity>
+                            <OverLayerScreenButton onPress={ handleCloseModal }/>
                         )
                     }
                 </>

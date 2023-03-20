@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
@@ -14,6 +14,7 @@ import { useCustomBottomSheetModal } from '../hooks/useCustomBottomSheetModal'
 import { Button } from '../components/Button'
 import { ThemeContext } from '../context/theme/ThemeContext'
 import { useIsFocused } from '@react-navigation/native'
+import { OverLayerScreenButton } from '../components/OverLayerScreenButton'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineScreen'>{}
 
@@ -65,51 +66,57 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
   const medicine = medicineQuery.data.medicine
 
   return (
-    <View style={{ flex: 1 }} >
-      <BottomSheetModalProvider>
+    <BottomSheetModalProvider>
+      <View style={{ flex: 1 }} >
+        <>
+          {
+            isModalOpen && ( <OverLayerScreenButton onPress={ handleCloseModal } />)
+          }
+        </>
+
         <MedicineDetailsHeader medicine={ medicine } />
         <MedicineDetails medicine={ medicine } />
-
-        <BottomSheetModal
-          ref={ bottomSheetModalRef }
-          snapPoints={ snapPoints }
-          index={ 0 }
-          onDismiss={ handleCloseModal }
-        >
-          <View style={{
-            flex: 1,
-            gap: 20,
-            justifyContent: 'center',
-            marginHorizontal: 30,
-          }}>
-            <Button 
-              text='Editar prescripción'
-              onPress={ () => navigation.navigate( 'NewPrescriptionScreen', { medicine } ) }
-            />
-            <Button 
-              text='Eliminar prescripción'
-              style={{
-                backgroundColor: danger
-              }}
-            />
-            <Button 
-              text='Cancelar'
-              onPress={ handleCloseModal }
-            />
-          </View>
-        </BottomSheetModal>
 
         <FabButton 
           iconName='add'
           style={{ 
-            zIndex: ( isModalOpen ) ? 666 : 999,
-            bottom: ( isModalOpen ) ? 300 : 50, 
+            zIndex: ( isModalOpen ) ? 400 : 999,
           }}
           onPress={ () => navigation.navigate( 'NewPrescriptionScreen', { medicine: medicine || medicineParam } )}
         />  
 
-      </BottomSheetModalProvider>
-    </View>
+      </View>
+
+      <BottomSheetModal
+        ref={ bottomSheetModalRef }
+        snapPoints={ snapPoints }
+        index={ 0 }
+        onDismiss={ handleCloseModal }
+      >
+        <View style={{
+          flex: 1,
+          gap: 20,
+          justifyContent: 'center',
+          marginHorizontal: 30,
+        }}>
+          <Button 
+            text='Editar prescripción'
+            onPress={ () => navigation.navigate( 'NewPrescriptionScreen', { medicine } ) }
+          />
+          <Button 
+            text='Eliminar prescripción'
+            style={{
+              backgroundColor: danger
+            }}
+          />
+          <Button 
+            text='Cancelar'
+            onPress={ handleCloseModal }
+          />
+        </View>
+      </BottomSheetModal>
+
+    </BottomSheetModalProvider>
   )
 }
 
