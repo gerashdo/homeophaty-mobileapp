@@ -4,16 +4,16 @@ import { Platform, ScrollView, TextInput  } from 'react-native'
 import { InputContainer } from '../InputContainer'
 import { InputLabel } from '../InputLabel'
 import { BottomPrincipalButton } from '../BottomPrincipalButton';
-import { Medicine, NewPrescriptionRequest } from '../../interfaces/medicine';
+import { NewPrescriptionRequest } from '../../interfaces/medicine';
 
 interface Props {
-    medicine: Medicine;
     onSubmit: ( prescriptionData: NewPrescriptionRequest ) => void;
+    initialtext?: string;
 }
 
-export const NewMedicinePrescriptionForm = ({ onSubmit, medicine }:Props) => {
+export const NewMedicinePrescriptionForm = ({ onSubmit, initialtext }:Props) => {
     
-    const [ inputText, setInputText ] = useState('')
+    const [ inputText, setInputText ] = useState( initialtext || '' )
 
     const handleSubmit = () => {
         onSubmit({ description: inputText })
