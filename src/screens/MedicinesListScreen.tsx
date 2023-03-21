@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
 import { View } from 'react-native'
 
@@ -13,14 +13,18 @@ import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
 import { useMedicinesSearch } from '../hooks/useMedicinesSearch'
 import { useMedicines } from '../hooks/useMedicines'
+import { AlertModal } from '../components/AlertModal'
+import { OverLayerScreenButton } from '../components/OverLayerScreenButton'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList, 'MedicinesListScreen'>{}
 
 export const MedicinesListScreen = ({ navigation }:Props) => {
 
-  const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
+  const { theme: { colors, buttonTextColor, danger } } = useContext( ThemeContext )
   // First load the medicines list to be setted in the store
   const { medicinesQuery } = useMedicines()
+  const [ modalVisible, setModalVisible ] = useState( false )
+  const [ medicineToDelete, setMedicineToDelete ] = useState<Medicine | null >( null )
 
   useEffect(() => {
     navigation.setOptions({
@@ -46,6 +50,21 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
   const onItemEdit = ( item: Medicine ) => {
     navigation.navigate('NewMedicineScreen', { medicine: item } )
   }
+
+  const onItemDelete = ( medicine: Medicine ) => {
+    setMedicineToDelete( medicine )
+    setModalVisible( true )
+  }
+
+  const onCancelDelete = () => {
+    setModalVisible( false )
+    setMedicineToDelete( null )
+  }
+
+  const handleDeleteMedicine = () => {
+    console.log({ delete: medicineToDelete })
+    onCancelDelete()
+  }
   
   return (
     <ScreenTemplate>
@@ -53,25 +72,41 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
         medicinesQuery.isLoading
           ? ( <CustomActivityIndicator /> )
           : (
-            <View style={{ flex: 1, }}>
-              <View style={ appStyles.globalMargin }>
-                <SearchInput 
-                  onSearch={ ( value ) => setSearchTermn( value ) }
-                  textColor={ colors.text }
+            <>
+              <>
+                {
+                  modalVisible && ( <OverLayerScreenButton onPress={ onCancelDelete } /> )
+                }
+              </>
+              <View style={{ flex: 1, }}>
+                <View style={ appStyles.globalMargin }>
+                  <SearchInput 
+                    onSearch={ ( value ) => setSearchTermn( value ) }
+                    textColor={ colors.text }
+                  />
+                </View>
+                {
+                  isLoading && searchTermn
+                    ? ( <CustomActivityIndicator />  )
+                    : ( 
+                      <MedicinesList
+                        data={ medicines } 
+                        onItemPress={ onItemPress }
+                        onItemEdit={ onItemEdit }
+                        onItemDelete={ onItemDelete }
+                      />
+                    )
+                }
+                <AlertModal 
+                  visible={ modalVisible }
+                  message='Estas seguro de eliminar este medicamento?'
+                  acceptMessage='Si, eliminar medicamento'
+                  acceptColor={ danger }
+                  onCancel={ onCancelDelete }
+                  onAccept={ handleDeleteMedicine }
                 />
               </View>
-              {
-                isLoading && searchTermn
-                  ? ( <CustomActivityIndicator />  )
-                  : ( 
-                    <MedicinesList
-                      data={ medicines } 
-                      onItemPress={ onItemPress }
-                      onItemEdit={ onItemEdit }
-                    />
-                  )
-              }
-            </View>
+            </>
           )
       }
     </ScreenTemplate>
