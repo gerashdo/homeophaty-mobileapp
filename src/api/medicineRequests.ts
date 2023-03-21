@@ -38,6 +38,12 @@ export const updateMedicine = async({ medicineId, medicineData }:UpdateMedicine)
     return data
 }
 
+export const deleteMedicine = async( medicineId: string ) => {
+    const { data } = await homeophatyAPI.delete<MedicinePostResponse>(`/medicine/${ medicineId }`)
+
+    return data
+}
+
 export const createPrescription = async({ medicineId, prescription }:CreatePrescription) => {
     const { data } = await homeophatyAPI.post<NewPrescriptionResponse>(
         `/medicine/${ medicineId }/prescriptions`, 

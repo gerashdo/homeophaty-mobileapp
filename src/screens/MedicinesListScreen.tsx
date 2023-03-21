@@ -12,7 +12,7 @@ import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigat
 import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
 import { useMedicinesSearch } from '../hooks/useMedicinesSearch'
-import { useMedicines } from '../hooks/useMedicines'
+import { useDeleteMedicine, useMedicines } from '../hooks/useMedicines'
 import { AlertModal } from '../components/AlertModal'
 import { OverLayerScreenButton } from '../components/OverLayerScreenButton'
 
@@ -23,6 +23,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
   const { theme: { colors, buttonTextColor, danger } } = useContext( ThemeContext )
   // First load the medicines list to be setted in the store
   const { medicinesQuery } = useMedicines()
+  const { deleteMedicineMutation } = useDeleteMedicine()
   const [ modalVisible, setModalVisible ] = useState( false )
   const [ medicineToDelete, setMedicineToDelete ] = useState<Medicine | null >( null )
 
@@ -61,8 +62,9 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     setMedicineToDelete( null )
   }
 
-  const handleDeleteMedicine = () => {
-    console.log({ delete: medicineToDelete })
+  const handleDeleteMedicine = async() => {
+    if( !medicineToDelete ) return 
+    await deleteMedicineMutation.mutateAsync( medicineToDelete._id )
     onCancelDelete()
   }
   
