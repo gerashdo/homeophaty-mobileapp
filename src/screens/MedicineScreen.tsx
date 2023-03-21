@@ -37,6 +37,8 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
   const [ modalVisible, setModalVisible ] = useState( false )
   const { deletePresctiptionMutation } = usePrescription()
   const activePrescription = useBoundStore(( state ) => state.activePrescription )
+
+  // TODO: Too many times unsetActivePrescription is used
   const unsetActivePrescription = useBoundStore(( state ) => state.unsetActivePrescription )
 
   useEffect(() => {
@@ -53,7 +55,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
   }, [])
 
   useEffect( () => {
-    if( isScreenFocused ) return 
+    if( isScreenFocused ) return unsetActivePrescription()
     handleCloseModal()
   }, [ isScreenFocused ])
 
@@ -61,7 +63,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
     if( !isModalOpen ) return 
     handlePresentModalPress()
   },[ isModalOpen ] )
-
+  
   if( medicineQuery.isLoading ) return (
     <View style={{ flex: 1 }}>
       <CustomActivityIndicator />
@@ -149,7 +151,10 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
           />
           <Button 
             text='Cancelar'
-            onPress={ handleCloseModal }
+            onPress={ () => { 
+              handleCloseModal()
+              unsetActivePrescription()
+            }}
           />
         </View>
       </BottomSheetModal>
