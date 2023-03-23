@@ -30,8 +30,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
   const { 
     snapPoints, 
     bottomSheetModalRef, 
-    isModalOpen, 
-    handlePresentModalPress,
+    isModalOpen,
     handleCloseModal,
   } = useCustomBottomSheetModal([ '35%' ])
   const [ modalVisible, setModalVisible ] = useState( false )
@@ -61,13 +60,6 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
     if( isScreenFocused ) return unsetActivePrescription()
     handleCloseModal()
   }, [ isScreenFocused ])
-
-  // Always verify if the modal state is open or close
-  // to avoid open it if in a diffrent screen the isModalOpen is used
-  useEffect( () => {
-    if( !isModalOpen ) return handleCloseModal()
-    handlePresentModalPress()
-  },[ isModalOpen ] )
   
   if( medicineQuery.isLoading ) return (
     <View style={{ flex: 1 }}>
