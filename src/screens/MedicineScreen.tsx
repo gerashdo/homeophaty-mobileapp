@@ -54,13 +54,18 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
     }
   }, [])
 
+  // Clean active prescription when the screen is focused
+  // to avoid bugs in other places where active prescription is used
+  // Close modal when navegate to another screen
   useEffect( () => {
     if( isScreenFocused ) return unsetActivePrescription()
     handleCloseModal()
   }, [ isScreenFocused ])
 
+  // Always verify if the modal state is open or close
+  // to avoid open it if in a diffrent screen the isModalOpen is used
   useEffect( () => {
-    if( !isModalOpen ) return 
+    if( !isModalOpen ) return handleCloseModal()
     handlePresentModalPress()
   },[ isModalOpen ] )
   
