@@ -4,6 +4,7 @@ import { RowMap, SwipeListView } from 'react-native-swipe-list-view'
 
 import { ThemeContext } from '../../context/theme/ThemeContext'
 import { Medicine } from '../../interfaces/medicine'
+import { CustomActivityIndicator } from '../ActivityIndicator'
 import { SwapListHiddenButton } from '../SwapListHiddenButton'
 import { SwapListHiddenItems } from '../SwapListHiddenItems'
 import { MedicineListItem } from './MedicineListItem'
@@ -14,14 +15,16 @@ interface Props {
     onItemEdit?: ( item: Medicine ) => void;
     onItemDelete?: ( item: Medicine ) => void;
     onEndReached?: () => void;
+    isLoading?: boolean;
 }
 
-export const MedicinesList = ({ 
+export const MedicinesInfinityList = ({ 
     data, 
     onItemPress = () => {}, 
     onItemEdit = () => {},
     onItemDelete = () => {},
     onEndReached,
+    isLoading = false,
 }:Props) => {
 
     const { theme:{ secondary, danger }} = useContext( ThemeContext )
@@ -62,6 +65,7 @@ export const MedicinesList = ({
                     </View>
                 </SwapListHiddenItems>
             )}
+            ListFooterComponent={ () => isLoading ? <CustomActivityIndicator /> : <View style={{ marginBottom: 30 }}/> }
             rightOpenValue={-155}
             disableRightSwipe
             onEndReachedThreshold={ 0.3 }

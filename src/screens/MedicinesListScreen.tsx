@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import { View } from 'react-native'
 
 import { CustomActivityIndicator } from '../components/ActivityIndicator'
-import { MedicinesList } from '../components/medicine/MedicinesList'
+import { MedicinesInfinityList } from '../components/medicine/MedicinesInfinityList'
 import { SearchInput } from '../components/SearchInput'
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo'
 import { ThemeContext } from '../context/theme/ThemeContext'
@@ -96,12 +96,13 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                   isLoading && searchTermn
                     ? ( <CustomActivityIndicator />  )
                     : ( 
-                      <MedicinesList
+                      <MedicinesInfinityList
                         data={ medicines } 
                         onItemPress={ onItemPress }
                         onItemEdit={ onItemEdit }
                         onItemDelete={ onItemDelete }
                         onEndReached={ handleLoadNextMedicinesPage }
+                        isLoading={ medicinesQuery.isFetchingNextPage }
                       />
                     )
                 }
