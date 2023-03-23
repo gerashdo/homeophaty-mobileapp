@@ -11,8 +11,8 @@ type CreatePrescription = {
     prescription: NewPrescriptionRequest
 }
 
-export const getMedicines = async() => {
-    const { data } = await homeophatyAPI.get<MedicinesResponse>('/medicine')
+export const getMedicines = async( page: number ) => {
+    const { data } = await homeophatyAPI.get<MedicinesResponse>(`/medicine?page=${ page }`)
     
     return data
 }

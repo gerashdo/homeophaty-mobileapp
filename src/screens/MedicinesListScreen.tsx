@@ -67,6 +67,11 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     await deleteMedicineMutation.mutateAsync( medicineToDelete._id )
     onCancelDelete()
   }
+
+  const handleLoadNextMedicinesPage = () => {
+    if( !medicinesQuery.hasNextPage ) return
+    medicinesQuery.fetchNextPage()
+  }
   
   return (
     <ScreenTemplate>
@@ -96,6 +101,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                         onItemPress={ onItemPress }
                         onItemEdit={ onItemEdit }
                         onItemDelete={ onItemDelete }
+                        onEndReached={ handleLoadNextMedicinesPage }
                       />
                     )
                 }

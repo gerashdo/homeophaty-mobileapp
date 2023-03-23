@@ -13,6 +13,7 @@ interface Props {
     onItemPress?: ( item: Medicine ) => void;
     onItemEdit?: ( item: Medicine ) => void;
     onItemDelete?: ( item: Medicine ) => void;
+    onEndReached?: () => void;
 }
 
 export const MedicinesList = ({ 
@@ -20,6 +21,7 @@ export const MedicinesList = ({
     onItemPress = () => {}, 
     onItemEdit = () => {},
     onItemDelete = () => {},
+    onEndReached,
 }:Props) => {
 
     const { theme:{ secondary, danger }} = useContext( ThemeContext )
@@ -62,6 +64,8 @@ export const MedicinesList = ({
             )}
             rightOpenValue={-155}
             disableRightSwipe
+            onEndReachedThreshold={ 0.3 }
+            onEndReached={ onEndReached }
         />
     )
 }
