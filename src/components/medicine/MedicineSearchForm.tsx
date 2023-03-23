@@ -21,7 +21,8 @@ export const MedicineSearchForm = () => {
     const { medicines:innerMedicines } = medicineData
 
     const handleAddMedicine = ( medicine: Medicine ) => {
-        if( innerMedicines.includes( medicine )) return
+        const isFound = innerMedicines.some( med => med._id === medicine._id )
+        if( isFound ) return
 
         onChange([ medicine, ...innerMedicines ], 'medicines')
     }
