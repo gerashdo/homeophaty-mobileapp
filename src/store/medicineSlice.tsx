@@ -14,7 +14,6 @@ export interface MedicineSlice {
     setActiveMedicine: ( medicineId: string ) => void;
     setMedicines: ( medicines: Medicine[] ) => void; // not being used
     setInitialMedicinesInformation: ( info: MedicinesResponse ) => void;
-    appendListOfMedicines: ( medicines: Medicine[] ) => void;
     setActivePrescription: ( prescription: Prescription ) => void;
     unsetActivePrescription: () => void;
 }
@@ -47,12 +46,6 @@ export const createMedicineSlice: StateCreator<
         set(( state ) => ({
             ...state,
             medicines
-        }))
-    },
-    appendListOfMedicines: ( medicines: Medicine[] ) => {
-        set(( state ) => ({
-            ...state,
-            medicines: [ ...state.medicines, ...medicines ]
         }))
     },
     setInitialMedicinesInformation: ({ 

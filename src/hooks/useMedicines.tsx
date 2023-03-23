@@ -17,7 +17,7 @@ import { useBoundStore } from '../store/useBoundStore'
 export const useMedicines = () => {
     const setError = useBoundStore(( state ) => state.setError )
     const setInitialMedicinesInformation = useBoundStore(( state ) => state.setInitialMedicinesInformation )
-    const appendListOfMedicines = useBoundStore(( state ) => state.appendListOfMedicines )
+    const setMedicines = useBoundStore(( state ) => state.setMedicines )
 
     const medicinesQuery = useInfiniteQuery({
         queryKey: [ 'medicines' ],
@@ -29,7 +29,7 @@ export const useMedicines = () => {
             if( data.pages.length === 1 ){
                 setInitialMedicinesInformation( data.pages[0] )
             }else{
-                appendListOfMedicines( data.pages[ data.pages.length -1 ].medicines )
+                setMedicines( data.pages.flatMap( page => page.medicines ) )
             }
         },
         onError: ( error ) => {
