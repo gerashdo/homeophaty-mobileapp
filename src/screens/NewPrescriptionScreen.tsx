@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
 import { KeyboardAvoidingView, Platform } from 'react-native'
+
 import { NewMedicinePrescriptionForm } from '../components/medicine/NewMedicinePrescriptionForm'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
 import { appStyles } from '../theme/appTheme'
@@ -18,7 +19,9 @@ export const NewPrescriptionScreen = ({ navigation, route }:Props) => {
     const { createPrescriptionMutation } = useCreatePrescription()
     const { updatePrescriptionMutation } = usePrescription()
 
-    if( !medicine ) return navigation.pop()
+    useEffect(() => {
+      if( !medicine ) navigation.pop()
+    }, [ medicine ])
 
     const handleSubmit = async( prescriptionData: NewPrescriptionRequest ) => {
         if( !activePrescription ){

@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
-import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
+import { MedicinesRootStackParamList, MedicinesRoutes } from '../navigators/MedicinesStackNavigator'
 import { FabButton } from '../components/FabButton';
 import { SimpleButtonWithLogo } from '../components/SimpleButtonWithLogo';
 import { useMedicine } from '../hooks/useMedicines';
@@ -19,7 +19,8 @@ import { AlertModal } from '../components/AlertModal'
 import { usePrescription } from '../hooks/usePrescriptions'
 import { useBoundStore } from '../store/useBoundStore'
 
-interface Props extends StackScreenProps<MedicinesRootStackParamList,'MedicineScreen'>{}
+
+export interface Props extends StackScreenProps<MedicinesRootStackParamList,MedicinesRoutes.MEDICINE_DETAILS>{}
 
 export const MedicineScreen = ({ navigation, route }:Props) => {
   const { medicine: medicineParam } = route.params
@@ -60,6 +61,10 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
     if( isScreenFocused ) return unsetActivePrescription()
     handleCloseModal()
   }, [ isScreenFocused ])
+
+  useEffect(() => {
+    if( medicineQuery.isError ) return navigation.goBack()
+  }, [ medicineQuery.isError ])
   
   if( medicineQuery.isLoading ) return (
     <View style={{ flex: 1 }}>
@@ -67,7 +72,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
     </View>
   )
   
-  if( medicineQuery.isError ) return navigation.pop()
+  if( medicineQuery.isError ) return ( <View style={{ flex: 1 }} /> )
 
   const medicine = medicineQuery.data.medicine
 
