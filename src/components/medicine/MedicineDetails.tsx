@@ -5,6 +5,7 @@ import { Medicine, MedicineType, Prescription } from '../../interfaces/medicine'
 import { useBoundStore } from '../../store/useBoundStore'
 import { appStyles } from '../../theme/appTheme'
 import { EmptyScreenMessage } from '../EmptyScreenMessage'
+import { ListFooterSpace } from '../ListFooterSpace'
 import { SectionContainer } from '../SectionContainer'
 import { InnerMedicinesDetailsList } from './InnerMedicinesDetailsList'
 import { MedicinePrescription } from './MedicinePrescription'
@@ -53,6 +54,12 @@ export const MedicineDetails = ({ medicine }:Props) => {
                 ))
             }
             </View>
+
+            {
+                medicine.prescription && medicine.prescription.length > 0 && (
+                    <ListFooterSpace />
+                )
+            }
     
             {
                 medicine.prescription?.length === 0 && (
