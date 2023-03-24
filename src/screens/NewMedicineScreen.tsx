@@ -1,13 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
 
 import { MedicineForm } from '../components/medicine/MedicineForm'
 import { appStyles } from '../theme/appTheme'
 import { ScreenTemplate } from './ScreenTemplate'
 import { MedicinesRootStackParamList } from '../navigators/MedicinesStackNavigator'
-import { MedicineContext } from '../context/medicine/MedicineContext';
 import { MedicineType } from '../interfaces/medicine'
-import { useCreateMedicine, useUpdateMedicine } from '../hooks/useMedicines'
 import { useMedicineNewEdit } from '../hooks/useMedicineNewEdit'
 
 export interface NewMedicineScreenProps extends StackScreenProps<MedicinesRootStackParamList,'NewMedicineScreen'>{}
@@ -20,8 +18,6 @@ export const NewMedicineScreen = ({ navigation, route }:NewMedicineScreenProps) 
     setNewMedicineFormValues, 
     resetNewMedicineFormValues,
     submit,
-    isErrorCreate,
-    isErrorUpdate
   } = useMedicineNewEdit({ medicine })
 
   useEffect(() => {
@@ -38,8 +34,8 @@ export const NewMedicineScreen = ({ navigation, route }:NewMedicineScreenProps) 
   }, [])
 
   const handleSubmit = async() => {
-    await submit()
-    if( !isErrorCreate && !isErrorUpdate ) navigation.pop()
+    const result = await submit()
+    if( result ) navigation.pop()
   }
   
   return (

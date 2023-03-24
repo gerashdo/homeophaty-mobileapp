@@ -29,9 +29,7 @@ export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
 
     const { theme: { danger }} = useContext( ThemeContext )
     const { 
-        medicines, 
-        isErrorCreate, 
-        isErrorUpdate,
+        medicines,
         onChange, 
         submit, 
     } = useMedicineNewEdit({ medicine })
@@ -59,8 +57,8 @@ export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
     }
 
     const handleSubmitForm = async() => {
-        await submit()
-        if( !isErrorCreate && !isErrorUpdate ){
+        const result = await submit()
+        if( result ){
             if( medicine ) return navigation.navigate('MedicineScreen', { medicine })
             navigation.popToTop()
         }

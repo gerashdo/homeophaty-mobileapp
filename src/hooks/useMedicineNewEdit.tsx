@@ -20,17 +20,19 @@ export const useMedicineNewEdit = ({ medicine = null }:Props) => {
     const { createMedicineMutation } = useCreateMedicine()
     const { updateMedicineMutation } = useUpdateMedicine()
 
-    const { isError: isErrorCreate } = createMedicineMutation
-    const { isError: isErrorUpdate } = updateMedicineMutation
-
     const submit = async() => {
-        if( medicine ){
-            await updateMedicineMutation.mutateAsync({
-                medicineId: medicine._id,
-                medicineData
-            })
-        }else{
-            await createMedicineMutation.mutateAsync( medicineData )
+        try {
+            if( medicine ){
+                await updateMedicineMutation.mutateAsync({
+                    medicineId: medicine._id,
+                    medicineData
+                })
+            }else{
+                await createMedicineMutation.mutateAsync( medicineData )
+            }
+            return true
+        } catch (error) {
+            return false
         }
     }
 
@@ -40,7 +42,5 @@ export const useMedicineNewEdit = ({ medicine = null }:Props) => {
         submit,
         onChange,
         medicines,
-        isErrorCreate,
-        isErrorUpdate,
     }
 }

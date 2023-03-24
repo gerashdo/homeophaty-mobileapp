@@ -9,7 +9,6 @@ import {
     getMedicines, 
     updateMedicine 
 } from '../api/medicineRequests'
-import { getUncertainAxiosErrorMessage } from '../helpers/getUncertainErrorMessage'
 import { ResultSearchAllowedTypes } from '../interfaces/common'
 import { useBoundStore } from '../store/useBoundStore'
 
@@ -33,10 +32,7 @@ export const useMedicines = () => {
             }
         },
         onError: ( error ) => {
-            setError( getUncertainAxiosErrorMessage( 
-                error, 
-                'No fue posible cargar los medicamentos'
-            ))
+            if( error instanceof Error ) setError( error.message )
         },
     })
 
@@ -52,10 +48,8 @@ export const useMedicine = ( medicineId: string ) => {
         queryKey: [ 'medicines', medicineId ],
         queryFn: () => getMedicine( medicineId ),
         onError: ( error ) => {
-            setError( getUncertainAxiosErrorMessage( 
-                error, 
-                'No fue posible cargar el medicamento'
-            ))
+            if( error instanceof Error ) setError( error.message )
+
         },
     })
 
@@ -77,10 +71,7 @@ export const useCreateMedicine = () => {
             })
         },
         onError: ( error ) => {
-            setError( getUncertainAxiosErrorMessage( 
-                error, 
-                'No se pudo guardar el medicamento'
-            ))
+            if( error instanceof Error ) setError( error.message )
         },
     })
 
@@ -99,11 +90,8 @@ export const useUpdateMedicine = () => {
         onSuccess: ( data ) => {
             queryClient.invalidateQueries({ queryKey: [ 'medicines' ]})
         },
-        onError: ( error ) => {
-            setError( getUncertainAxiosErrorMessage( 
-                error, 
-                'No se pudo actualizar el medicamento'
-            ))
+        onError: ( error  ) => {
+            if( error instanceof Error ) setError( error.message )
         },
     })
 
@@ -120,10 +108,7 @@ export const useSearch = <T extends keyof ResultSearchAllowedTypes,>( termn: str
         queryKey: [ 'search', termn ],
         queryFn: () => search( termn, collection ),
         onError: ( error ) => {
-            setError( getUncertainAxiosErrorMessage( 
-                error, 
-                'No se pudo realizar la búsqueda'
-            ))
+            if( error instanceof Error ) setError( error.message )
         }, 
         enabled: !!termn
     })
@@ -144,10 +129,7 @@ export const useDeleteMedicine = () => {
             queryClient.invalidateQueries({ queryKey: [ 'medicines' ] })
         },
         onError: ( error ) => {
-            setError( getUncertainAxiosErrorMessage( 
-                error, 
-                'No se pudo eliminar el medicamento'
-            ))
+            if( error instanceof Error ) setError( error.message )
         }
     })
 
@@ -167,10 +149,8 @@ export const useCreatePrescription = () => {
             queryClient.invalidateQueries({ queryKey: [ 'medicines', data._id ] })
         },
         onError: ( error ) => {
-            setError( getUncertainAxiosErrorMessage( 
-                error, 
-                'No se pudo guardar la prescripción'
-            ))
+            if( error instanceof Error ) setError( error.message )
+
         },
     })
 
