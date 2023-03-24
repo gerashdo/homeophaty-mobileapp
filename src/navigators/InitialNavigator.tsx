@@ -1,5 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import SplashScreen from 'react-native-splash-screen'
+
 import { AuthContext } from '../context/auth/AuthContext';
 import { AuthStatus } from '../context/auth/authReducer';
 import { ThemeContext } from '../context/theme/ThemeContext';
@@ -12,6 +14,11 @@ export const InitialNavigator = () => {
 
     const { state } = useContext( AuthContext )
     const { theme: { colors } } = useContext( ThemeContext )
+
+    useEffect(() => {
+      SplashScreen.hide();
+    }, [])
+    
     const { status } = state
 
     return (
