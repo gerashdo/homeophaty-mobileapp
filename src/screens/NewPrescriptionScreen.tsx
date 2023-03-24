@@ -9,6 +9,7 @@ import { useCreatePrescription } from '../hooks/useMedicines'
 import { NewPrescriptionRequest } from '../interfaces/medicine'
 import { useBoundStore } from '../store/useBoundStore'
 import { usePrescription } from '../hooks/usePrescriptions'
+import { ScreenTemplate } from './ScreenTemplate'
 
 interface Props extends StackScreenProps<MedicinesRootStackParamList,'NewPrescriptionScreen'>{}
 
@@ -24,37 +25,43 @@ export const NewPrescriptionScreen = ({ navigation, route }:Props) => {
     }, [ medicine ])
 
     const handleSubmit = async( prescriptionData: NewPrescriptionRequest ) => {
-        if( !activePrescription ){
-            createPrescriptionMutation.reset()
-            await createPrescriptionMutation.mutateAsync({
-                medicineId: medicine._id,
-                prescription: prescriptionData
-            })
-            if( !createPrescriptionMutation.isError ) navigation.pop()
-        }else{
-            updatePrescriptionMutation.reset()
-            await updatePrescriptionMutation.mutateAsync({
-                prescriptionId: activePrescription._id,
-                prescriptionData,
-                medicineId: medicine._id
-            })
-            
-            if( !updatePrescriptionMutation.isError ) navigation.pop()
+        try {
+            if( !activePrescription ){
+                createPrescriptionMutation.reset()
+                await createPrescriptionMutation.mutateAsync({
+                    medicineId: medicine._id,
+                    prescription: prescriptionData
+                })
+                if( !createPrescriptionMutation.isError ) navigation.pop()
+            }else{
+                updatePrescriptionMutation.reset()
+                await updatePrescriptionMutation.mutateAsync({
+                    prescriptionId: activePrescription._id,
+                    prescriptionData,
+                    medicineId: medicine._id
+                })
+                
+                if( !updatePrescriptionMutation.isError ) navigation.pop()
+            }
+        } catch (error) {
+            console.log( error )
         }
     }
 
     return (
-        <KeyboardAvoidingView 
-            style={[ appStyles.globalMargin, { 
-                flex: 1,
-                paddingTop: 20,
-            }]}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-            <NewMedicinePrescriptionForm
-                onSubmit={ handleSubmit }
-                initialtext={ activePrescription?.description }
-            />
-        </KeyboardAvoidingView>
+        <ScreenTemplate>
+            <KeyboardAvoidingView 
+                style={[ appStyles.globalMargin, { 
+                    flex: 1,
+                    paddingTop: 20,
+                }]}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                >
+                <NewMedicinePrescriptionForm
+                    onSubmit={ handleSubmit }
+                    initialtext={ activePrescription?.description }
+                    />
+            </KeyboardAvoidingView>
+        </ScreenTemplate>
     )
 }

@@ -83,16 +83,16 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
 
   const handleDeletePrescription = async() => {
     if( !activePrescription ) return 
-
-    await deletePresctiptionMutation.mutateAsync({ 
-      prescriptionId: activePrescription._id, 
-      medicineId: medicine._id 
-    })
-
-    if( !deletePresctiptionMutation.isError ) {
-      unsetActivePrescription()
-      setModalVisible( false )
+    try {
+      await deletePresctiptionMutation.mutateAsync({ 
+        prescriptionId: activePrescription._id, 
+        medicineId: medicine._id 
+      })
+    } catch (error) {
+      console.log( error )
     }
+    unsetActivePrescription()
+    setModalVisible( false )
   }
 
   return (
