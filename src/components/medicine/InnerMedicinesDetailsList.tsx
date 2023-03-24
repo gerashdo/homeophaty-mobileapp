@@ -26,7 +26,7 @@ export const InnerMedicinesDetailsList = ({ medicine }:Props) => {
                             color: colors.text,
                         }]}
                     >{ med.name }{ 
-                        med.type === MedicineType.MEDICINE && ` ${med.ch}`
+                        med.type === MedicineType.MEDICINE && ` ${ med.ch } ch`
                     }</Text>
                     </View>
                 ))
