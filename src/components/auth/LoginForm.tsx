@@ -11,8 +11,8 @@ import { InputLabel } from '../InputLabel'
 
 export const LoginForm = () => {
   
-    const { theme: { colors } } = useContext( ThemeContext )
-    const { login, state } = useContext( AuthContext )
+    const { theme: { colors, softTextColor } } = useContext( ThemeContext )
+    const { login } = useContext( AuthContext )
     const { form, onChange} = useForm({
         username: '',
         password: '',
@@ -49,6 +49,7 @@ export const LoginForm = () => {
                         autoCorrect={ false }
                         autoFocus
                         placeholder='Ingresa tu usuario'
+                        placeholderTextColor={ softTextColor }
                         value={ username }
                         onChangeText={ ( text ) => onChange( text, 'username' )}
                     />
@@ -68,6 +69,7 @@ export const LoginForm = () => {
                     autoCorrect={ false }
                     secureTextEntry
                     placeholder='Ingresa tu contraseña'
+                    placeholderTextColor={ softTextColor }
                     value={ password }
                     onChangeText={ ( text ) => onChange( text, 'password' )}
                 />

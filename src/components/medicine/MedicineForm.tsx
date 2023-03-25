@@ -51,6 +51,9 @@ export const MedicineForm = ({
                         autoCorrect={ false } 
                         value={ name }
                         onChangeText={ ( value ) => onChange( value, 'name' )}
+                        style={{
+                            color: colors.text,
+                        }}
                     />
                 </InputContainer>
             </InputGroup>

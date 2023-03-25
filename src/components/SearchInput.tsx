@@ -37,7 +37,8 @@ export const SearchInput = ({ onSearch }:Props) => {
                     ...appStyles.regularText,
                     flexGrow: 1,
                 }} 
-                placeholder='Abrotanum 30'
+                placeholder='Ingreas tu búsqueda'
+                placeholderTextColor={ softTextColor }
                 autoCapitalize='words'
                 value={ searchValue }
                 onChangeText={ ( text ) => setSearchValue( text )}
