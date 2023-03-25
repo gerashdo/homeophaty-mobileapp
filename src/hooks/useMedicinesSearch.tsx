@@ -24,7 +24,8 @@ export const useMedicinesSearch = () => {
         setSearchTermn,
         searchTermn,
         medicines,
-        isLoading: searchQuery.isLoading
+        isLoading: searchQuery.isLoading,
+        isError: searchQuery.isError,
     }
 
 }

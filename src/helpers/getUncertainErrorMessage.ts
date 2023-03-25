@@ -7,9 +7,10 @@ export const getUncertainAxiosErrorMessage = ( error: any, defaultMessage: strin
     if( axios.isAxiosError( error )){
         if( !error.response ) return 'Hay problemas con la conexión a internet'
 
-        if( error.response.status === 404 ) return defaultMessage
+        if( error.response.status === 404 && !error.response.data.msg ) return defaultMessage
+        if( error.response.status === 404 && error.response.data.msg ) return error.response.data.msg
 
-        if( error.response?.data.msg ){
+        if( error.response.data.msg ){
             const data: ErrorResponseShort = error.response?.data
             return data.msg
         }else{

@@ -110,7 +110,8 @@ export const useSearch = <T extends keyof ResultSearchAllowedTypes,>( termn: str
         onError: ( error ) => {
             if( error instanceof Error ) setError( error.message )
         }, 
-        enabled: !!termn
+        enabled: !!termn,
+        retry: false,
     })
 
     return {

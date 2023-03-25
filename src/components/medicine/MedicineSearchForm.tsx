@@ -15,7 +15,7 @@ export const MedicineSearchForm = () => {
 
     const { theme:{ colors }} = useContext( ThemeContext )
     const { newMedicineState } = useContext( MedicineContext )
-    const { medicines, isLoading, searchTermn, setSearchTermn } = useMedicinesSearch()
+    const { medicines, isLoading, searchTermn, isError, setSearchTermn } = useMedicinesSearch()
     
     const { onChange, medicineData } = newMedicineState
     const { medicines:innerMedicines } = medicineData
@@ -37,9 +37,13 @@ export const MedicineSearchForm = () => {
                 onSearch={( value ) => setSearchTermn( value ) }  
             />
             {
-                isLoading && searchTermn
+                isLoading && searchTermn && !isError
                     ? ( <CustomActivityIndicator /> )
-                    : (
+                    : null
+            }
+            {
+                !isError 
+                    ? (
                         <BottomSheetScrollView
                             contentContainerStyle={{
                                 flex: 1
@@ -61,9 +65,8 @@ export const MedicineSearchForm = () => {
                             }
                             </View>
                         </BottomSheetScrollView>
-                    )
+                    ): null
             }
-            
         </View>
     )
 }

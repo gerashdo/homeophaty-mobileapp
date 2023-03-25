@@ -40,7 +40,8 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
     })
   }, [])
 
-  const { setSearchTermn, isLoading, searchTermn, medicines } = useMedicinesSearch()
+  // While there is no search termn isLoading is always true
+  const { isLoading, searchTermn, medicines, isError, setSearchTermn } = useMedicinesSearch()
 
   if( medicinesQuery.isLoading ) return <CustomActivityIndicator />
   
@@ -92,9 +93,13 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                   />
                 </View>
                 {
-                  isLoading && searchTermn
-                    ? ( <CustomActivityIndicator />  )
-                    : ( 
+                  isLoading && searchTermn && !isError
+                    ? (<CustomActivityIndicator /> )
+                    : null
+                }
+                { 
+                  !isError 
+                    ? (
                       <MedicinesInfinityList
                         data={ medicines } 
                         onItemPress={ onItemPress }
@@ -103,7 +108,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                         onEndReached={ handleLoadNextMedicinesPage }
                         isLoading={ medicinesQuery.isFetchingNextPage }
                       />
-                    )
+                    ): null
                 }
                 <AlertModal 
                   visible={ modalVisible }
