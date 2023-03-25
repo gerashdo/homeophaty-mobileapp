@@ -27,7 +27,7 @@ export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
     const { width } = useWindowDimensions()
     const { medicine } = route.params
 
-    const { theme: { danger }} = useContext( ThemeContext )
+    const { theme: { danger, colors, softTextColor }} = useContext( ThemeContext )
     const { 
         medicines,
         onChange, 
@@ -143,8 +143,14 @@ export const MedicineInnerMedsScreen = ({ navigation, route }:Props) => {
                     ref={bottomSheetModalRef}
                     index={1}
                     snapPoints={snapPoints}
-                    backgroundStyle={{ borderRadius: 30,}}
                     onDismiss={ handleCloseModal }
+                    backgroundStyle={{
+                        borderRadius: 30,
+                        backgroundColor: colors.background,
+                      }}
+                    handleIndicatorStyle={{
+                    backgroundColor: softTextColor,
+                    }}
                 >
                     <AddInnerMedsModalContent 
                         onCloseModal={ handleCloseModal }

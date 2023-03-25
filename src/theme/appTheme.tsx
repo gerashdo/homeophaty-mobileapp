@@ -37,6 +37,7 @@ export const lightTheme: ThemeState = {
     buttonTextColor: '#FEFEFE',
     danger: '#EE964B',
     softTextColor: '#898989',
+    overlay: 'rgba(0,0,0,0.1)',
 }
 
 export const darkTheme: ThemeState = {
@@ -55,4 +56,5 @@ export const darkTheme: ThemeState = {
     buttonTextColor: '#EDEDED',
     danger: '#FFB347',
     softTextColor: '#AFAFAF',
+    overlay: 'rgba(255, 255, 255, 0.1)',
 }

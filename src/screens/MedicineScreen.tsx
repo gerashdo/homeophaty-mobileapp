@@ -26,7 +26,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
   const { medicine: medicineParam } = route.params
 
   const isScreenFocused = useIsFocused()
-  const { theme: { danger }} = useContext( ThemeContext )
+  const { theme: { danger, colors, softTextColor }} = useContext( ThemeContext )
   const { medicineQuery } = useMedicine( medicineParam._id )
   const { 
     snapPoints, 
@@ -130,12 +130,20 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
         snapPoints={ snapPoints }
         index={ 0 }
         onDismiss={ handleCloseModal }
+        backgroundStyle={{
+          borderRadius: 30,
+          backgroundColor: colors.background,
+        }}
+        handleIndicatorStyle={{
+          backgroundColor: softTextColor,
+        }}
       >
         <View style={{
           flex: 1,
           gap: 20,
           justifyContent: 'center',
-          marginHorizontal: 30,
+          paddingHorizontal: 30,
+          
         }}>
           <Button 
             text='Editar prescripción'
