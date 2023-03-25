@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { useContext, useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
 
 import { AuthContext } from '../context/auth/AuthContext';
@@ -13,7 +14,7 @@ const Stack = createStackNavigator();
 export const InitialNavigator = () => {
 
     const { state } = useContext( AuthContext )
-    const { theme: { colors } } = useContext( ThemeContext )
+    const { theme: { colors, currentTheme } } = useContext( ThemeContext )
 
     useEffect(() => {
       SplashScreen.hide();
@@ -22,6 +23,11 @@ export const InitialNavigator = () => {
     const { status } = state
 
     return (
+        <>
+        <StatusBar 
+            backgroundColor={ colors.background }
+            barStyle={ currentTheme === 'light' ? 'dark-content' :  'light-content' }
+        />
         <Stack.Navigator
             screenOptions={{
                 cardStyle:{
@@ -51,5 +57,6 @@ export const InitialNavigator = () => {
                     )
             }
         </Stack.Navigator>
+        </>
     );
 }
