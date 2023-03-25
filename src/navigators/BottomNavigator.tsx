@@ -59,7 +59,8 @@ export const BottomNavigator = () => {
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon color={ color } focused={ focused } name="person-circle"/>
-          )
+          ),
+          headerTitle: '',
         }}
       />
     </Tab.Navigator>

@@ -10,7 +10,8 @@ import { getUncertainAxiosErrorMessage } from "../../helpers/getUncertainErrorMe
 
 interface AuthContextProps {
     state: AuthState,
-    login: ( username: string, password: string ) => void
+    login: ( username: string, password: string ) => void;
+    logout: () => void;
 }
 
 export const AuthContext = createContext({} as AuthContextProps )
@@ -71,10 +72,16 @@ export const AuthProvider = ({ children }:Props) => {
         }
     }
 
+    const logout = () => {
+        dispatch({ type: 'logout' })
+        AsyncStorage.removeItem( 'token' )
+    }
+
     return(
         <AuthContext.Provider value={{
             state,
-            login
+            login,
+            logout,
         }}>
             { children }
         </AuthContext.Provider>
