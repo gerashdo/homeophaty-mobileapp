@@ -11,7 +11,7 @@ import { MedicinesRoutes, MedicinesStackNavigator } from './MedicinesStackNaviga
 const Tab = createBottomTabNavigator();
 
 export const BottomNavigator = () => {
-  const { theme: { colors, buttonTextColor } } = useContext( ThemeContext )
+  const { theme: { colors } } = useContext( ThemeContext )
 
   return (
     <Tab.Navigator
@@ -26,6 +26,7 @@ export const BottomNavigator = () => {
           height: (Platform.OS === 'android') ? 70 : 80,
           paddingBottom: (Platform.OS === 'android') ? 10 : 20,
           paddingTop: 10,
+          backgroundColor: colors.background,
         },
         tabBarLabelStyle:{
           fontWeight: '500',
@@ -44,6 +45,7 @@ export const BottomNavigator = () => {
           ),
           tabBarStyle: {
             elevation: 0,
+            backgroundColor: colors.background,
             borderTopWidth: 0,
             height: (Platform.OS === 'android') ? 70 : 80,
             paddingBottom: (Platform.OS === 'android') ? 10 : 20,
@@ -60,7 +62,7 @@ export const BottomNavigator = () => {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon color={ color } focused={ focused } name="person-circle"/>
           ),
-          headerTitle: '',
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
