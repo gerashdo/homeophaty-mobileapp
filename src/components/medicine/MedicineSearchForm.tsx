@@ -34,8 +34,7 @@ export const MedicineSearchForm = () => {
             flex: 1,
         }]}>
             <SearchInput 
-                onSearch={( value ) => setSearchTermn( value ) } 
-                textColor='black' 
+                onSearch={( value ) => setSearchTermn( value ) }  
             />
             {
                 isLoading && searchTermn

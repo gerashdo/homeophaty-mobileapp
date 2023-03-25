@@ -89,7 +89,6 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                 <View style={ appStyles.globalMargin }>
                   <SearchInput 
                     onSearch={ ( value ) => setSearchTermn( value ) }
-                    textColor={ colors.text }
                   />
                 </View>
                 {
