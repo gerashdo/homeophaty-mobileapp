@@ -116,7 +116,7 @@ export const MedicineScreen = ({ navigation, route }:Props) => {
         />  
 
         <AlertModal 
-          message='Deseas eliminar la prescripción?'
+          message='¿Deseas eliminar la prescripción?'
           acceptMessage='Si, eliminar la prescripción'
           visible={ modalVisible }
           acceptColor={ danger }

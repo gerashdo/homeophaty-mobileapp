@@ -112,7 +112,7 @@ export const MedicinesListScreen = ({ navigation }:Props) => {
                 }
                 <AlertModal 
                   visible={ modalVisible }
-                  message='Estas seguro de eliminar este medicamento?'
+                  message='¿Estas seguro de eliminar este medicamento?'
                   acceptMessage='Si, eliminar medicamento'
                   acceptColor={ danger }
                   onCancel={ onCancelDelete }

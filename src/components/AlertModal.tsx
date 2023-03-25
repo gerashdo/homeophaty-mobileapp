@@ -28,7 +28,7 @@ export const AlertModal = ({ message, visible, acceptMessage, acceptColor, onCan
             <View style={ styles.generalContainer }>
                 <View style={[ styles.modalContainer, {
                     backgroundColor: colors.background,
-                    width: width - 30,
+                    width: width - 60,
                 }]}>
                     <>
                         <Text style={[ 
